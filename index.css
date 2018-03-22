@@ -457,3 +457,17 @@ input[type="checkbox"] {
     input[type="checkbox"]:checked + label i:before {
         content: "\f373";
     }
+
+.player-toolbar {
+    padding-left: 150px;
+    width: calc(100% - 160px); 
+}
+
+.player-config {
+    position: absolute;
+    z-index: 999;
+    top: 3px;
+    width: 150px;
+    cursor: pointer;
+    left:10px; 
+}

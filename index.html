@@ -11,21 +11,29 @@
         <div id="ui-category">1</div>
         <div id="ui-content">
             <nav>
-                <ol>
+                <ol class="player-toolbar">
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li> 
                     <li>
-                        <input type="checkbox" id="c1" checked/>
+                        <input type="checkbox" id="c1" checked />
                         <label for="c1"><i></i>Repeat</label>
                     </li>
-                    <li><i class=i-speech></i>Clause</li>
-                    <li><i class=i-speech></i>Sentence</li>
-                    <li><i class=i-speech></i>Paragraph</li>
-                    <li><i class=i-speech></i>All</li>
                     <li><i class=i-prev></i>Prev</li>
                     <li><i class=i-stop></i>Stop</li>
                     <li><i class=i-play></i>Play</li>
                     <li><i class=i-next></i>Next&nbsp;</li>
                 </ol>
-            </nav>
+            </nav> 
+            <details class="player-config">
+                <summary>Setting</summary>
+                <input type="radio" id="r1" name="rr" />
+                <label for="r1"><span></span>Radio Button 1</label>
+                <br />
+                <input type="radio" id="r2" name="rr" />
+                <label for="r2"><span></span>Radio Button 2</label>
+            </details>
             <article>
                 <h2><b><em><i>Introduction</i> <i>to</i> <i>Service</i> <i>Worker</i></em></b>.</h2>
                 <a>https://developers.google.com/web/ilt/pwa/introduction-to-service-worker</a>
