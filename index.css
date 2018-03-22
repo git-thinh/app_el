@@ -9,7 +9,11 @@
     font-style: normal;
 }
 
-.ico:before, ol li i:before, input[type="checkbox"] + label i:before {
+.ico:before,.ico:after,
+ol li i:before,
+details summary i:before,
+input[type="checkbox"] + label i:before,
+input[type="radio"] + label i:before {
     display: inline-block;
     font-style: normal;
     font-variant-ligatures: normal;
@@ -17,13 +21,16 @@
     font-variant-numeric: normal;
     font-weight: normal;
     font-stretch: normal;
-    font-size: inherit;
+    font-size: 1.4em;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transform: translate(0, 0);
-    width: 1em;
+    width: 1.3em;
     font-family: "Ionicons";
+    text-align: center;
+    line-height: 1.0em;
+    min-width: 0.9em;
 }
 /*! normalize.css v8.0.0 */
 html {
@@ -400,6 +407,12 @@ article {
         }
 /* ICONS */
 
+.i-menu:before {
+    content: "\f130";
+}
+.i-app:before {
+    content: "\f13f";
+}
 .i-play:before {
     content: "\f215";
 }
@@ -422,6 +435,19 @@ article {
     right: 0;
     width: 10px;
 }
+.i-refresh:before {
+    content: "\f459"; 
+}
+
+.i-add:before {
+    content: "\f48a"; 
+}
+.i-edit:before {
+    content: "\f2bf"; 
+}
+.i-remove:before {
+    content: "\f4c4"; 
+}
 
 /* OL LI */
 ol {
@@ -438,15 +464,20 @@ ol {
         display: table-cell;
         text-align: center;
         vertical-align: middle;
+        position:  relative;
     }
 
         ol li:hover {
             border-bottom: 1px solid #0288d1;
         }
 
-/* CHECKBOX */
+        ol li i.i-next:parent {
+            padding-right: 10px;
+        }
 
-input[type="checkbox"] {
+/* CHECKBOX - RADIO */
+
+input[type="checkbox"], input[type="radio"] {
     display: none;
 }
 
@@ -458,16 +489,44 @@ input[type="checkbox"] {
         content: "\f373";
     }
 
-.player-toolbar {
-    padding-left: 150px;
-    width: calc(100% - 160px); 
+    input[type="radio"] + label i:before {
+        content: "\f401";
+    }
+
+    input[type="radio"]:checked + label i:before {
+        content: "\f3fe";
+    }
+
+/* PLAYER */
+
+details.player-config summary i:before {
+        content: "\f43c";
 }
 
-.player-config {
+details.player-config summary  { 
+  text-align:right;
+}
+
+details.player-config summary::-webkit-details-marker { 
+  display:none;
+}
+
+details.player-config {
     position: absolute;
     z-index: 999;
-    top: 3px;
-    width: 150px;
+    top: 32px;
+    width: 136px;
     cursor: pointer;
-    left:10px; 
+    right: 10px;
+    padding: 3px 8px 8px 8px;
+    font-size: 0.9em;
+}
+
+details.player-config label {
+    font-size: 0.9em;
+}
+
+details[open].player-config {
+    background-color: #fff;
+    border: 1px solid #ccc;
 }

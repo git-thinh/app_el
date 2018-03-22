@@ -11,28 +11,40 @@
         <div id="ui-category">1</div>
         <div id="ui-content">
             <nav>
-                <ol class="player-toolbar">
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li> 
+                <ol>
+                    <li><i class=i-menu></i></li>
+                    <li><i class=i-add></i></li>
+                    <li><i class=i-edit></i></li>
+                    <li><i class=i-remove></i></li> 
+                    <li><i class=i-refresh></i></li> 
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li> 
                     <li>
-                        <input type="checkbox" id="c1" checked />
+                        <input type="checkbox" id="c1" name="speech_repeat" checked />
                         <label for="c1"><i></i>Repeat</label>
                     </li>
                     <li><i class=i-prev></i>Prev</li>
                     <li><i class=i-stop></i>Stop</li>
                     <li><i class=i-play></i>Play</li>
-                    <li><i class=i-next></i>Next&nbsp;</li>
+                    <li><i class=i-next></i>Next</li>
+                    <li><i class=i-app></i></li>
                 </ol>
             </nav> 
             <details class="player-config">
-                <summary>Setting</summary>
-                <input type="radio" id="r1" name="rr" />
-                <label for="r1"><span></span>Radio Button 1</label>
+                <summary><i></i> Setting</summary>
+                <input type="radio" id="r1" name="speech_type" checked/>
+                <label for="r1"><i></i>Speech word</label>
                 <br />
-                <input type="radio" id="r2" name="rr" />
-                <label for="r2"><span></span>Radio Button 2</label>
+                <input type="radio" id="r2" name="speech_type" />
+                <label for="r2"><i></i>Speech clause</label>
+                <br />
+                <input type="radio" id="r3" name="speech_type" />
+                <label for="r3"><i></i>Speech clause</label>
+                <br />
+                <input type="radio" id="r4" name="speech_type" />
+                <label for="r4"><i></i>Speech sentence</label>
+                <br />
+                <input type="radio" id="r5" name="speech_type" />
+                <label for="r5"><i></i>Speech paragraph</label>
             </details>
             <article>
                 <h2><b><em><i>Introduction</i> <i>to</i> <i>Service</i> <i>Worker</i></em></b>.</h2>
