@@ -1,0 +1,137 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>English</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="ui-page">
+        <div id="ui-category">LEFT</div>
+        <div id="ui-content">
+            <nav>
+                <ul>
+                    <li></li>
+                </ul>
+            </nav>
+
+            <article>
+                <h2>Introduction to Service Worker</h2>
+                <a>https://developers.google.com/web/ilt/pwa/introduction-to-service-worker</a>
+                <h3>What is a service worker?</h3>
+
+
+
+                <p><b><i>Because the service worker is not blocking </i>(<i>it's designed to be fully asynchronous</i>)<i> synchronous XHR and localStorage cannot be used in a service worker</i></b>.</p>
+
+                <span>Note: Whether notifications are received when the browser itself is not running depends on how the browser is integrated with the OS. For instance on desktop OS's, Chrome and Firefox only receive notifications when the browser is running. However, Android is designed to wake up any browser when a push message is received and will always receive push messages regardless of browser state. See the FAQ in Matt Gaunt's Web Push Book for more information.</span>
+
+                <h3>Things to note about Service Worker:</h3>
+                <p><b><i>A service worker is a programmable network proxy </i>that<i> lets you control how network requests </i>from<i> your page are handled</i></b>.</p>
+
+                <span>Note: Services like Letsencrypt let you procure SSL certificates for free to install on your server.</span>
+
+                <p><b><i>Service workers make extensive use </i>of<i> promises</i>, so if you're new to<i> promises</i>,<i> then you should stop reading this and check out Promises</i>,<i> an introduction</i></b>.</p>
+                <h3>What can service workers do?</h3>
+                <p><b><i>Service workers enable applications to control network requests</i>,<i> cache those requests to improve performance</i>,<i> and provide </i>of<i>fline access to cached content</i></b>.</p>
+
+                <p><b><i>Improve performance </i>of<i> your application/site</i></b>.</p>
+
+                <p><b><i>Make your app "</i>of<i>fline-first"</i></b>.</p>
+
+                <h3>Act as the base for advanced features</h3>
+
+                <p><b><i>Notifications API</i>:<i> A way to display and interact with notifications using the operating system's native notification system</i></b>.</p>
+
+
+
+                <h3>Service worker lifecycle</h3>
+                <h3>A service worker goes through three steps in its lifecycle:</h3>
+                <ul><li>Registration</li><li>Installation</li><li>Activation</li><li>Registration and scope</li></ul>
+
+<pre>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(function(registration) {
+    console.log('Registration successful, scope is:', registration.scope);
+  })
+  .catch(function(error) {
+    console.log('Service worker registration failed, error:', error);
+  });
+}</pre>
+
+
+
+<pre>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(function(registration) {
+    console.log('Registration successful, scope is:', registration.scope);
+  })
+  .catch(function(error) {
+    console.log('Service worker registration failed, error:', error);
+  });
+}
+navigator.serviceWorker.register('/service-worker.js', {
+  scope: '/app/'
+});</pre>
+                <p><b><i>In this case we are setting the scope </i>of<i> the service worker to /app/</i>,<i> which means the service worker will control requests </i>from<i> pages like /app/</i>,<i> /app/lower/ and /app/lower/lower</i>,<i> but not </i>from<i> pages like /app or /</i>,<i> which are higher</i></b>.</p>
+
+                <h3>Installation</h3>
+
+
+<pre>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(function(registration) {
+    console.log('Registration successful, scope is:', registration.scope);
+  })
+  .catch(function(error) {
+    console.log('Service worker registration failed, error:', error);
+  });
+}
+navigator.serviceWorker.register('/service-worker.js', {
+  scope: '/app/'
+});
+// Listen for install event, set callback
+self.addEventListener('install', function(event) {
+    // Perform some task
+});</pre>
+                <h3>Activation</h3>
+
+                <span>Note: Simply refreshing the page is not sufficient to transfer control to a new service worker, because the new page will be requested before the the current page is unloaded, and there won't be a time when the old service worker is not in use.</span>
+
+<pre>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(function(registration) {
+    console.log('Registration successful, scope is:', registration.scope);
+  })
+  .catch(function(error) {
+    console.log('Service worker registration failed, error:', error);
+  });
+}
+navigator.serviceWorker.register('/service-worker.js', {
+  scope: '/app/'
+});
+// Listen for install event, set callback
+self.addEventListener('install', function(event) {
+    // Perform some task
+});
+self.addEventListener('activate', function(event) {
+  // Perform some task
+});</pre>
+
+                <h3>Service worker events</h3>
+
+
+                <h3>Further reading</h3>
+                <h3>A more detailed introduction to The Service Worker Lifecycle</h3>
+                <ul><li>More on Service Worker Registration</li><li>Create your own service worker (lab)</li><li>Take a blog site offline (lab)</li><li>Cache files with Service Worker (lab)</li></ul>
+            </article>
+        </div>
+        <div id="ui-tabs">RIGHT</div>
+    </div>
+</body>
+</html>

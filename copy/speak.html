@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <button onclick="_speak1();">_speak1</button>
+    <button onclick="_speak2();">_speak2</button>
+    <script>
+        function _speak1() {
+            var u = new SpeechSynthesisUtterance();
+            u.text = 'Hello world';
+            u.lang = 'en-US';
+            u.rate = 1.2;
+            u.onend = function (event) {
+                console.log('Finished in ' + event.elapsedTime + ' seconds.');
+            };
+            speechSynthesis.speak(u);
+
+            // simple version
+            //speechSynthesis.speak(new SpeechSynthesisUtterance('Hello another world'));
+        }
+
+        function _speak2() {
+            // simple version
+            speechSynthesis.speak(new SpeechSynthesisUtterance('Hello another world'));
+        }
+
+    </script>
+</body>
+</html>

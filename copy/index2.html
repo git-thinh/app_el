@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="index.js"></script>
+</head>
+<body>
+    <style class="cp-pen-styles">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body {
+            background: #2870d5;
+            overflow: hidden;
+        }
+
+        ul {
+            width: 100%;
+            line-height: 30px;
+            position: absolute;
+            top: 50%;
+            margin-top: -15px;
+            text-align: center;
+        }
+
+        li {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 100%;
+            position: absolute;
+            left: -10px;
+        }
+
+            li:nth-child(1) {
+                animation: first 7s infinite;
+            }
+
+            li:nth-child(2) {
+                animation: second 7s infinite;
+                animation-delay: .4s;
+            }
+
+            li:nth-child(3) {
+                animation: third 7s infinite;
+                animation-delay: .8s;
+            }
+
+            li:nth-child(4) {
+                animation: fourth 7s infinite;
+                animation-delay: 1.2s;
+            }
+
+            li:nth-child(5) {
+                animation: fifth 7s infinite;
+                animation-delay: 1.6s;
+            }
+
+        @keyframes first {
+            0% {
+                left: -10px;
+            }
+
+            25% {
+                left: calc(50% + 22px);
+            }
+
+            50% {
+                left: calc(50% + 22px);
+            }
+
+            75% {
+                left: calc(100% + 10px);
+            }
+
+            100% {
+                left: calc(100% + 10px);
+            }
+        }
+
+        @keyframes second {
+            0% {
+                left: -10px;
+            }
+
+            25% {
+                left: calc(50% + 11px);
+            }
+
+            50% {
+                left: calc(50% + 11px);
+            }
+
+            75% {
+                left: calc(100% + 10px);
+            }
+
+            100% {
+                left: calc(100% + 10px);
+            }
+        }
+
+        @keyframes third {
+            0% {
+                left: -10px;
+            }
+
+            25% {
+                left: 50%;
+            }
+
+            50% {
+                left: 50%;
+            }
+
+            75% {
+                left: calc(100% + 10px);
+            }
+
+            100% {
+                left: calc(100% + 10px);
+            }
+        }
+
+        @keyframes fourth {
+            0% {
+                left: -10px;
+            }
+
+            25% {
+                left: calc(50% - 11px);
+            }
+
+            50% {
+                left: calc(50% - 11px);
+            }
+
+            75% {
+                left: calc(100% + 10px);
+            }
+
+            100% {
+                left: calc(100% + 10px);
+            }
+        }
+
+        @keyframes fifth {
+            0% {
+                left: -10px;
+            }
+
+            25% {
+                left: calc(50% - 22px);
+            }
+
+            50% {
+                left: calc(50% - 22px);
+            }
+
+            75% {
+                left: calc(100% + 10px);
+            }
+
+            100% {
+                left: calc(100% + 10px);
+            }
+        }
+    </style>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+</html>

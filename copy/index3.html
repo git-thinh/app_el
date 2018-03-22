@@ -1,0 +1,115 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Sample illustrating the use of dialog Element.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test</title>
+    <!--[if IE]>
+        <link href="/lib/polyfill/dialog.css" rel="stylesheet" />
+    <![endif]-->
+    <link href="/app.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        function loadScript(url, callback) {
+            if (!url || !(typeof url === 'string')) { return; };
+            var script = document.createElement('script');
+            //if this is IE8 and below, handle onload differently
+            if (typeof document.attachEvent === "object") {
+                script.onreadystatechange = function () {
+                    //once the script is loaded, run the callback
+                    if (script.readyState === 'loaded') {
+                        if (callback) { callback(); };
+                    };
+                };
+            } else {
+                //this is not IE8 and below, so we can actually use onload
+                script.onload = function () {
+                    //once the script is loaded, run the callback
+                    if (callback) { callback(); };
+                };
+            };
+            //create the script and add it to the DOM
+            script.src = url;
+            document.getElementsByTagName('head')[0].appendChild(script);
+        };
+
+        function dialog_Show(_id) {
+            var _el = document.getElementById(_id);
+            if (_el == null) { return; }
+            if (_el.show == null) {
+                loadScript('/lib/polyfill/dialog.js', function () {
+                    dialogPolyfill.registerDialog(_el);
+                    _el.show();
+                });
+            } else {
+                _el.show();
+            }
+        }
+
+        function dialog_Close(_id) {
+            if (typeof _id == 'string') {
+                var _el = document.getElementById(_id);
+                _el.close();
+            } else {
+                var parent = _id.parentNode;
+                while (parent.tagName !== "HTML") {
+                    if (parent.tagName === 'DIALOG') {
+                        break;
+                    }
+                    parent = parent.parentNode;
+                }
+                parent.close();
+            }
+        }
+
+        // Add a global error event listener early on in the page load, to help ensure that browsers
+        // which don't support specific functionality still end up displaying a meaningful message.
+        //window.addEventListener('error', function (error) {
+        //        console.error(error);
+        //        error.preventDefault();
+        //});
+
+        //window.addEventListener('error', function (event) {
+        //    var _msg = event.filename + ' => Line:' + event.lineno + ' Column:' + event.colno + ' |>>> ' + event.message;
+        //    console.log(_msg);
+        //    console.log(event);
+        //    event.preventDefault();
+        //});
+
+
+    </script>
+</head>
+<body>
+    <dialog id="dialog_Demo">
+        <div class="dx-popup">
+            <div class="dx-modal"></div>
+            <div class="dx-content mod-login">
+                <span onclick="dialog_Close(this)" class="close" title="Close">&times;</span>
+                <div class="dx-header">
+                    <h3>Login System</h3>
+                </div>
+                <div class="dx-body">
+                    <table>
+                        <tr>
+                            <td>Username</td>
+                            <td><input type="text" placeholder="Enter Username" /></td>
+                        </tr>
+                        <tr>
+                            <td>Password</td>
+                            <td><input type="password" placeholder="Enter Password" /></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="dx-footer">
+                    <button onclick="dialog_Close(this)">Login</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    <script>
+        dialog_Show('dialog_Demo');
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Sample illustrating the use of dialog Element.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test</title>
+    <link href="/app.css" rel="stylesheet" />
+    <script src="/app.js"></script>
+    <script>
+        /* Clean all cache */
+        sessionStorage.clear();
+
+        window.onclick = function (event) {
+            api.callback(event.target, 'click');
+        }
+
+        window.ondblclick = function (event) {
+            api.callback(event.target, 'dblclick');
+        }
+    </script>
+</head>
+<body onload="api.app.Init();">
+    <div id="layout"></div>
+
+    <div id="indicator_id" class="dx-indicator">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <label></label>
+    </div>
+
+    <dialog id="dialog_Login" class="mod-login">
+        <div class="dx-popup">
+            <div class="dx-modal"></div>
+            <div class="dx-content">
+                <!--<span onclick="api.dialog.Close(this)" class="close" title="Close">&times;</span>-->
+                <div class="dx-header">
+                    <h3>Login System</h3>
+                </div>
+                <div class="dx-body">
+                    <table>
+                        <tr>
+                            <td>Username</td>
+                            <td><input type="text" placeholder="Enter Username" /></td>
+                        </tr>
+                        <tr>
+                            <td>Password</td>
+                            <td><input type="password" placeholder="Enter Password" /></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="dx-footer">
+                    <button onclick="api.dialog.Close(this)">Login</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="dialog_Alert" class="mod-alert">
+        <div class="dx-popup">
+            <div class="dx-modal"></div>
+            <div class="dx-content">
+                <!--<span onclick="api.dialog.Close(this)" class="close" title="Close">&times;</span>-->
+                <div class="dx-header">
+                    <h3>Message</h3>
+                </div>
+                <div class="dx-body">
+                    <p>This is content of message ...</p>
+                </div>
+                <div class="dx-footer">
+                    <button class="ok" onclick="api.dialog.Close(this, true)">OK</button>
+                    <button class="cancel hide" onclick="api.dialog.Close(this, false)">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+</body>
+</html>
