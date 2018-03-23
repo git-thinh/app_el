@@ -5,19 +5,46 @@
     <title>English</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="/index.css" rel="stylesheet" />
+    <script>
+        /* Clean all cache */
+        sessionStorage.clear();
+
+        window.onclick = function (event) {
+            api.callback(event.target, 'click');
+        }
+
+        window.ondblclick = function (event) {
+            api.callback(event.target, 'dblclick');
+        }
+    </script>
 </head>
 <body>
     <div id="ui-page">
-        <div id="ui-category">1</div>
+        <div id="ui-category">
+            <!--<div id="tree_data_cache">
+                <details id="tree_data">
+                    <summary do="___tree_LoadItems|">Document</summary>
+                </details>
+            </div>-->
+            <details id="tree_data" open="">
+                <summary do="___tree_LoadItems|" for="63461e2b-6e36-401d-bace-4128507cec70">Document</summary>
+                <details open="">
+                    <summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english" for="762105f5-7b81-474c-8c23-6712bbc7c1cb">english(1)</summary><details><summary>Exercise - Bài tập(0)</summary></details><details open=""><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp" for="715de665-91a2-424c-b311-3d89aba751af">Grammar - Ngữ pháp(2)</summary><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Adj, Adv - Tính từ, trạng từ">Adj, Adv - Tính từ, trạng từ(15)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Adjective - Tính từ">Adjective - Tính từ(14)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Adverb - Trạng từ">Adverb - Trạng từ(21)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Article - Mạo từ">Article - Mạo từ(17)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Be, Have - Trợ động từ">Be, Have - Trợ động từ(4)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Can, could, may, might, must, ought, would">Can, could, may, might, must, ought, would(11)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Compare - So sánh">Compare - So sánh(8)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Conjunction - Liên từ">Conjunction - Liên từ(8)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Date time - Thời gian">Date time - Thời gian(1)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Event - Tình huống">Event - Tình huống(49)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Gerund - Danh động từ">Gerund - Danh động từ(1)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\How, Wh - Câu hỏi">How, Wh - Câu hỏi(10)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\If clause - Mệnh đề If">If clause - Mệnh đề If(4)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Modal Verb - Động từ nguyên thể">Modal Verb - Động từ nguyên thể(14)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Neither, Nor, Also, Too">Neither, Nor, Also, Too(1)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Noun - Danh từ">Noun - Danh từ(13)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Number - Số">Number - Số(6)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Object -Túc từ it,me,him,her,us,them">Object -Túc từ it,me,him,her,us,them(1)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Passive sentence - Câu bị động">Passive sentence - Câu bị động(6)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Prefix, suffix -ness, -able, un-, care-">Prefix, suffix -ness, -able, un-, care-(2)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Preposition - Giới từ">Preposition - Giới từ(18)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Pronoun - Đại từ">Pronoun - Đại từ(20)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Relative clause - Mệnh đề quan hệ">Relative clause - Mệnh đề quan hệ(7)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Reported speech - Câu tường thuật">Reported speech - Câu tường thuật(3)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\Tenses - Các thì">Tenses - Các thì(29)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\There is, there are, many, much">There is, there are, many, much(2)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\V in tenses - Động từ trong các thì">V in tenses - Động từ trong các thì(5)</summary></details><details><summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\english\Grammar - Ngữ pháp\V-ing - To Verb">V-ing - To Verb(19)</summary></details><p do="___tree_readFile|a513ae3e-af8e-4c54-a783-b792fe094b8b">Cụm danh từ và một số cấu trúc câu tiếng anh phổ biến   </p><p do="___tree_readFile|2cee1de8-e795-4350-bd99-8b8da932f46a">Sở hữu cách trong tiếng Anh</p></details><p do="___tree_readFile|a6093bda-1173-42e2-bb66-c0c112ad0b49">Cấu trúc câu tiếng anh thường sử dụng</p>
+                </details>
+                <details>
+                    <summary do="___tree_LoadItems|E:\_cs\curl\curl\curl-net20\bin\Debug\\Phật Học">Phật Học(1)</summary>
+                </details>
+            </details>
+        </div>
         <div id="ui-content">
             <nav>
                 <ol>
                     <li><i class=i-menu></i></li>
                     <li><i class=i-add></i></li>
                     <li><i class=i-edit></i></li>
-                    <li><i class=i-remove></i></li> 
-                    <li><i class=i-refresh></i></li> 
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li> 
+                    <li><i class=i-remove></i></li>
+                    <li><i class=i-refresh></i></li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
                     <li>
                         <input type="checkbox" id="c1" name="speech_repeat" checked />
                         <label for="c1"><i></i>Repeat</label>
@@ -25,13 +52,13 @@
                     <li><i class=i-prev></i>Prev</li>
                     <li><i class=i-stop></i>Stop</li>
                     <li><i class=i-play></i>Play</li>
-                    <li><i class=i-next></i>Next</li>
+                    <li style="min-width:69px;"><i class=i-next></i>Next</li>
                     <li><i class=i-app></i></li>
                 </ol>
-            </nav> 
+            </nav>
             <details class="player-config">
-                <summary><i></i> Setting</summary>
-                <input type="radio" id="r1" name="speech_type" checked/>
+                <summary><i></i> </summary>
+                <input type="radio" id="r1" name="speech_type" checked />
                 <label for="r1"><i></i>Speech word</label>
                 <br />
                 <input type="radio" id="r2" name="speech_type" />
@@ -162,5 +189,63 @@ self.addEventListener('activate', function(event) {
         </div>
         <div id="ui-tabs">2</div>
     </div>
+
+    <div id="indicator_id" class="dx-indicator">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <label></label>
+    </div>
+
+    <dialog id="dialog_Login" class="mod-login">
+        <div class="dx-popup">
+            <div class="dx-modal"></div>
+            <div class="dx-content">
+                <!--<span onclick="api.dialog.Close(this)" class="close" title="Close">&times;</span>-->
+                <div class="dx-header">
+                    <h3>Login System</h3>
+                </div>
+                <div class="dx-body">
+                    <table>
+                        <tr>
+                            <td>Username</td>
+                            <td><input type="text" placeholder="Enter Username" /></td>
+                        </tr>
+                        <tr>
+                            <td>Password</td>
+                            <td><input type="password" placeholder="Enter Password" /></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="dx-footer">
+                    <button onclick="api.dialog.Close(this)">Login</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="dialog_Alert" class="mod-alert">
+        <div class="dx-popup">
+            <div class="dx-modal"></div>
+            <div class="dx-content">
+                <!--<span onclick="api.dialog.Close(this)" class="close" title="Close">&times;</span>-->
+                <div class="dx-header">
+                    <h3>Message</h3>
+                </div>
+                <div class="dx-body">
+                    <p>This is content of message ...</p>
+                </div>
+                <div class="dx-footer">
+                    <button class="ok" onclick="api.dialog.Close(this, true)">OK</button>
+                    <button class="cancel hide" onclick="api.dialog.Close(this, false)">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
 </body>
 </html>
