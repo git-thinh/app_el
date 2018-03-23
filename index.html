@@ -5,7 +5,7 @@
     <title>English</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="/reset.css" rel="stylesheet" />
-    <link href="/index.css" rel="stylesheet" />
+    <link href="/index.css" rel="stylesheet" /> 
 </head>
 <body>
     <div id="ui-page">
@@ -19,25 +19,32 @@
         <div id="ui-content">
             <nav>
                 <ol for="_DO">
-                    <li do="ui_toggleDocument"><i class=i-menu></i></li>
+                    <li do="ui_toggleTree"><i class=i-menu></i></li>
                     <li><i class=i-add></i></li>
                     <li><i class=i-edit></i></li>
                     <li><i class=i-remove></i></li>
                     <li><i class=i-refresh></i></li>
                     <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
                     <li>
-                        <input type="checkbox" id="c1" name="speech_repeat" checked />
+                        <input type="checkbox" id="c1" checked />
                         <label for="c1"><i></i>Repeat</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_translate" checked="checked" onchange="if (this.hasAttribute('checked')) { window['_TRANSLATE'] = false; this.removeAttribute('checked'); } else { window['_TRANSLATE'] = true; this.setAttribute('checked','checked'); }" />
+                        <label for="chk_translate"><i></i>Translate</label>
                     </li>
                     <li><i class=i-prev></i>Prev</li>
                     <li><i class=i-stop></i>Stop</li>
                     <li><i class=i-play></i>Play</li>
                     <li style="min-width:69px;"><i class=i-next></i>Next</li>
-                    <li><i class=i-app></i></li>
+                    <li do="ui_toggletTab"><i class=i-app></i></li>
                 </ol>
             </nav>
             <details class="player-config" for="_CONFIG_TYPE_SPEECH">
                 <summary><i></i> </summary>
+                <input type="radio" id="r0" name="speech_type" value="SPEECH_ALL" />
+                <label for="r0"><i></i>Speech all</label>
+                <br />
                 <input type="radio" id="r1" name="speech_type" value="SPEECH_WORD" checked />
                 <label for="r1"><i></i>Speech word</label>
                 <br />
@@ -49,6 +56,13 @@
                 <br />
                 <input type="radio" id="r5" name="speech_type" value="SPEECH_PARAGRAPH" />
                 <label for="r5"><i></i>Speech paragraph</label>
+                <br /><br />
+                <p class="align-right">
+                    <b>Delay time(ms):</b><br />
+                    <label>Words: </label><input type="text" value="1000" onchange="window['_DELAY_WORDS'] = this.value;" /><br />
+                    <label>Sentence: </label><input type="text" value="3000" onchange="window['_DELAY_SENTENCE'] = this.value;" /><br />
+                    <label>Paragraph: </label><input type="text" value="5000" onchange="window['_DELAY_PARAGRAPH'] = this.value;" /><br />
+                </p>
             </details>
             <article for="_ARTICLE">
                 <h2><b><em><i>Introduction</i> <i>to</i> <i>Service</i> <i>Worker</i></em></b>.</h2>
@@ -224,7 +238,24 @@ self.addEventListener('activate', function(event) {
         </div>
     </dialog>
 
-    <script>
+
+    <script type="text/javascript">
+        var _WORKER = new Worker('worker.js');
+        _WORKER.addEventListener('message', function (e) {
+            console.log('API: ', e.data);
+        }, false);
+
+        /****************************************************************************/
+
+        var _PANEL_TREE = document.getElementById('ui-category');
+        var _PANEL_TAB = document.getElementById('ui-tabs');
+
+        var _TRANSLATE = true;
+
+        var _DELAY_WORDS = 1000;
+        var _DELAY_SENTENCE = 3000;
+        var _DELAY_PARAGRAPH = 5000;
+
         var _TAG_ARTICLE = "ARTICLE";
         var _TAG_TITLE = "H2";
         var _TAG_HEADING = "H3";
@@ -235,66 +266,120 @@ self.addEventListener('activate', function(event) {
         var _TAG_WORD = "I";
 
         var _SPEECH_TYPE = (localStorage['_SPEECH_TYPE'] == null ? 'SPEECH_WORD' : localStorage['_SPEECH_TYPE']);
-        
-        function event_mousemove_Word_Sentence_Paragraph(e) {
-            e.target.style.backgroundColor = 'yellow';
-        }
+
+        /****************************************************************************/
 
         window.onclick = function (event) {
             var _el = event.target;
-            var _pa = _el.closest('*[for]');
-            if (_pa != null) {
-                var _for = _pa.getAttribute('for');
-                console.log('CLICK: ', _for);
-                switch (_for) {
-                    case '_CONFIG_TYPE_SPEECH':
-                        var _val = _el.getAttribute('value');
-                        if (_val) {
-                            _SPEECH_TYPE = _val;
-                            localStorage['_SPEECH_TYPE'] = _SPEECH_TYPE;
-                        }
-                        if (_pa.hasAttribute('open'))
-                            _pa.removeAttribute('open');
-                        break;
-                    case '_ARTICLE':
-                        var _target, _tagName = _el.tagName, _text = ''; 
-                        switch (_SPEECH_TYPE) {
-                            case 'SPEECH_WORD':
-                                _text = _el.innerText;
-                                break;
-                            case 'SPEECH_CLAUSE':
-                                _target = _el.closest(_TAG_CLAUSE);
-                                if (_target != null)
-                                    _text = _target.innerText;
-                                break;
-                            case 'SPEECH_SENTENCE':
-                                _target = _el.closest(_TAG_SENTENCE);
-                                if (_target != null)
-                                    _text = _target.innerText;
-                                break;
-                            case 'SPEECH_PARAGRAPH':
-                                _target = _el.closest(_TAG_PARAGRAPH);
-                                if (_target != null)
-                                    _text = _target.innerText;
-                                break;
-                        }
-                        if (_text != null && _text.length > 0) {
-                            console.log(_SPEECH_TYPE, _text);
-                        }
-                        break;
-                    case '_DO':
-                        break;
+            console.log('CLICK: ', _el);
+            var _do = _el.closest('*[do]');
+            if (_do != null) {
+                var _func = _do.getAttribute('do');
+                if (typeof window[_func] == 'function')
+                    window[_func](_el);
+            } else {
+                var _pa = _el.closest('*[for]');
+                if (_pa != null) {
+                    var _for = _pa.getAttribute('for');
+                    switch (_for) {
+                        case '_CONFIG_TYPE_SPEECH':
+                            var _val = _el.getAttribute('value');
+                            if (_val != null && _val.indexOf('SPEECH_') != -1) {
+                                _SPEECH_TYPE = _val;
+                                localStorage['_SPEECH_TYPE'] = _SPEECH_TYPE;
+                                if (_pa.hasAttribute('open')) _pa.removeAttribute('open'); 
+                            }
+                            break;
+                        case '_ARTICLE':
+                            var _target, _tagName = _el.tagName, _text = '';
+                            switch (_SPEECH_TYPE) {
+                                case 'SPEECH_WORD':
+                                    _text = _el.innerText;
+                                    break;
+                                case 'SPEECH_CLAUSE':
+                                    _target = _el.closest(_TAG_CLAUSE);
+                                    if (_target != null)
+                                        _text = _target.innerText;
+                                    break;
+                                case 'SPEECH_SENTENCE':
+                                    _target = _el.closest(_TAG_SENTENCE);
+                                    if (_target != null)
+                                        _text = _target.innerText;
+                                    break;
+                                case 'SPEECH_PARAGRAPH':
+                                    _target = _el.closest(_TAG_PARAGRAPH);
+                                    if (_target != null)
+                                        _text = _target.innerText;
+                                    break;
+                            }
+                            if (_text != null && _text.length > 0) {
+                                var rs = document.querySelector('._READING');
+                                if (rs != null) rs.className = '';
+                                if (_SPEECH_TYPE == 'SPEECH_WORD')
+                                    _el.className = '_READING';
+                                else
+                                    _target.className = '_READING';
+                                console.log(_SPEECH_TYPE, _text);
+                                _speech_Text(_text);
+                            }
+                            break;
+                        case '_DO':
+                            break;
+                    }
                 }
             }
+            //event.preventDefault();
         }
 
         window.ondblclick = function (event) {
             //api.callback(event.target, 'dblclick');
             console.log('DBLCLICK: ', event.target);
         }
+        /****************************************************************************/
 
-        function ui_toggleDocument() {
+        function _speech_Text(text) {
+            _WORKER.postMessage('#' + text);
+        }
 
+        function event_mousemove_Word_Sentence_Paragraph(e) {
+            e.target.style.backgroundColor = 'yellow';
+        }
+
+        /****************************************************************************/
+        /* PANEL TAB - PANEL TREE */
+
+        if (localStorage['_PANEL_TREE'] != null)
+            _PANEL_TREE.style.display = localStorage['_PANEL_TREE'];
+        function ui_toggleTree(elem) {
+            if (isHidden(_PANEL_TREE)) {
+                // HIDE => SHOW
+                _PANEL_TREE.style.display = 'block';
+                localStorage['_PANEL_TREE'] = 'block';
+            } else {
+                // SHOW => HIDE
+                _PANEL_TREE.style.display = 'none';
+                localStorage['_PANEL_TREE'] = 'none';
+            }
+        }
+
+        /* PANEL TAB */
+        if (localStorage['_PANEL_TAB'] != null)
+            _PANEL_TAB.style.display = localStorage['_PANEL_TAB'];
+        function ui_toggletTab(elem) {
+            if (isHidden(_PANEL_TAB)) {
+                // HIDE => SHOW
+                _PANEL_TAB.style.display = 'block';
+                localStorage['_PANEL_TAB'] = 'block';
+            } else {
+                // SHOW => HIDE
+                _PANEL_TAB.style.display = 'none';
+                localStorage['_PANEL_TAB'] = 'none';
+            }
+        }
+
+        function isHidden(el) {
+            var style = window.getComputedStyle(el);
+            return (style.display === 'none')
         }
     </script>
 </body>

@@ -205,6 +205,12 @@ details[open].player-config {
     border: 1px solid #ccc;
 }
 
+details.player-config input {
+    width: 45px;
+    padding: 3px;
+    margin: 4px 0 0 0;
+}
+
 /* INDICATOR */
 .dx-indicator {
     background-color: #2870d5;
@@ -570,8 +576,7 @@ details summary {
         padding: 0 1px 0 0;
         margin: 0;
     }
-
-
+    
 details details {
     margin: 0 0 0 15px;
     padding: 0;
@@ -741,6 +746,6 @@ article {
         cursor: pointer;
     }
 
-        /*article i:hover {
+        article ._READING {
             background-color: yellow;
-        }*/
+        }

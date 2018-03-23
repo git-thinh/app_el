@@ -11,7 +11,13 @@ var window = self;
 self.addEventListener('message', function (e) {
     var data = e.data;
     console.log(e);
-
+    if (data.length > 0) {
+        switch (data[0]) {
+            case '#':
+                if (_opend) _socket.send(data);
+                break;
+        }
+    }
     //_cacheSendAPI.push(data);
 }, false);
 
