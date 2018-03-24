@@ -43,7 +43,19 @@ setInterval(function () {
 function _socket_Init() {
     _socket = new WebSocket('ws://localhost:8889');
     _socket.onmessage = function (e) {
-        _cacheSendUI.push(JSON.parse(e.data));
+        var data = e.data;
+        switch (data) {
+            case '#':
+                self.postMessage({ action: 'api_callback_Speech', data: { status: 'BEGIN_READING', text: data } });
+                break;
+            case '!':
+                self.postMessage({ action: 'api_callback_Speech', data: { status: 'END_READING', text: data } });
+                break;
+            case '#':
+                break;
+        }
+        //_cacheSendUI.push(JSON.parse(e.data));
+        self.postMessage({ action: 'API_OPEN' });
     };
     _socket.onopen = function () {
         _opend = true;
