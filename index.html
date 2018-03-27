@@ -5,8 +5,7 @@
     <title>English</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="/reset.css" rel="stylesheet" async />
-    <link href="/index.css" rel="stylesheet" async />
-    <link href="/toast.css" rel="stylesheet" />
+    <link href="/index.css" rel="stylesheet" async /> 
     <script type="text/javascript">
         !function(t){var e={};function n(i){if(e[i])return e[i].exports;var o=e[i]={i:i,l:!1,exports:{}};return t[i].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{configurable:!1,enumerable:!0,get:i})},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=1)}([function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=function(){function t(t,e){for(var n=0;n<e.length;n++){var i=e[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(t,i.key,i)}}return function(e,n,i){return n&&t(e.prototype,n),i&&t(e,i),e}}();var o=function(){function t(){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.notif={timeout:5e3},this.msgs={s:["","Success","mt-success"],w:["","Warning","mt-warning"],e:["","Error","mt-error"],i:["","Info","mt-info"],d:["","Notification","mt-default"]},this.init()}return i(t,[{key:"init",value:function(){var t=document.getElementById("mt-cont");t||((t=document.createElement("div")).id="mt-cont",t.classList.add("mt-cont"),document.body.appendChild(t)),this.cont=t}},{key:"success",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;this.append(t||this.msgs.s[0],"s")}},{key:"warning",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;this.append(t||this.msgs.w[0],"w")}},{key:"error",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;this.append(t||this.msgs.e[0],"e")}},{key:"info",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;this.append(t||this.msgs.i[0],"i")}},{key:"default",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;this.append(t||this.msgs.d[0],"d")}},{key:"append",value:function(t,e){var n=this.notif,i=this.msgs,o=document.createElement("div");o.classList.add(i[e][2],"mt-notif","mt-slide-fade"),o.style.animationDuration=n.timeout/1e3+"s";var r=document.createElement("p");r.innerText=i[e][1],o.appendChild(r);var u=document.createElement("p");u.innerText=t,o.appendChild(u),document.getElementById("mt-cont").appendChild(o),setTimeout(function(){document.getElementById("mt-cont").removeChild(document.getElementById("mt-cont").firstChild)},n.timeout)}}]),t}();e.default=o},function(t,e,n){n(0),n(2),t.exports=n(3)},function(t,e){},function(t,e){}]);
     </script> 
@@ -14,6 +13,15 @@
 <body>
     <div id="ui-page">
         <div id="ui-category">
+            <nav>
+                <ol for="_DO">
+                    <li class="btn-ico" do="ui_toggleTree"><i class=i-menu></i></li>
+                    <li class="btn-ico"><i class=i-add></i></li>
+                    <li class="btn-ico"><i class=i-edit></i></li>
+                    <li class="btn-ico"><i class=i-remove></i></li>
+                    <li class="btn-ico"><i class=i-refresh></i></li> 
+                </ol>
+            </nav>
             <div id="tree_data_cache">
                 <details id="tree_data">
                     <summary do="___tree_LoadItems|">Document</summary>
@@ -23,25 +31,24 @@
         <div id="ui-content">
             <nav>
                 <ol for="_DO">
-                    <li do="ui_toggleTree"><i class=i-menu></i></li>
-                    <li><i class=i-add></i></li>
-                    <li><i class=i-edit></i></li>
-                    <li><i class=i-remove></i></li>
-                    <li><i class=i-refresh></i></li>
+                    <li class="btn-ico" do="ui_toggleTree"><i class=i-menu></i></li> 
                     <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
                     <li>
                         <input type="checkbox" id="c1" checked />
-                        <label for="c1"><i></i>Repeat</label>
+                        <label for="c1"><i></i><b>Repeat</b></label>
                     </li>
                     <li>
                         <input type="checkbox" id="chk_translate" checked="checked" onchange="if (this.hasAttribute('checked')) { window['_TRANSLATE'] = false; this.removeAttribute('checked'); } else { window['_TRANSLATE'] = true; this.setAttribute('checked','checked'); }" />
-                        <label for="chk_translate"><i></i>Translate</label>
+                        <label for="chk_translate"><i></i><b>Translate</b></label>
                     </li>
-                    <li><i class=i-prev></i>Prev</li>
-                    <li><i class=i-stop></i>Stop</li>
-                    <li><i class=i-play></i>Play</li>
-                    <li style="min-width:69px;"><i class=i-next></i>Next</li>
-                    <li do="ui_toggletTab"><i class=i-app></i></li>
+                    <li title="Slower" style="width:111px;"><i class=i-sub></i><b>Rate down</b></li>
+                    <li title="Speeder" style="width:83px;"><i class=i-add></i><b>Rate up</b></li>
+                    <li style="width:63px;"><i class=i-prev></i><b>Prev</b></li>
+                    <li class="btn-ico hide"><i class=i-stop></i></li>
+                    <li class="btn-ico"><i class=i-play></i></li>
+                    <li class="btn-ico"><i class=i-pause></i></li>
+                    <li style="width:69px;"><i class="i-next float-right"></i><b class="float-right">Next</b></li>
+                    <li class="btn-ico" do="ui_toggletTab"><i class=i-app></i></li>
                 </ol>
             </nav>
             <details class="player-config" for="_CONFIG_TYPE_SPEECH">
@@ -182,7 +189,30 @@ self.addEventListener('activate', function(event) {
                 <ul><li><b><em><i>More</i> <i>on</i> <i>Service</i> <i>Worker</i> <i>Registration</i></em></b>.</li><li><b><em><i>Create</i> <i>your</i> <i>own</i> <i>service</i> <i>worker</i> </em>(<em><i>lab</i></em>)</b>.</li><li><b><em><i>Take</i> <i>a</i> <i>blog</i> <i>site</i> </em>of<em><i>fline</i> </em>(<em><i>lab</i></em>)</b>.</li><li><b><em><i>Cache</i> <i>files</i> <i>with</i> <i>Service</i> <i>Worker</i> </em>(<em><i>lab</i></em>)</b>.</li></ul>
             </article>
         </div>
-        <div id="ui-tabs">2</div>
+        <div id="ui-tabs">
+            <!-- Tab links -->
+            <div class="tab">
+                <button class="tablinks" onclick="openCity(event, 'London')">Words</button>
+                <button class="tablinks" onclick="openCity(event, 'Paris')">Grammar</button>
+                <button class="tablinks" onclick="openCity(event, 'Tokyo')">Reading</button>
+            </div>
+
+            <!-- Tab content -->
+            <div id="London" class="tabcontent">
+                <h3>London</h3>
+                <p>London is the capital city of England.</p>
+            </div>
+
+            <div id="Paris" class="tabcontent">
+                <h3>Paris</h3>
+                <p>Paris is the capital of France.</p>
+            </div>
+
+            <div id="Tokyo" class="tabcontent">
+                <h3>Tokyo</h3>
+                <p>Tokyo is the capital of Japan.</p>
+            </div>
+        </div>
     </div>
 
     <div id="indicator_id" class="dx-indicator">
@@ -242,15 +272,16 @@ self.addEventListener('activate', function(event) {
         </div>
     </dialog>
 
+    <div id="toast"></div>
 
-    <script type="text/javascript">
-        var _TOAST = new minitoast(); 
+    <script type="text/javascript"> 
         var _WORKER = new Worker('worker.js');
-        _WORKER.addEventListener('message', function (e) {
-            console.log('API: ', e.data);
-        }, false);
-
+        _WORKER.onmessage = event_processMessage;
+        window.onclick = event_elementClick;
+        window.ondblclick = event_elementDblClick;
         /****************************************************************************/
+        /* VARIABLE */
+
         var _READING = false;
 
         var _PANEL_TREE = document.getElementById('ui-category');
@@ -274,8 +305,33 @@ self.addEventListener('activate', function(event) {
         var _SPEECH_TYPE = (localStorage['_SPEECH_TYPE'] == null ? 'SPEECH_WORD' : localStorage['_SPEECH_TYPE']);
 
         /****************************************************************************/
+        /* EVENT */
 
-        window.onclick = function (event) {
+        function event_processMessage(event) {
+            //var data = e.data;
+            //console.log('API: ', data);
+            //var a = data.split(':');
+            //switch (a[0]) {
+            //    case 'API':
+            //        if (a.length > 1) {
+            //            var id = a[1];
+            //            caches.open('CACHE').then(function (cache) {
+            //                cache.match(id).then(function (reqData) {
+            //                    console.log(reqData);
+            //                    cache.match(id + '.result').then(function (resData) {
+            //                        console.log(resData);
+            //                    });
+            //                });
+            //            });
+            //        }
+            //        break;
+            //    case 'FAIL':
+            //        toast('SPEAKING...!');
+            //        break;
+            //}
+        }
+
+        function event_elementClick(event) {
             var _el = event.target;
             console.log('CLICK: ', _el);
             var _do = _el.closest('*[do]');
@@ -339,18 +395,50 @@ self.addEventListener('activate', function(event) {
             //event.preventDefault();
         }
 
-        window.ondblclick = function (event) {
+        function event_elementDblClick(event) {
             //api.callback(event.target, 'dblclick');
             console.log('DBLCLICK: ', event.target);
         }
+
         /****************************************************************************/
+        /* UI */
+
+        function openCity(evt, cityName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
 
         function _speech_Text(text) {
-            _WORKER.postMessage('#' + text);
+            _WORKER.postMessage(text);
         }
 
         function event_mousemove_Word_Sentence_Paragraph(e) {
             e.target.style.backgroundColor = 'yellow';
+        }
+
+        function toast(text) { 
+            var _toast = document.getElementById("toast");
+            if (_toast != null) {
+                _toast.innerHTML = text;
+                _toast.className = "show";
+                setTimeout(function () { _toast.className = _toast.className.replace("show", ""); }, 2000);
+            }
         }
 
         /****************************************************************************/
