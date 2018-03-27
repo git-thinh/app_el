@@ -5,13 +5,10 @@
     <title>English</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="/reset.css" rel="stylesheet" async />
-    <link href="/index.css" rel="stylesheet" async /> 
-    <script type="text/javascript">
-        !function(t){var e={};function n(i){if(e[i])return e[i].exports;var o=e[i]={i:i,l:!1,exports:{}};return t[i].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{configurable:!1,enumerable:!0,get:i})},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=1)}([function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=function(){function t(t,e){for(var n=0;n<e.length;n++){var i=e[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(t,i.key,i)}}return function(e,n,i){return n&&t(e.prototype,n),i&&t(e,i),e}}();var o=function(){function t(){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.notif={timeout:5e3},this.msgs={s:["","Success","mt-success"],w:["","Warning","mt-warning"],e:["","Error","mt-error"],i:["","Info","mt-info"],d:["","Notification","mt-default"]},this.init()}return i(t,[{key:"init",value:function(){var t=document.getElementById("mt-cont");t||((t=document.createElement("div")).id="mt-cont",t.classList.add("mt-cont"),document.body.appendChild(t)),this.cont=t}},{key:"success",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;this.append(t||this.msgs.s[0],"s")}},{key:"warning",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;this.append(t||this.msgs.w[0],"w")}},{key:"error",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;this.append(t||this.msgs.e[0],"e")}},{key:"info",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;this.append(t||this.msgs.i[0],"i")}},{key:"default",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;this.append(t||this.msgs.d[0],"d")}},{key:"append",value:function(t,e){var n=this.notif,i=this.msgs,o=document.createElement("div");o.classList.add(i[e][2],"mt-notif","mt-slide-fade"),o.style.animationDuration=n.timeout/1e3+"s";var r=document.createElement("p");r.innerText=i[e][1],o.appendChild(r);var u=document.createElement("p");u.innerText=t,o.appendChild(u),document.getElementById("mt-cont").appendChild(o),setTimeout(function(){document.getElementById("mt-cont").removeChild(document.getElementById("mt-cont").firstChild)},n.timeout)}}]),t}();e.default=o},function(t,e,n){n(0),n(2),t.exports=n(3)},function(t,e){},function(t,e){}]);
-    </script> 
+    <link href="/index.css" rel="stylesheet" async />
 </head>
 <body>
-    <div id="ui-page">
+    <div id="ui-page" style="display:none;">
         <div id="ui-category">
             <nav>
                 <ol for="_DO">
@@ -19,7 +16,7 @@
                     <li class="btn-ico"><i class=i-add></i></li>
                     <li class="btn-ico"><i class=i-edit></i></li>
                     <li class="btn-ico"><i class=i-remove></i></li>
-                    <li class="btn-ico"><i class=i-refresh></i></li> 
+                    <li class="btn-ico"><i class=i-refresh></i></li>
                 </ol>
             </nav>
             <div id="tree_data_cache">
@@ -31,16 +28,8 @@
         <div id="ui-content">
             <nav>
                 <ol for="_DO">
-                    <li class="btn-ico" do="ui_toggleTree"><i class=i-menu></i></li> 
+                    <li class="btn-ico" do="ui_toggleTree"><i class=i-menu></i></li>
                     <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-                    <li>
-                        <input type="checkbox" id="c1" checked />
-                        <label for="c1"><i></i><b>Repeat</b></label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="chk_translate" checked="checked" onchange="if (this.hasAttribute('checked')) { window['_TRANSLATE'] = false; this.removeAttribute('checked'); } else { window['_TRANSLATE'] = true; this.setAttribute('checked','checked'); }" />
-                        <label for="chk_translate"><i></i><b>Translate</b></label>
-                    </li>
                     <li title="Slower" style="width:111px;"><i class=i-sub></i><b>Rate down</b></li>
                     <li title="Speeder" style="width:83px;"><i class=i-add></i><b>Rate up</b></li>
                     <li style="width:63px;"><i class=i-prev></i><b>Prev</b></li>
@@ -52,7 +41,18 @@
                 </ol>
             </nav>
             <details class="player-config" for="_CONFIG_TYPE_SPEECH">
-                <summary><i></i> </summary>
+                <summary><i></i></summary>
+                <ul>
+                    <li>
+                        <input type="checkbox" id="c1" checked />
+                        <label for="c1"><i></i><b>Repeat</b></label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_translate" checked="checked" onchange="if (this.hasAttribute('checked')) { window['_TRANSLATE'] = false; this.removeAttribute('checked'); } else { window['_TRANSLATE'] = true; this.setAttribute('checked','checked'); }" />
+                        <label for="chk_translate"><i></i><b>Translate</b></label>
+                    </li>
+                </ul>
+                <div class="hr"></div>
                 <input type="radio" id="r0" name="speech_type" value="SPEECH_ALL" />
                 <label for="r0"><i></i>Speech all</label>
                 <br />
@@ -67,13 +67,21 @@
                 <br />
                 <input type="radio" id="r5" name="speech_type" value="SPEECH_PARAGRAPH" />
                 <label for="r5"><i></i>Speech paragraph</label>
-                <br /><br />
+                <div class="hr"></div>
                 <p class="align-right">
                     <b>Delay time(ms):</b><br />
                     <label>Words: </label><input type="text" value="1000" onchange="window['_DELAY_WORDS'] = this.value;" /><br />
                     <label>Sentence: </label><input type="text" value="3000" onchange="window['_DELAY_SENTENCE'] = this.value;" /><br />
                     <label>Paragraph: </label><input type="text" value="5000" onchange="window['_DELAY_PARAGRAPH'] = this.value;" /><br />
                 </p>
+                <div class="hr"></div>
+                <ul>
+                    <li>
+                        <input type="checkbox" id="chk_toast_speak_everywh" checked="checked" onchange="if (this.hasAttribute('checked')) { window['_TOAST_SPEECH'] = false; this.removeAttribute('checked'); } else { window['_TOAST_SPEECH'] = true; this.setAttribute('checked','checked'); }" />
+                        <label for="chk_toast_speak_everywh"><i></i><b>Speech everywhere</b></label>
+                    </li>
+                </ul>
+                <div class="hr"></div>
             </details>
             <article for="_ARTICLE">
                 <h2><b><em><i>Introduction</i> <i>to</i> <i>Service</i> <i>Worker</i></em></b>.</h2>
@@ -190,27 +198,28 @@ self.addEventListener('activate', function(event) {
             </article>
         </div>
         <div id="ui-tabs">
-            <!-- Tab links -->
-            <div class="tab">
-                <button class="tablinks" onclick="openCity(event, 'London')">Words</button>
-                <button class="tablinks" onclick="openCity(event, 'Paris')">Grammar</button>
-                <button class="tablinks" onclick="openCity(event, 'Tokyo')">Reading</button>
-            </div>
+            <div class="tab-box">
+                <div class="tab-header">
+                    <button do="tab_Open" for="tab_word">Words</button>
+                    <button do="tab_Open" for="tab_grammar">Grammar</button>
+                    <button do="tab_Open" for="tab_reading">Reading</button>
+                    <button do="tab_Open" for="tab_history">History</button>
+                    <button do="tab_Open" for="tab_bookmark">Bookmark</button>
+                </div>
 
-            <!-- Tab content -->
-            <div id="London" class="tabcontent">
-                <h3>London</h3>
-                <p>London is the capital city of England.</p>
-            </div>
-
-            <div id="Paris" class="tabcontent">
-                <h3>Paris</h3>
-                <p>Paris is the capital of France.</p>
-            </div>
-
-            <div id="Tokyo" class="tabcontent">
-                <h3>Tokyo</h3>
-                <p>Tokyo is the capital of Japan.</p>
+                <div id="tab_word" class="tab-content" for="_TAB_DETAIL">
+                    <ul class="list-checkbox">
+                        <li><i></i><label>Service</label><em>dịch vụ</em><b>9</b></li>
+                        <li><i></i><label>Worker</label><em></em><b>88</b></li>
+                        <li class="check"><i></i><label>Menu</label><em>danh mục</em><b>4</b></li>
+                        <li><i></i><label>Button</label><em></em><b>4</b></li>
+                        <li><i></i><label>Close</label><em>đóng, thoát</em><b>4</b></li>
+                    </ul>
+                </div>
+                <div id="tab_grammar" class="tab-content" for="_TAB_DETAIL"></div>
+                <div id="tab_reading" class="tab-content" for="_TAB_DETAIL"></div>
+                <div id="tab_history" class="tab-content" for="_TAB_DETAIL"></div>
+                <div id="tab_bookmark" class="tab-content" for="_TAB_DETAIL"></div>
             </div>
         </div>
     </div>
@@ -274,14 +283,12 @@ self.addEventListener('activate', function(event) {
 
     <div id="toast"></div>
 
-    <script type="text/javascript"> 
-        var _WORKER = new Worker('worker.js');
-        _WORKER.onmessage = event_processMessage;
-        window.onclick = event_elementClick;
-        window.ondblclick = event_elementDblClick;
+    <script type="text/javascript">
+        String.prototype.createID = function () { return this.split('/').join('_').split('"').join('_').split('\'').join('_').split(':').join('_').split(' ').join('_'); }
+
         /****************************************************************************/
         /* VARIABLE */
-
+        var _TOAST_SPEECH = true;
         var _READING = false;
 
         var _PANEL_TREE = document.getElementById('ui-category');
@@ -303,32 +310,52 @@ self.addEventListener('activate', function(event) {
         var _TAG_WORD = "I";
 
         var _SPEECH_TYPE = (localStorage['_SPEECH_TYPE'] == null ? 'SPEECH_WORD' : localStorage['_SPEECH_TYPE']);
+        if (localStorage['_SPEECH_TYPE'] != 'SPEECH_WORD') Array.from(document.querySelector('input[name="speech_type"]')).forEach(function (_it) {
+            if (_it.getAttribute('value') == localStorage['_SPEECH_TYPE'])
+                _it.setAttribute('checked', 'checked');
+            else if (_it.hasAttribute('checked'))
+                _it.removeAttribute('checked');
+        });
+
+        var _CACHE = {};
+
+        var _WORKER = new Worker('worker.js');
+        _WORKER.onmessage = event_processMessage;
+        window.onclick = event_elementClick;
+        window.ondblclick = event_elementDblClick;
+        var postMessage = function (msg) { _WORKER.postMessage(msg); }
 
         /****************************************************************************/
         /* EVENT */
 
+        var _timer_SYSTEM_READY = null;
+        function SYSTEM_READY(m) {
+            var page = document.getElementById('ui-page');
+            if (page != null) {
+                if (_timer_SYSTEM_READY != null) {
+                    clearTimeout(_timer_SYSTEM_READY);
+                    _timer_SYSTEM_READY = null;
+                }
+                page.style.display = 'flex';
+                console.log('SYSTEM_READY');
+
+                postMessage({ action: 'GRAM_ALL_KEY', callback: 'tab_Gram_BindList' });
+            } else {
+                _timer_SYSTEM_READY = setTimeout(SYSTEM_READY, 50);
+            }
+        }
+
         function event_processMessage(event) {
-            //var data = e.data;
-            //console.log('API: ', data);
-            //var a = data.split(':');
-            //switch (a[0]) {
-            //    case 'API':
-            //        if (a.length > 1) {
-            //            var id = a[1];
-            //            caches.open('CACHE').then(function (cache) {
-            //                cache.match(id).then(function (reqData) {
-            //                    console.log(reqData);
-            //                    cache.match(id + '.result').then(function (resData) {
-            //                        console.log(resData);
-            //                    });
-            //                });
-            //            });
-            //        }
-            //        break;
-            //    case 'FAIL':
-            //        toast('SPEAKING...!');
-            //        break;
-            //}
+            var it = event.data;
+            if (typeof it === 'string') { } else {
+                if (it.ok) {
+                    var _func = it.callback;
+                    if (typeof window[_func] === 'function')
+                        window[_func](it);
+                } else {
+                    if (it.msg != null) { toast(it.msg); }
+                }
+            }
         }
 
         function event_elementClick(event) {
@@ -337,9 +364,9 @@ self.addEventListener('activate', function(event) {
             var _do = _el.closest('*[do]');
             if (_do != null) {
                 var _func = _do.getAttribute('do');
-                if (typeof window[_func] == 'function')
-                    window[_func](_el);
+                functionExecute(_el, _func);
             } else {
+                var _isArticale = false, _text = '';
                 var _pa = _el.closest('*[for]');
                 if (_pa != null) {
                     var _for = _pa.getAttribute('for');
@@ -349,47 +376,63 @@ self.addEventListener('activate', function(event) {
                             if (_val != null && _val.indexOf('SPEECH_') != -1) {
                                 _SPEECH_TYPE = _val;
                                 localStorage['_SPEECH_TYPE'] = _SPEECH_TYPE;
-                                if (_pa.hasAttribute('open')) _pa.removeAttribute('open'); 
+                                if (_pa.hasAttribute('open')) _pa.removeAttribute('open');
                             }
                             break;
-                        case '_ARTICLE':
-                            var _target, _tagName = _el.tagName, _text = '';
-                            switch (_SPEECH_TYPE) {
-                                case 'SPEECH_WORD':
-                                    _text = _el.innerText;
-                                    break;
-                                case 'SPEECH_CLAUSE':
-                                    _target = _el.closest(_TAG_CLAUSE);
-                                    if (_target != null)
-                                        _text = _target.innerText;
-                                    break;
-                                case 'SPEECH_SENTENCE':
-                                    _target = _el.closest(_TAG_SENTENCE);
-                                    if (_target != null)
-                                        _text = _target.innerText;
-                                    break;
-                                case 'SPEECH_PARAGRAPH':
-                                    _target = _el.closest(_TAG_PARAGRAPH);
-                                    if (_target != null)
-                                        _text = _target.innerText;
-                                    break;
-                            } 
-                            if (_text != null && _text.length > 0) {
-                                 
+                        case '_ARTICLE': case '_TAB_DETAIL':
+                            _isArticale = true;
+                            var _target, _tagName = _el.tagName;
+                            if (_el.tagName == _TAG_PARAGRAPH) {
+                                _text = _el.innerText;
+                            } else
+                                switch (_SPEECH_TYPE) {
+                                    case 'SPEECH_WORD':
+                                        _text = _el.innerText;
+                                        break;
+                                    case 'SPEECH_CLAUSE':
+                                        _target = _el.closest(_TAG_CLAUSE);
+                                        if (_target != null)
+                                            _text = _target.innerText;
+                                        else
+                                            _text = _el.innerText.split('.')[0];
+                                        break;
+                                    case 'SPEECH_SENTENCE':
+                                        _target = _el.closest(_TAG_SENTENCE);
+                                        if (_target != null)
+                                            _text = _target.innerText;
+                                        break;
+                                    case 'SPEECH_PARAGRAPH':
+                                        _target = _el.closest(_TAG_PARAGRAPH);
+                                        if (_target != null)
+                                            _text = _target.innerText;
+                                        break;
+                                }
+                            if (_for == '_TAB_DETAIL') _text = _el.innerText;
 
+                            if (_text != null && _text.length > 0) {
                                 var rs = document.querySelector('._READING');
                                 if (rs != null) rs.className = '';
                                 if (_SPEECH_TYPE == 'SPEECH_WORD')
                                     _el.className = '_READING';
-                                else
-                                    _target.className = '_READING';
+                                else {
+                                    if (_target == null)
+                                        _el.className = '_READING';
+                                    else _target.className = '_READING';
+                                }
+
                                 console.log(_SPEECH_TYPE, _text);
                                 _speech_Text(_text);
                             }
                             break;
-                        case '_DO':
-                            break;
                     }
+                }
+                if (!_isArticale) {
+                    //_text = _el.innerText.trim();
+                    //if (_TOAST_SPEECH && _text != null && _text.trim().length > 0) {
+                    //    toast(_text, 9000);
+                    //    console.log(_SPEECH_TYPE, _text);
+                    //    _speech_Text(_text);
+                    //}
                 }
             }
             //event.preventDefault();
@@ -403,26 +446,54 @@ self.addEventListener('activate', function(event) {
         /****************************************************************************/
         /* UI */
 
-        function openCity(evt, cityName) {
-            // Declare all variables
-            var i, tabcontent, tablinks;
-
-            // Get all elements with class="tabcontent" and hide them
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-
-            // Get all elements with class="tablinks" and remove the class "active"
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-
-            // Show the current tab, and add an "active" class to the button that opened the tab
-            document.getElementById(cityName).style.display = "block";
-            evt.currentTarget.className += " active";
+        function tab_Gram_BindList(m) {
+            var li = '<ul class="list-checkbox">';
+            Array.from(m.result).forEach(function (_it, _index) {
+                var id = '^detail.' + _it.createID() + '.S.H';
+                sessionStorage[id] = 'hide';
+                var m = { id: _it, action: 'GRAM_DETAIL_BY_KEY', callback: 'tab_Gram_BindDetail', selector: id };
+                _CACHE[id] = m;
+                li += '<li><i></i><span do="postMessage|' + id + '">' + _it + '</span><div class="hide grammar_detail" id=' + id + '></div></li>';
+            });
+            li += '</ul>';
+            document.getElementById('tab_grammar').innerHTML = li;
         }
+
+        function tab_Gram_BindDetail(m) {
+            console.log(m);
+            var eDetail = document.getElementById(m.selector);
+            if (eDetail != null) {
+                var o = m.result;
+                if (o != null) {
+                    Array.from(document.querySelector('.grammar_detail')).forEach(function (_it) { _it.style.display = 'none'; });
+                    eDetail.innerHTML =
+                        '<h3><a>' + o.Struct.split('|').join('</a><br><a>') + '</a></h3>' +
+                        '<h5><a>' + o.Explain.split('|').join('</a><br><a>') + '</a></h5>' +
+                        '<p><a>' + o.Example.split('|').join('</a><br><a>') + '</a></p>';
+                    eDetail.style.display = 'block';
+                    sessionStorage[m.selector] = 'show';
+                }
+            }
+        }
+
+        function tab_Open(elem) {
+            if (elem == null) return;
+            var i, _tabName = (elem.hasAttribute('for') ? elem.getAttribute('for') : '');
+            if (_tabName == '') return;
+
+            Array.from(elem.closest('.tab-box').querySelectorAll('.tab-content')).forEach(function (val) {
+                val.style.display = 'none';
+            });
+
+            Array.from(elem.parentElement.querySelectorAll('button')).forEach(function (val) {
+                val.className = '';
+            });
+
+            var _con = document.getElementById(_tabName);
+            if (_con != null) _con.style.display = 'block';
+            elem.className = "active";
+        }
+        tab_Open(document.querySelector('button[for="tab_grammar"]'));
 
         function _speech_Text(text) {
             _WORKER.postMessage(text);
@@ -432,15 +503,53 @@ self.addEventListener('activate', function(event) {
             e.target.style.backgroundColor = 'yellow';
         }
 
-        function toast(text) { 
+        var _timer_toast = null;
+        function toast(text, _timeOut) {
+            if (text == null || text.trim().length == 0) return;
+
+            console.log(text);
             var _toast = document.getElementById("toast");
             if (_toast != null) {
                 _toast.innerHTML = text;
                 _toast.className = "show";
-                setTimeout(function () { _toast.className = _toast.className.replace("show", ""); }, 2000);
+                if (_timeOut == null) _timeOut = 2000;
+                clearTimeout(_timer_toast);
+                _timer_toast = setTimeout(function () {
+                    _toast.className = _toast.className.replace("show", "");
+                    clearTimeout(_timer_toast);
+                }, _timeOut);
             }
         }
 
+        function functionExecute(_el, para) {
+            var a = para.split('|');
+            var _func = a[0], p = null;
+            if (a.length > 1)
+                p = para.substring(_func.length + 1, para.length);
+
+            if (typeof window[_func] === 'function') {
+                if (p == null)
+                    window[_func](_el);
+                else {
+                    p = p.toString().trim();
+                    if (p.indexOf('.S.H') != -1) {
+                        if (sessionStorage[p] == 'show') {
+                            var _target = document.getElementById(p);
+                            if (_target != null) {
+                                _target.style.display = 'none';
+                                sessionStorage[p] = 'hide';
+                                return;
+                            }
+                        }
+                    }
+                    if (p[0] == '^') {
+                        var val = _CACHE[p];
+                        window[_func](val);
+                    } else
+                        window[_func](_el, p);
+                }
+            }
+        }
         /****************************************************************************/
         /* PANEL TAB - PANEL TREE */
 

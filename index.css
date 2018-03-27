@@ -42,12 +42,12 @@
     flex: 1;
     position: relative;
     background-color: #eee;
-    padding-top: 2px;
+    /* padding-top: 2px; */
 }
 
 #ui-tabs {
     width: 350px;
-    background-color: #ccc;
+    background-color: #eee;
 }
 
 
@@ -79,9 +79,9 @@ ol {
         }
 
         ol li b {
-            color: #999;
+            color: #000;
             font-weight: normal;
-            font-size: 0.9em;
+            font-size: 0.8em;
             display: inline-block;
             line-height: 18px;
             float: left;
@@ -107,7 +107,7 @@ details.player-config {
     position: absolute;
     z-index: 999;
     top: 32px;
-    width: 136px;
+    width: 175px;
     cursor: pointer;
     right: 10px;
     padding: 3px 8px 8px 8px;
@@ -222,6 +222,11 @@ details summary {
     line-height: 17px;
     padding: 0 0 8px;
     margin: 0;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
     details summary::-webkit-details-marker {
@@ -282,6 +287,8 @@ details p {
 
 /* ARTICLE */
 nav {
+    background-color: #999;
+    padding-top: 2px;
 }
 
 article {
@@ -401,42 +408,190 @@ article {
         cursor: pointer;
     }
 
-    article ._READING {
+    ._READING {
+        background-color: yellow !important;
+    }
+
+/* LIST CHECKBOX */
+
+.list-checkbox {
+    list-style-type: none;
+}
+
+    .list-checkbox li:hover {
+        background-color: orange;
+    }
+
+    .list-checkbox li.check {
         background-color: yellow;
     }
 
-/* Style the tab */
-.tab {
+    .list-checkbox li {
+        list-style: none;
+        clear: both;
+        width: 100%;
+        /* background: #fff; */
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        /* height: 27px; */
+        overflow: hidden;
+        float: left;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        color: #333;
+        padding-top: 2px;
+    }
+
+        .list-checkbox li i:before {
+            /*content: "\f372";"\f373"*/
+            font-weight: normal;
+        }
+
+        .list-checkbox li.check i:before {
+            content: "\f383";
+            font-weight: normal;
+            color: #666;
+        }
+
+        .list-checkbox li i {
+            float: left;
+            width: 25px;
+            height: 24px;
+            color: #ccc;
+            margin-top: 1px;
+            cursor: pointer;
+        }
+
+        .list-checkbox li label {
+            float: left;
+            height: 20px;
+            font-size: 0.8em;
+            font-style: normal;
+            font-weight: bold;
+            display: inline-block;
+            min-width: calc(100% - (40% + 54px));
+            cursor: pointer;
+        }
+
+        .list-checkbox li.check em, .list-checkbox li:hover em {
+            color: #333;
+        }
+
+        .list-checkbox li span {
+            float: left;
+            height: 20px;
+            font-size: 0.8em;
+            /* font-style: normal; */
+            font-weight: normal;
+            display: inline-block;
+            min-width: 40%;
+            color: #111;
+            cursor: pointer;
+        }
+
+        .list-checkbox li em {
+            float: left;
+            height: 20px;
+            font-size: 0.8em;
+            /* font-style: normal; */
+            font-weight: normal;
+            display: inline-block;
+            min-width: 40%;
+            color: #eee;
+            cursor: pointer;
+        }
+
+        .list-checkbox li b {
+            float: left;
+            border: 1px solid #ccc;
+            padding: 0px 1px 0px;
+            border-radius: 50%;
+            font-weight: normal;
+            font-size: 0.7em;
+            width: 20px;
+            text-align: center;
+            height: 19px;
+            line-height: 19px;
+            margin-top: 2px;
+            margin-right: 2px;
+            background-color: #f4f4f4;
+            cursor: pointer;
+        }
+
+/* TAB */
+.tab-header {
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
+    /* border: 1px solid #ccc; */
+    background-color: #999;
+    text-align: right;
 }
 
     /* Style the buttons that are used to open the tab content */
-    .tab button {
+    .tab-header button {
         background-color: inherit;
-        float: left;
+        /* float: left; */
         border: none;
         outline: none;
         cursor: pointer;
-        padding: 14px 16px;
+        padding: 6px 5px;
         transition: 0.3s;
+        height: 31px;
+        font-size: 0.8em;
     }
 
         /* Change background color of buttons on hover */
-        .tab button:hover {
+        .tab-header button:hover {
             background-color: #ddd;
         }
 
         /* Create an active/current tablink class */
-        .tab button.active {
-            background-color: #ccc;
+        .tab-header button.active {
+            background-color: #eee;
         }
 
 /* Style the tab content */
-.tabcontent {
+.tab-content {
     display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
+    /* padding: 6px 12px; */
     border-top: none;
 }
+
+#tab_grammar ul li span {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+    text-transform: capitalize;
+    font-weight: bold;
+    width: calc(100% - 32px);
+}
+
+.grammar_detail {
+    clear: both; /* display:  inline-block; */
+    padding: 5px 0 5px 35px;
+    background-color: #fff;
+    font-size: 0.9em;
+}
+
+    .grammar_detail h3 {
+        font-size: 0.9em;
+        font-weight: bold;
+        color: orange;
+        line-height: 16px;
+    }
+
+    .grammar_detail h5 {
+        font-size: 0.9em;
+        color: #999;
+    }
+
+    .grammar_detail p {
+        line-height: 19px;
+    } 
+
+    .grammar_detail a {
+        
+    } 
