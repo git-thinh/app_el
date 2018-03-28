@@ -64,6 +64,15 @@ function f_db_Query(m) {
     }
 
     switch (m.action) {
+        case 'FILE_LOAD':
+            setTimeout(function () {
+                m.ok = true;
+                m.result = {
+                    path: 'C:/nginx/app_el_sys/bin/Debug/english', 
+                };
+                self.postMessage(m);
+            }, 500);
+            break;
         case 'TREE_NODE':
             setTimeout(function () {
                 m.ok = true;
