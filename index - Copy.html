@@ -247,33 +247,76 @@ A more detailed introduction to The Service Worker Lifecycle
     </section>
 
     <div id="ui-page" style="display:none;">
+        <div id="ui-toolbar">
+            <ol>
+                <li class="btn-ico" do="ui_toggleTree"><i class=i-menu></i></li>
+                <li class="btn-ico"><i class=i-add></i></li>
+                <li class="btn-ico"><i class=i-edit></i></li>
+                <li class="btn-ico"><i class=i-remove></i></li>
+                <li class="btn-ico"><i class=i-refresh></i></li>
+                <li class="btn-ico" do="ui_toggleTree"><i class=i-menu></i></li>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                <li title="Slower" style="width:111px;"><i class=i-sub></i><b>Rate down</b></li>
+                <li title="Speeder" style="width:83px;"><i class=i-add></i><b>Rate up</b></li>
+                <li style="width:63px;"><i class=i-prev></i><b>Prev</b></li>
+                <li class="btn-ico hide"><i class=i-stop></i></li>
+                <li class="btn-ico"><i class=i-play></i></li>
+                <li class="btn-ico"><i class=i-pause></i></li>
+                <li style="width:69px;"><i class="i-next float-right"></i><b class="float-right">Next</b></li>
+                <li class="btn-ico" do="ui_toggletTab"><i class=i-app></i></li>
+            </ol>
+        </div>
         <div id="ui-category">
-            <ul class="toolbar">
-                <li do="ui_toggleTree"><i class="ico i-menu"></i></li>
-                <li><i class="ico i-add"></i></li>
-                <li><i class="ico i-edit"></i></li>
-                <li><i class="ico i-remove"></i></li>
-                <li><i class="ico i-refresh"></i></li>
-            </ul>
-            <div id="tree_category">
+            <div id="tree_data_cache">
                 <details id="tree_data">
                     <summary do="tree.on_node_click">Document</summary>
                 </details>
             </div>
         </div>
-        <div id="ui-content"> 
-            <ul class="toolbar">
-                <li do="ui_toggleTree"><i class="ico i-menu"></i></li>
-                <li class="flr" do="ui_toggletTab"><i class="ico i-app"></i></li>
-                <li class="flr" style="width:55px;"><i class="ico i-next float-right"></i><b class="float-right">Next</b></li>
-                <li class="flr"><i class="ico i-pause"></i></li>
-                <li class="flr"><i class="ico i-play"></i></li>
-                <li class="flr"><i class="ico i-stop"></i></li>
-                <li class="flr" style="width:63px;"><i class="ico i-prev"></i><b>Prev</b></li>
-                <li class="flr" title="Speeder" style="width:32px;"><i class="ico i-add"></i></li>
-                <li class="flr" title="Slower" style="width:27px;"><i class="ico i-sub"></i></li>
-                <li class="flr" style="width:39px;"><b>Rate</b></li>
-            </ul>
+        <div id="ui-content">
+            <details class="player-config" for="_CONFIG_TYPE_SPEECH" style="display:none;">
+                <summary><i></i></summary>
+                <ul>
+                    <li>
+                        <input type="checkbox" id="c1" checked />
+                        <label for="c1"><i></i><b>Repeat</b></label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_translate" checked="checked" onchange="if (this.hasAttribute('checked')) { window['_TRANSLATE'] = false; this.removeAttribute('checked'); } else { window['_TRANSLATE'] = true; this.setAttribute('checked','checked'); }" />
+                        <label for="chk_translate"><i></i><b>Translate</b></label>
+                    </li>
+                </ul>
+                <div class="hr"></div>
+                <input type="radio" id="r0" name="speech_type" value="SPEECH_ALL" />
+                <label for="r0"><i></i>Speech all</label>
+                <br />
+                <input type="radio" id="r1" name="speech_type" value="SPEECH_WORD" checked />
+                <label for="r1"><i></i>Speech word</label>
+                <br />
+                <input type="radio" id="r2" name="speech_type" value="SPEECH_CLAUSE" />
+                <label for="r2"><i></i>Speech clause</label>
+                <br />
+                <input type="radio" id="r4" name="speech_type" value="SPEECH_SENTENCE" />
+                <label for="r4"><i></i>Speech sentence</label>
+                <br />
+                <input type="radio" id="r5" name="speech_type" value="SPEECH_PARAGRAPH" />
+                <label for="r5"><i></i>Speech paragraph</label>
+                <div class="hr"></div>
+                <p class="align-right">
+                    <b>Delay time(ms):</b><br />
+                    <label>Words: </label><input type="text" value="1000" onchange="window['_DELAY_WORDS'] = this.value;" /><br />
+                    <label>Sentence: </label><input type="text" value="3000" onchange="window['_DELAY_SENTENCE'] = this.value;" /><br />
+                    <label>Paragraph: </label><input type="text" value="5000" onchange="window['_DELAY_PARAGRAPH'] = this.value;" /><br />
+                </p>
+                <div class="hr"></div>
+                <ul>
+                    <li>
+                        <input type="checkbox" id="chk_toast_speak_everywh" checked="checked" onchange="if (this.hasAttribute('checked')) { window['_TOAST_SPEECH'] = false; this.removeAttribute('checked'); } else { window['_TOAST_SPEECH'] = true; this.setAttribute('checked','checked'); }" />
+                        <label for="chk_toast_speak_everywh"><i></i><b>Speech everywhere</b></label>
+                    </li>
+                </ul>
+                <div class="hr"></div>
+            </details>
             <article for="_ARTICLE">
                 <h2><b><em><i>Introduction</i> <i>to</i> <i>Service</i> <i>Worker</i></em></b>.</h2>
                 <a>https://developers.google.com/web/ilt/pwa/introduction-to-service-worker</a>
@@ -389,15 +432,16 @@ self.addEventListener('activate', function(event) {
             </article>
         </div>
         <div id="ui-tabs">
-            <div class="tabs">
-                <button do="tab.on_item_click|tab_history">History</button>
-                <button do="tab.on_item_click|tab_bookmark">Bookmark</button>
-                <button do="tab.on_item_click|tab_reading">Reading</button>
-                <button do="tab.on_item_click|tab_grammar">Grammar</button>
-                <button do="tab.on_item_click|tab_word" class="active">Words</button>
-            </div>
-            <div class="tab-items"> 
-                <div id="tab_word" class="tab-content">
+            <div class="tab-box">
+                <div class="tab-header">
+                    <button do="tab_Open" for="tab_word">Words</button>
+                    <button do="tab_Open" for="tab_grammar">Grammar</button>
+                    <button do="tab_Open" for="tab_reading">Reading</button>
+                    <button do="tab_Open" for="tab_history">History</button>
+                    <button do="tab_Open" for="tab_bookmark">Bookmark</button>
+                </div>
+
+                <div id="tab_word" class="tab-content" for="_TAB_DETAIL">
                     <ul class="list-checkbox">
                         <li><i></i><label>Service</label><em>dịch vụ</em><b>9</b></li>
                         <li><i></i><label>Worker</label><em></em><b>88</b></li>
@@ -406,10 +450,10 @@ self.addEventListener('activate', function(event) {
                         <li><i></i><label>Close</label><em>đóng, thoát</em><b>4</b></li>
                     </ul>
                 </div>
-                <div id="tab_grammar" class="tab-content"></div>
-                <div id="tab_reading" class="tab-content"></div>
-                <div id="tab_history" class="tab-content"></div>
-                <div id="tab_bookmark" class="tab-content"></div>
+                <div id="tab_grammar" class="tab-content" for="_TAB_DETAIL"></div>
+                <div id="tab_reading" class="tab-content" for="_TAB_DETAIL"></div>
+                <div id="tab_history" class="tab-content" for="_TAB_DETAIL"></div>
+                <div id="tab_bookmark" class="tab-content" for="_TAB_DETAIL"></div>
             </div>
         </div>
     </div>

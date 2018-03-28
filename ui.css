@@ -14,6 +14,11 @@
     font-weight: normal;
 }
 
+ul, li {
+    list-style: none;
+    list-style-type: none;
+}
+
 html,
 body {
     overflow: hidden;
@@ -23,11 +28,11 @@ body {
     display: none;
 }
 
-.align-right {
+.align-right, .alr {
     text-align: right !important;
 }
 
-.float-right {
+.float-right, .flr {
     float: right !important;
 }
 
@@ -61,21 +66,55 @@ body {
     user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-/* MODULE - TEMPLATE */
+/* SCROLLBAR */
 
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 0px;
+    background-color: #eee;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    -webkit-box-shadow: none;
+    background-color: #aaa;
+}
+
+/* MODULE - TEMPLATE */
 section {
     position: absolute;
     display: table;
     width: 100%;
     height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
 }
 
+    section shadow {
+        background-color: #111;
+        opacity: 0.3;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+    }
+
     section content {
+        position: relative;
         display: table-cell;
         vertical-align: middle;
         text-align: center;
         width: 100%;
         height: 100%;
+        z-index: 5;
     }
 
         section content aside {
@@ -307,17 +346,6 @@ section {
 }
 
 /* MODULE - ui-indicator */
-#ui-indicator shadow {
-    background-color: #111;
-    opacity: 0.3;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
 #ui-indicator content {
     z-index: 3;
 }
@@ -329,21 +357,113 @@ section {
         width: 164px;
     }
 
-/* PAGE */
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 500;
-    font-style: inherit;
-    font-size: 16px;
-    line-height: 26px;
-    margin-bottom: 20px;
-    letter-spacing: 0;
-    color: #303030;
-    color: #212121;
-    margin: 0;
-    background: #fafafa;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    height: 100%;
+/* DETAILS */
+details {
+    cursor: pointer;
 }
 
+    details div {
+        padding-left: 16px;
+        color: #111;
+        font-weight: normal;
+    }
+
+
+    details[open] summary {
+        color: orange;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    details:not([open]) summary,
+    details ul li {
+        color: #111;
+        font-size: 13px;
+        font-weight: normal;
+    }
+
+    /* ICONS */
+
+    .ico:before {
+        display: inline-block;
+        font-style: normal;
+        font-variant-ligatures: normal;
+        font-variant-caps: normal;
+        font-variant-numeric: normal;
+        font-weight: normal;
+        font-stretch: normal;
+        font-size: 1.2em;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transform: translate(0, 0);
+        width: 1.3em;
+        font-family: "Ionicons";
+        text-align: center;
+        line-height: 1.0em;
+        min-width: 0.9em;
+    }
+
+.i-menu:before {
+    content: "\f130";
+}
+
+.i-app:before {
+    content: "\f13f";
+}
+
+.i-play:before {
+    content: "\f215";
+}
+
+.i-pause:before {
+    content: "\f210";
+}
+
+.i-stop:before {
+    content: "\f24f";
+}
+
+.i-speader:before {
+    content: "\f262";
+}
+
+.i-slower:before {
+    content: "\f260";
+}
+
+.i-speech:before {
+    content: "\f257";
+}
+
+.i-prev:before {
+    content: "\f3cf";
+}
+
+.i-next:before {
+    content: "\f3d1";
+}
+
+.i-refresh:before {
+    content: "\f459";
+}
+
+.i-add:before {
+    content: "\f48a";
+}
+
+.i-sub:before {
+    content: "\f463";
+}
+
+.i-edit:before {
+    content: "\f2bf";
+}
+
+.i-remove:before {
+    content: "\f4c4";
+}
+
+.i-check:before {
+    content: "\f4c4";
+}

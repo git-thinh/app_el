@@ -2,17 +2,14 @@
 String.prototype.createID = function () { return this.split('/').join('_').split('"').join('_').split('\'').join('_').split(':').join('_').split(' ').join('_'); }
 Object.prototype.generateID = function () { var id = new Date().getTime().toString(); if (this.hasAttribute('id')) { id = this.getAttribute('id'); } else { this.setAttribute('id', id); } return id; }
 
-/****************************************************************************/
-/* VARIABLE */
 var _API_OPEN = false;
 
-/****************************************************************************/
 var _WORKER = new Worker('worker.js');
 var ui = {
     m_elem_current_id: null,
     m_form_current: null,
     on_message_worker: function (e) {
-        console.log('UI: ', e.data);
+        console.log('WORK -> UI: ', e.data);
         var m = e.data;
         if (typeof m === 'string') {
         } else { ui.f_callback(m.callback, m); }
@@ -29,9 +26,10 @@ var ui = {
             if (el == null) el = e.target;
             if ((el.innerText == 'Cancel' || el.innerText == 'Ok') && el.tagName == 'BUTTON') { ui.dialog.f_cancel(el); } else {
                 if (el.hasAttribute('do')) {
-                    ui.m_elem_current_id = el.generateID();
+                    var id = el.generateID();
+                    ui.m_elem_current_id = id;
                     var rs = {};
-                    var m = { callback: el.getAttribute('do'), element: el };
+                    var m = { callback: el.getAttribute('do'), selector: id };
                     ui.f_callback(m.callback, m);
                 }
             }
@@ -58,7 +56,7 @@ var ui = {
     },
     f_callback: function (para, m) {
         if (para == null || para.toString().trim().length == 0) return;
-        console.log(para);
+        console.log('UI.CALLBACK: ', para);
         var s = '';
         if (typeof para === 'string') { s = para; } else {
             alert('f_callback() ????');
@@ -78,48 +76,17 @@ var ui = {
                         }
                     }
                 }
-                if (exist) { fi(m); } else {
+                if (exist) {
+                    if (m == null) { m = {}; }
+                    if (a.length > 1) { m.para = s.substring(a[0].length + 1, a.length).split('|'); }
+                    fi(m);
+                } else {
                     console.log('ERROR: cannot find function: ' + func + ' in check exist');
                 }
             }
         }
     },
     dialog: {
-        f_get_data: function (el) {
-            var data;
-            var mod = el.closest('section');
-            if (mod != null) {
-                var name, value, type;
-                data = {}
-                Array.from(mod.querySelectorAll('input, textarea')).forEach(function (it) {
-                    value = null;
-                    if (it.hasAttribute('name')) {
-                        name = it.getAttribute('name');
-                        switch (it.tagName) {
-                            case 'INPUT':
-                                if (it.hasAttribute('type')) {
-                                    type = it.getAttribute('type');
-                                    switch (type) {
-                                        case 'text': case 'password': case 'email': case 'number':
-                                            if (it.hasAttribute('value')) { value = it.getAttribute('value'); }
-                                            break;
-                                        case 'checkbox':
-                                            break;
-                                        case 'radio':
-                                            break;
-                                    }
-                                }
-                                break;
-                            case 'TEXTAREA':
-                                value = it.innerHTML;
-                                break;
-                        }
-                        if (value != null) { data[name] = value; }
-                    }
-                });
-            }
-            return data;
-        },
         f_hide_all: function () {
             Array.from(document.querySelectorAll('section')).forEach(function (el) { el.style.display = 'none'; });
         },
@@ -173,6 +140,56 @@ var ui = {
             }
         }
     },
+    tree: {
+        on_node_click: function (m) {
+            var el = document.getElementById(m.selector);
+            if (el != null) {
+                var pa = el.parentElement;
+                if (pa.tagName == 'DETAILS') {
+                    var img = document.createElement('img');
+                    img.id = m.selector + '.loading';
+                    img.src = '/indicator.gif';
+                    img.style.width = '100%';
+                    pa.appendChild(img);
+                }
+            }
+
+            m.action = 'TREE_NODE';
+            m.callback = 'tree.rs_node_click';
+            var input;
+            if (m.para == null || m.para.length == 0) {
+                input = { folder: '', path: '' };
+            } else {
+
+            }
+            m.input = input;
+            ui.f_post(m);
+        },
+        rs_node_click: function (m) {
+            console.log(m);
+            var img = document.getElementById(m.selector + '.loading');
+            if (img != null) { img.remove(); }
+            var el = document.getElementById(m.selector);
+            if (el != null) {
+                var s = '<ul>';
+                Array.from(m.result.dirs).forEach(function (it) {
+                    if (it.count > 0) {
+                        s += '<li><details><summary do="tree.on_node_click|' + it.name + '">' + it.name + '(' + it.count + ')</summary></li>';
+                    } else {
+                        s += '<li class="dir-empty">' + it.name + '</li>';
+                    }
+                });
+                Array.from(m.result.files).forEach(function (it) {
+                    s += '<li class="file" do="tree.on_file_click|' + it.name + '">' + it.title + '</li>';
+                });
+                s += '</ul>';
+
+                var div = document.createElement('div');
+                div.innerHTML = s;
+                el.parentElement.appendChild(div);
+            }
+        }
+    },
     api: {
         f_open: function () {
             ui.page.f_view_api_open();
@@ -198,15 +215,15 @@ var ui = {
             var el = ui.user.m_ele_login;
             if (el != null) { el.style.display = 'none'; }
         },
-        f_login_click: function (m) {
+        on_login_click: function (m) {
             m.action = 'USER_LOGIN';
-            m.callback = 'user.f_login_result';
+            m.callback = 'user.rs_login_click';
             console.log(m);
             ui.user.f_login_hide();
             ui.dialog.f_indicator_show('System authentication account ...');
             ui.f_post(m);
         },
-        f_login_result: function (m) {
+        rs_login_click: function (m) {
             console.log(m);
             ui.dialog.f_indicator_hide();
             if (m.ok == true) {
@@ -219,11 +236,11 @@ var ui = {
     },
     page: {
         f_start: function () {
-            ui.page.f_set_test_env();
-
-            //ui.dialog.f_indicator_hide();
+            ui.dialog.f_indicator_hide();
             //ui.user.f_login_show();
 
+
+            ui.page.f_set_test_env();
             ui.page.f_show();
         },
         f_set_test_env: function () {

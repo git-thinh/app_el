@@ -64,6 +64,33 @@ function f_db_Query(m) {
     }
 
     switch (m.action) {
+        case 'TREE_NODE':
+            setTimeout(function () {
+                m.ok = true;
+                m.result = {
+                    path: 'C:/nginx/app_el_sys/bin/Debug/english',
+                    dirs: [
+                        { name: 'folder 1', count: 0 },
+                        { name: 'folder 2', count: 3 },
+                        { name: 'folder 3', count: 5 },
+                        { name: 'folder 4', count: 0 },
+                        { name: 'folder 5', count: 3 },
+                        { name: 'folder 6', count: 9 },
+                        { name: 'folder 7', count: 7 },
+                        { name: 'folder 8', count: 99 }
+                    ],
+                    files: [
+                        { name: 'file1.txt', title: 'file 1', type: 'article' },
+                        { name: 'file2.txt', title: 'file 2', type: 'article' },
+                        { name: 'file3.txt', title: 'file 3', type: 'grammar' },
+                        { name: 'file4.txt', title: 'file 4', type: 'article' },
+                        { name: 'file5.txt', title: 'file 5', type: 'grammar' },
+                        { name: 'file6.txt', title: 'file 6', type: 'article' }
+                    ]
+                };
+                self.postMessage(m);
+            }, 500);
+            break;
         case 'USER_LOGIN':
             var u = m.input;
             if (u == null || u.password != 'admin') {
@@ -159,7 +186,7 @@ var on_message_websocket = function (e) {
 f_socket_Init();
 
 /* post message for UI when websocket reopen */
-function f_api_ReOpen() { 
+function f_api_ReOpen() {
     self.postMessage({ ok: true, callback: 'api.f_reopen' });
 }
 
