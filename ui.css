@@ -1,0 +1,349 @@
+﻿@charset "UTF-8";
+
+@font-face {
+    font-family: "Ionicons";
+    src: url("/ionicons/ionicons.eot?v=2.0.1");
+    src: url("/ionicons/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"), url("/ionicons/ionicons.ttf?v=2.0.1") format("truetype"), url("/ionicons/ionicons.woff?v=2.0.1") format("woff"), url("/ionicons/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    font-weight: normal;
+}
+
+html,
+body {
+    overflow: hidden;
+}
+
+.hide {
+    display: none;
+}
+
+.align-right {
+    text-align: right !important;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.hr {
+    clear: both;
+    display: inline-block;
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    margin: 5px 0;
+}
+
+.full-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.active {
+    background-color: orange;
+}
+
+.no-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+/* MODULE - TEMPLATE */
+
+section {
+    position: absolute;
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+    section content {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+    }
+
+        section content aside {
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fff;
+            min-width: 299px;
+        }
+
+            section content aside header {
+            }
+
+            section content aside h5 {
+                color: red;
+            }
+
+            section content aside header h3 {
+                padding: 10px 0;
+            }
+
+            section content aside header button {
+            }
+
+            section content aside fieldset {
+                border: none;
+                display: table;
+                padding: 5px 7px;
+            }
+
+                section content aside fieldset em {
+                    display: inline-block;
+                    width: 100%;
+                    padding: 0px;
+                    text-align: right;
+                }
+
+                    section content aside fieldset em b {
+                        font-size: 0.7em;
+                        border: 1px solid #ccc;
+                        border-radius: 3px;
+                        padding: 2px 5px;
+                        margin-right: 6px;
+                        background-color: #f4f4f4;
+                        cursor: pointer;
+                    }
+
+                        section content aside fieldset em b:hover {
+                            background-color: orange;
+                        }
+
+                section content aside fieldset label {
+                    display: table-cell;
+                    font-size: 0.8em;
+                    width: 79px;
+                    text-align: right;
+                    padding-right: 3px;
+                    position: relative;
+                    vertical-align: top;
+                    color: #555;
+                    line-height: 31px;
+                }
+
+                section content aside fieldset p {
+                    display: table-cell;
+                    font-size: 0.9em;
+                    line-height: 30px;
+                    font-weight: bold;
+                }
+
+                section content aside fieldset span {
+                    display: table-cell;
+                }
+
+                section content aside fieldset input[type="text"],
+                section content aside fieldset input[type="password"],
+                section content aside fieldset textarea {
+                    font-size: 0.9em;
+                    border: 1px solid #ddd;
+                    font-weight: normal;
+                }
+
+                section content aside fieldset input[type="text"], section content aside fieldset input[type="password"] {
+                    padding: 7px 7px;
+                    /* border: 1px solid #999; */
+                    border-radius: 3px;
+                }
+
+                section content aside fieldset textarea {
+                    padding: 7px 7px;
+                    /* border: 1px solid #999; */
+                    border-radius: 3px;
+                    min-width: 350px;
+                    min-height: 199px;
+                }
+
+            section content aside footer {
+                display: inline-block;
+                text-align: right;
+                padding: 10px 20px 0 0;
+                width: calc(100% - 20px);
+            }
+
+                section content aside footer button {
+                    background: #3498db;
+                    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+                    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+                    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+                    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+                    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+                    -webkit-border-radius: 5;
+                    -moz-border-radius: 5;
+                    border-radius: 3px;
+                    font-family: Arial;
+                    color: #ffffff;
+                    font-size: 13px;
+                    padding: 7px 9px;
+                    text-decoration: none;
+                    border: 1px solid #999;
+                    cursor: pointer;
+                    min-width: 56px;
+                }
+
+                    section content aside footer button:hover {
+                        background: #3cb0fd;
+                        background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+                        background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+                        background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+                        background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+                        background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+                        text-decoration: none;
+                    }
+
+/* MODULE - ui-alert */
+#ui-input aside,
+#ui-alert aside,
+#ui-confirm aside {
+    min-width: 350px;
+}
+
+    #ui-input aside fieldset, #ui-input aside footer,
+    #ui-alert aside fieldset, #ui-alert aside footer,
+    #ui-confirm aside fieldset, #ui-confirm aside footer {
+        text-align: center;
+    }
+
+    #ui-input aside footer,
+    #ui-alert aside footer,
+    #ui-confirm aside footer {
+        padding: 10px 0;
+        width: 100%;
+    }
+
+#ui-input fieldset p,
+#ui-alert fieldset p,
+#ui-confirm fieldset p {
+    width: 100%;
+    display: inline-block;
+    font-weight: normal;
+}
+
+#ui-input fieldset p {
+    text-align: left;
+}
+
+#ui-input fieldset span {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+}
+
+#ui-input fieldset input {
+    width: calc(100% - 14px);
+}
+
+/* MODULE - ui-content-edit */
+#ui-content-edit aside {
+    min-width: 799px;
+    min-height: 599px;
+    padding: 10px 0;
+}
+
+    #ui-content-edit aside fieldset {
+        padding: 0;
+    }
+
+#ui-content-edit input[type="text"],
+#ui-content-edit textarea {
+    width: calc(100% - 14px);
+    padding: 7px;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    border-color: #f4f4f4;
+}
+
+#ui-content-edit textarea {
+    height: 455px;
+}
+
+#ui-content-edit fieldset label,
+#ui-content-edit fieldset p {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+}
+
+#ui-content-edit fieldset label {
+    padding-right: 10px;
+    text-align: right;
+    width: calc(100% - 10px);
+}
+
+#ui-content-edit fieldset input[type="text"] {
+    font-weight: bold;
+    font-size: 1.5em;
+    border: none;
+}
+
+#ui-content-edit fieldset textarea {
+    height: calc(100vh - 230px);
+}
+
+/* MODULE - ui-folder-edit */
+#ui-folder-edit fieldset label {
+    width: 39px;
+}
+
+/* MODULE - ui-indicator */
+#ui-indicator shadow {
+    background-color: #111;
+    opacity: 0.3;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#ui-indicator content {
+    z-index: 3;
+}
+
+    #ui-indicator content p {
+    }
+
+    #ui-indicator content img {
+        width: 164px;
+    }
+
+/* PAGE */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    font-style: inherit;
+    font-size: 16px;
+    line-height: 26px;
+    margin-bottom: 20px;
+    letter-spacing: 0;
+    color: #303030;
+    color: #212121;
+    margin: 0;
+    background: #fafafa;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    height: 100%;
+}
+

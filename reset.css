@@ -1,12 +1,4 @@
-﻿@charset "UTF-8";
-
-@font-face {
-    font-family: "Ionicons";
-    src: url("/ionicons/ionicons.eot?v=2.0.1");
-    src: url("/ionicons/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"), url("/ionicons/ionicons.ttf?v=2.0.1") format("truetype"), url("/ionicons/ionicons.woff?v=2.0.1") format("woff"), url("/ionicons/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-    font-weight: normal;
-    font-style: normal;
-}
+﻿
 
 /*! normalize.css v8.0.0 */
 html {
@@ -654,24 +646,7 @@ input[type="radio"] + label i:before {
 
 /* PAGE */
 
-* {
-    padding: 0;
-    margin: 0;
-    font-weight: normal;
-}
 
-html,
-body {
-    overflow: hidden;
-}
-
-.hide {
-    display: none;
-}
-
-.align-right {
-    text-align: right !important;
-}
 
 
 .btn-ico {
@@ -683,15 +658,4 @@ body {
         float: none;
     }
 
-.float-right {
-    float: right !important;
-}
 
-.hr {
-    clear:both;
-    display: inline-block;
-    width: 100%;
-    height: 1px;
-    background-color: #ccc;
-    margin: 5px 0;
-}

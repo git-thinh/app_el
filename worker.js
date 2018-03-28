@@ -1,4 +1,2 @@
-﻿importScripts('localforage.min.js');
-importScripts('api.js');
-self.onmessage = api.on_message;
-api.f_init();
+﻿importScripts('worker/localforage.min.js', 'worker/api.js');
+self.onmessage = on_message_ui;

@@ -1,308 +1,261 @@
-﻿
+﻿//window.console.log = function (title, data) { };
 String.prototype.createID = function () { return this.split('/').join('_').split('"').join('_').split('\'').join('_').split(':').join('_').split(' ').join('_'); }
+Object.prototype.generateID = function () { var id = new Date().getTime().toString(); if (this.hasAttribute('id')) { id = this.getAttribute('id'); } else { this.setAttribute('id', id); } return id; }
 
 /****************************************************************************/
 /* VARIABLE */
-
-var _CACHE = {};
-
-var _TOAST_SPEECH = true;
-var _READING = false;
-
-var _PANEL_TREE = document.getElementById('ui-category');
-var _PANEL_TAB = document.getElementById('ui-tabs');
-
-var _TRANSLATE = true;
-
-var _DELAY_WORDS = 1000;
-var _DELAY_SENTENCE = 3000;
-var _DELAY_PARAGRAPH = 5000;
-
-var _TAG_ARTICLE = "ARTICLE";
-var _TAG_TITLE = "H2";
-var _TAG_HEADING = "H3";
-var _TAG_NOTE = "SPAN";
-var _TAG_PARAGRAPH = "P";
-var _TAG_SENTENCE = "B";
-var _TAG_CLAUSE = "EM";
-var _TAG_WORD = "I";
-
-var _SPEECH_TYPE = (localStorage['_SPEECH_TYPE'] == null ? 'SPEECH_WORD' : localStorage['_SPEECH_TYPE']);
-if (localStorage['_SPEECH_TYPE'] != 'SPEECH_WORD') Array.from(document.querySelector('input[name="speech_type"]')).forEach(function (_it) {
-    if (_it.getAttribute('value') == localStorage['_SPEECH_TYPE'])
-        _it.setAttribute('checked', 'checked');
-    else if (_it.hasAttribute('checked'))
-        _it.removeAttribute('checked');
-});
-
-var _WORKER = new Worker('worker.js');
-_WORKER.onmessage = event_processMessage;
-window.onclick = event_elementClick;
-window.ondblclick = event_elementDblClick;
-var postMessage = function (msg) { _WORKER.postMessage(msg); }
+var _API_OPEN = false;
 
 /****************************************************************************/
-/* EVENT */
-
-function ERROR_CONNECT_API() {
-    //document.getElementById('dialog_Alert').show();
-}
-
-var _timer_SYSTEM_READY = null;
-function SYSTEM_READY(m) {
-    var page = document.getElementById('ui-page');
-    if (page != null) {
-        if (_timer_SYSTEM_READY != null) {
-            clearTimeout(_timer_SYSTEM_READY);
-            _timer_SYSTEM_READY = null;
-        }
-        page.style.display = 'flex';
-        console.log('SYSTEM_READY');
-
-        postMessage({ action: 'GRAM_ALL_KEY', callback: 'tab_Gram_BindList' });
-    } else {
-        _timer_SYSTEM_READY = setTimeout(SYSTEM_READY, 50);
-    }
-}
-
-function event_processMessage(event) {
-    var it = event.data;
-    if (typeof it === 'string') { } else {
-        if (it.ok) {
-            var _func = it.callback;
-            if (typeof window[_func] === 'function')
-                window[_func](it);
+var _WORKER = new Worker('worker.js');
+var ui = {
+    m_elem_current_id: null,
+    m_form_current: null,
+    on_message_worker: function (e) {
+        console.log('UI: ', e.data);
+        var m = e.data;
+        if (typeof m === 'string') {
+        } else { ui.f_callback(m.callback, m); }
+    },
+    on_click_ui: function (e) {
+        var el = e.target;
+        console.log('UI.CLICK: ', el.tagName);
+        if (el.hasAttribute('type') && el.getAttribute('type') == 'submit') {
+            ui.m_elem_current_id = el.generateID();
+            ui.m_form_current = el.closest('form');
         } else {
-            if (it.msg != null) { toast(it.msg); }
-        }
-    }
-}
-
-function event_elementClick(event) {
-    var _el = event.target;
-    console.log('CLICK: ', _el);
-    var _do = _el.closest('*[do]');
-    if (_do != null) {
-        var _func = _do.getAttribute('do');
-        functionExecute(_el, _func);
-    } else {
-        var _isArticale = false, _text = '';
-        var _pa = _el.closest('*[for]');
-        if (_pa != null) {
-            var _for = _pa.getAttribute('for');
-            switch (_for) {
-                case '_CONFIG_TYPE_SPEECH':
-                    var _val = _el.getAttribute('value');
-                    if (_val != null && _val.indexOf('SPEECH_') != -1) {
-                        _SPEECH_TYPE = _val;
-                        localStorage['_SPEECH_TYPE'] = _SPEECH_TYPE;
-                        if (_pa.hasAttribute('open')) _pa.removeAttribute('open');
-                    }
-                    break;
-                case '_ARTICLE': case '_TAB_DETAIL':
-                    _isArticale = true;
-                    var _target, _tagName = _el.tagName;
-                    if (_el.tagName == _TAG_PARAGRAPH) {
-                        _text = _el.innerText;
-                    } else
-                        switch (_SPEECH_TYPE) {
-                            case 'SPEECH_WORD':
-                                _text = _el.innerText;
-                                break;
-                            case 'SPEECH_CLAUSE':
-                                _target = _el.closest(_TAG_CLAUSE);
-                                if (_target != null)
-                                    _text = _target.innerText;
-                                else
-                                    _text = _el.innerText.split('.')[0];
-                                break;
-                            case 'SPEECH_SENTENCE':
-                                _target = _el.closest(_TAG_SENTENCE);
-                                if (_target != null)
-                                    _text = _target.innerText;
-                                break;
-                            case 'SPEECH_PARAGRAPH':
-                                _target = _el.closest(_TAG_PARAGRAPH);
-                                if (_target != null)
-                                    _text = _target.innerText;
-                                break;
-                        }
-                    if (_for == '_TAB_DETAIL') _text = _el.innerText;
-
-                    if (_text != null && _text.length > 0) {
-                        var rs = document.querySelector('._READING');
-                        if (rs != null) rs.className = '';
-                        if (_SPEECH_TYPE == 'SPEECH_WORD')
-                            _el.className = '_READING';
-                        else {
-                            if (_target == null)
-                                _el.className = '_READING';
-                            else _target.className = '_READING';
-                        }
-
-                        console.log(_SPEECH_TYPE, _text);
-                        _speech_Text(_text);
-                    }
-                    break;
+            ui.m_form_current = null;
+            var el = document.getElementById('null');
+            if (el == null) el = e.target;
+            if ((el.innerText == 'Cancel' || el.innerText == 'Ok') && el.tagName == 'BUTTON') { ui.dialog.f_cancel(el); } else {
+                if (el.hasAttribute('do')) {
+                    ui.m_elem_current_id = el.generateID();
+                    var rs = {};
+                    var m = { callback: el.getAttribute('do'), element: el };
+                    ui.f_callback(m.callback, m);
+                }
             }
         }
-        if (!_isArticale) {
-            //_text = _el.innerText.trim();
-            //if (_TOAST_SPEECH && _text != null && _text.trim().length > 0) {
-            //    toast(_text, 9000);
-            //    console.log(_SPEECH_TYPE, _text);
-            //    _speech_Text(_text);
-            //}
-        }
-    }
-    //event.preventDefault();
-}
-
-function event_elementDblClick(event) {
-    //api.callback(event.target, 'dblclick');
-    console.log('DBLCLICK: ', event.target);
-}
-
-/****************************************************************************/
-/* UI */
-
-function tab_Gram_BindList(m) {
-    var li = '<ul class="list-checkbox">';
-    Array.from(m.result).forEach(function (_it, _index) {
-        var id = '^detail.' + _it.createID() + '.S.H';
-        sessionStorage[id] = 'hide';
-        var m = { id: _it, action: 'GRAM_DETAIL_BY_KEY', callback: 'tab_Gram_BindDetail', selector: id };
-        _CACHE[id] = m;
-        li += '<li><i></i><span do="postMessage|' + id + '">' + _it + '</span><div class="hide grammar_detail" id=' + id + '></div></li>';
-    });
-    li += '</ul>';
-    document.getElementById('tab_grammar').innerHTML = li;
-}
-
-function tab_Gram_BindDetail(m) {
-    console.log(m);
-    var eDetail = document.getElementById(m.selector);
-    if (eDetail != null) {
-        var o = m.result;
-        if (o != null) {
-            Array.from(document.querySelector('.grammar_detail')).forEach(function (_it) { _it.style.display = 'none'; });
-            eDetail.innerHTML =
-                '<h3><a>' + o.Struct.split('|').join('</a><br><a>') + '</a></h3>' +
-                '<h5><a>' + o.Explain.split('|').join('</a><br><a>') + '</a></h5>' +
-                '<p><a>' + o.Example.split('|').join('</a><br><a>') + '</a></p>';
-            eDetail.style.display = 'block';
-            sessionStorage[m.selector] = 'show';
-        }
-    }
-}
-
-function tab_Open(elem) {
-    if (elem == null) return;
-    var i, _tabName = (elem.hasAttribute('for') ? elem.getAttribute('for') : '');
-    if (_tabName == '') return;
-
-    Array.from(elem.closest('.tab-box').querySelectorAll('.tab-content')).forEach(function (val) {
-        val.style.display = 'none';
-    });
-
-    Array.from(elem.parentElement.querySelectorAll('button')).forEach(function (val) {
-        val.className = '';
-    });
-
-    var _con = document.getElementById(_tabName);
-    if (_con != null) _con.style.display = 'block';
-    elem.className = "active";
-}
-tab_Open(document.querySelector('button[for="tab_grammar"]'));
-
-function _speech_Text(text) {
-    _WORKER.postMessage(text);
-}
-
-function event_mousemove_Word_Sentence_Paragraph(e) {
-    e.target.style.backgroundColor = 'yellow';
-}
-
-var _timer_toast = null;
-function toast(text, _timeOut) {
-    if (text == null || text.trim().length == 0) return;
-
-    console.log(text);
-    var _toast = document.getElementById("toast");
-    if (_toast != null) {
-        _toast.innerHTML = text;
-        _toast.className = "show";
-        if (_timeOut == null) _timeOut = 2000;
-        clearTimeout(_timer_toast);
-        _timer_toast = setTimeout(function () {
-            _toast.className = _toast.className.replace("show", "");
-            clearTimeout(_timer_toast);
-        }, _timeOut);
-    }
-}
-
-function functionExecute(_el, para) {
-    var a = para.split('|');
-    var _func = a[0], p = null;
-    if (a.length > 1)
-        p = para.substring(_func.length + 1, para.length);
-
-    if (typeof window[_func] === 'function') {
-        if (p == null)
-            window[_func](_el);
-        else {
-            p = p.toString().trim();
-            if (p.indexOf('.S.H') != -1) {
-                if (sessionStorage[p] == 'show') {
-                    var _target = document.getElementById(p);
-                    if (_target != null) {
-                        _target.style.display = 'none';
-                        sessionStorage[p] = 'hide';
-                        return;
+    },
+    f_post: function (m) { _WORKER.postMessage(m); },
+    f_form_submit: function (callback) {
+        var form = ui.m_form_current;
+        if (form != null && form.elements != null) {
+            var data = {};
+            var formElements = form.elements, name;
+            for (var i = 0; i < formElements.length; i++) {
+                if (formElements[i].type != "submit") {
+                    name = formElements[i].name;
+                    if (name != null && name.toString().trim().length != 0) {
+                        data[formElements[i].name] = formElements[i].value;
                     }
                 }
             }
-            if (p[0] == '^') {
-                var val = _CACHE[p];
-                window[_func](val);
-            } else
-                window[_func](_el, p);
+            var m = { selector: ui.m_elem_current_id, input: data };
+            console.log('FORM: ', m);
+            ui.f_callback(callback, m);
+        } else { console.log('Cannot find form to submit.'); }
+    },
+    f_callback: function (para, m) {
+        if (para == null || para.toString().trim().length == 0) return;
+        console.log(para);
+        var s = '';
+        if (typeof para === 'string') { s = para; } else {
+            alert('f_callback() ????');
         }
-    }
-}
-/****************************************************************************/
-/* PANEL TAB - PANEL TREE */
+        if (s != '') {
+            var a = s.split('|'), func = a[0].trim();
+            if (func.length > 0) {
+                var fs = func.split('.'), fn = fs[0], fi = ui[fn], exist = true;
+                if (fi == null) { exist = false; } else {
+                    for (var i = 1; i < fs.length; i++) {
+                        fn = fs[i];
+                        if (fi[fn] != null && typeof fi[fn] === 'function') {
+                            fi = fi[fn];
+                        } else {
+                            exist = false;
+                            break;
+                        }
+                    }
+                }
+                if (exist) { fi(m); } else {
+                    console.log('ERROR: cannot find function: ' + func + ' in check exist');
+                }
+            }
+        }
+    },
+    dialog: {
+        f_get_data: function (el) {
+            var data;
+            var mod = el.closest('section');
+            if (mod != null) {
+                var name, value, type;
+                data = {}
+                Array.from(mod.querySelectorAll('input, textarea')).forEach(function (it) {
+                    value = null;
+                    if (it.hasAttribute('name')) {
+                        name = it.getAttribute('name');
+                        switch (it.tagName) {
+                            case 'INPUT':
+                                if (it.hasAttribute('type')) {
+                                    type = it.getAttribute('type');
+                                    switch (type) {
+                                        case 'text': case 'password': case 'email': case 'number':
+                                            if (it.hasAttribute('value')) { value = it.getAttribute('value'); }
+                                            break;
+                                        case 'checkbox':
+                                            break;
+                                        case 'radio':
+                                            break;
+                                    }
+                                }
+                                break;
+                            case 'TEXTAREA':
+                                value = it.innerHTML;
+                                break;
+                        }
+                        if (value != null) { data[name] = value; }
+                    }
+                });
+            }
+            return data;
+        },
+        f_hide_all: function () {
+            Array.from(document.querySelectorAll('section')).forEach(function (el) { el.style.display = 'none'; });
+        },
+        f_cancel: function (el) {
+            var mod = el.closest('section');
+            if (mod != null) {
+                mod.style.display = 'none';
+            }
+        },
+        f_input_show: function () {
+            var el = document.getElementById('ui-input');
+            if (el != null) {
+                el.style = '';
+            }
+        },
+        f_indicator_show: function (msg, callback) {
+            var el = document.getElementById('ui-indicator');
+            if (el != null) {
+                el.style = '';
+            }
+        },
+        f_indicator_hide: function () {
+            var el = document.getElementById('ui-indicator');
+            if (el != null) { el.style.display = 'none'; }
+        },
+        f_alert_show: function (msg, title, hideOK, callback) {
+            if (msg == null) return;
+            var el = document.getElementById('ui-alert');
+            if (el != null) {
+                el.style = '';
+                el.querySelector('p').innerHTML = msg;
+                if (title != null) {
+                    el.querySelector('h3').innerHTML = title;
+                    if (title.toLowerCase() == 'error') {
+                        el.style.backgroundColor = 'red';
+                    } else {
+                        el.style.backgroundColor = '#fff';
+                    }
+                }
+                if (hideOK) { el.querySelector('button').style.display = 'none'; } else { el.querySelector('button').style = 'block'; }
+            }
+        },
+        f_alert_hide: function () {
+            var el = document.getElementById('ui-alert');
+            if (el != null) { el.style.display = 'none'; }
+        },
+        f_confirm_show: function (msg, title, callback_ok, callback_cancel) {
+            var el = document.getElementById('ui-confirm');
+            if (el != null) {
+                el.style = '';
+            }
+        }
+    },
+    api: {
+        f_open: function () {
+            ui.page.f_view_api_open();
+        },
+        f_reopen: function () {
+            ui.page.f_view_api_reopen();
+        },
+        f_close: function () {
+            ui.page.f_view_api_cannot_connect();
+        },
+    },
+    user: {
+        m_account: null,
+        m_ele_login: document.getElementById('ui-login'),
+        f_login_show: function (msg) {
+            var el = ui.user.m_ele_login;
+            if (el != null) {
+                el.style = '';
+                if (msg != null) { el.querySelector('h5').innerHTML = msg; } else { el.querySelector('h5').innerHTML = ''; }
+            }
+        },
+        f_login_hide: function () {
+            var el = ui.user.m_ele_login;
+            if (el != null) { el.style.display = 'none'; }
+        },
+        f_login_click: function (m) {
+            m.action = 'USER_LOGIN';
+            m.callback = 'user.f_login_result';
+            console.log(m);
+            ui.user.f_login_hide();
+            ui.dialog.f_indicator_show('System authentication account ...');
+            ui.f_post(m);
+        },
+        f_login_result: function (m) {
+            console.log(m);
+            ui.dialog.f_indicator_hide();
+            if (m.ok == true) {
+                ui.user.m_account = m.result;
+                ui.page.f_view_login_success();
+            } else {
+                ui.user.f_login_show(m.result);
+            }
+        }
+    },
+    page: {
+        f_start: function () {
+            ui.page.f_set_test_env();
 
-if (localStorage['_PANEL_TREE'] != null)
-    _PANEL_TREE.style.display = localStorage['_PANEL_TREE'];
-function ui_toggleTree(elem) {
-    if (isHidden(_PANEL_TREE)) {
-        // HIDE => SHOW
-        _PANEL_TREE.style.display = 'block';
-        localStorage['_PANEL_TREE'] = 'block';
-    } else {
-        // SHOW => HIDE
-        _PANEL_TREE.style.display = 'none';
-        localStorage['_PANEL_TREE'] = 'none';
-    }
-}
+            //ui.dialog.f_indicator_hide();
+            //ui.user.f_login_show();
 
-/* PANEL TAB */
-if (localStorage['_PANEL_TAB'] != null)
-    _PANEL_TAB.style.display = localStorage['_PANEL_TAB'];
-function ui_toggletTab(elem) {
-    if (isHidden(_PANEL_TAB)) {
-        // HIDE => SHOW
-        _PANEL_TAB.style.display = 'block';
-        localStorage['_PANEL_TAB'] = 'block';
-    } else {
-        // SHOW => HIDE
-        _PANEL_TAB.style.display = 'none';
-        localStorage['_PANEL_TAB'] = 'none';
+            ui.page.f_show();
+        },
+        f_set_test_env: function () {
+            document.querySelector('input[type="password"]').setAttribute('value', 'admin');
+        },
+        m_ele_page: document.getElementById('ui-page'),
+        f_hide: function () {
+            var el = ui.page.m_ele_page;
+            el.style.display = 'none';
+        },
+        f_show: function () {
+            var el = ui.page.m_ele_page;
+            el.style.display = 'flex';
+        },
+        f_view_api_open: function () {
+            ui.page.f_start();
+        },
+        f_view_api_reopen: function () {
+            ui.dialog.f_alert_hide();
+            ui.dialog.f_indicator_hide();
+            ui.user.f_login_show();
+        },
+        f_view_api_cannot_connect: function () {
+            //ui.page.f_hide();
+            //ui.dialog.f_hide_all();
+            ui.dialog.f_alert_show('Cannot connect to service.', 'Error', true);
+        },
+        f_view_login_success: function () {
+            ui.dialog.f_alert_show('Login successfully');
+            ui.page.f_show();
+        },
     }
-}
-
-function isHidden(el) {
-    var style = window.getComputedStyle(el);
-    return (style.display === 'none')
-}
+};
+_WORKER.onmessage = ui.on_message_worker;
+window.onclick = ui.on_click_ui;
