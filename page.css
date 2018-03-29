@@ -83,10 +83,10 @@ ul.toolbar {
 
     ul.toolbar li {
         float: left;
-        font-size:  0.9em;
-        line-height:  18px;
-        padding-top:  3px;
-        color:  #666;
+        font-size: 0.9em;
+        line-height: 18px;
+        padding-top: 3px;
+        color: #666;
     }
 
 /* TABS */
@@ -115,7 +115,7 @@ div.tabs {
 
         div.tabs button.active, div.tabs button:hover {
             background-color: #eee;
-            color:  #000;
+            color: #000;
         }
 
 div.tab-items {
@@ -152,12 +152,11 @@ div.tab-content {
 
         #tree_category details ul li.file {
             padding: 0 0 0 14px;
-            color: #111;
+            /* color: #111; */
         }
 
 /* ARTICLE */
-
-article {
+#ui-article {
     position: absolute;
     width: 100%;
     overflow-y: auto;
@@ -167,6 +166,9 @@ article {
     display: inline-block;
     background-color: #fff;
     top: 25px;
+}
+
+article {
 }
 
     article h2, article h3, article p, article span, article ul {
@@ -199,8 +201,8 @@ article {
 
     article ul {
         padding-bottom: 11px;
-        padding-left: 50px;
-        width: calc(100% - 50px);
+        padding: 0px 10px 9px 50px;
+        width: calc(100% - 60px);
     }
 
         article ul li {
@@ -213,10 +215,11 @@ article {
         font: 14px/20px Roboto Mono,monospace;
         margin: 16px 0;
         overflow-x: auto;
-        padding: 8px;
+        padding: 8px 20px 8px 50px;
         position: relative;
-        background-color: #eee;
+        background-color: #f5f5f5;
         color: #37474f;
+        width: calc(100% - 70px);
     }
 
     article a {
@@ -277,4 +280,19 @@ article {
 
 ._READING {
     background-color: yellow !important;
+}
+
+#tab_word table tr td:nth-child(2) {
+    font-weight: bold;
+}
+
+#tab_word table tr td {
+    border-bottom: 1px solid #ccc;
+}
+
+ul li.file.active {
+    background-color: transparent;
+    font-weight: bold;
+    color: orangered;
+    font-size: 0.9em;
 }

@@ -167,6 +167,16 @@ var ui = {
             }
         }
     },
+    article: {
+        m_ele_article: document.getElementById('ui-article'),
+        f_load: function (m) {
+            var el = ui.article.m_ele_article;
+            if (el != null) {
+                el.innerHTML = m.result;
+                el.scrollTop = 0;
+            }
+        }
+    },
     tree: {
         m_ele_tree: document.getElementById('ui-category'),
         on_toggle_click: function (m) {
@@ -178,13 +188,14 @@ var ui = {
         on_node_click: function (m) {
             var el = document.getElementById(m.selector);
             if (el != null) {
-                var img = document.createElement('img');
-                img.id = m.selector + '.loading';
-                img.src = '/indicator.gif';
-                img.style.width = '100%';
-
                 var pa = el.parentElement;
                 if (pa.tagName == 'DETAILS') {
+                    /* Load subfolder and files */
+                    var img = document.createElement('img');
+                    img.id = m.selector + '.loading';
+                    img.src = '/indicator.gif';
+                    img.style.width = '100%';
+
                     pa.appendChild(img);
                     m.action = 'TREE_NODE';
                     m.callback = 'tree.rs_node_click';
@@ -197,7 +208,9 @@ var ui = {
                     m.input = input;
                     ui.f_post(m);
                 } else if (el.tagName == 'LI') {
-                    el.insertAdjacentElement('afterend', img);
+                    /* Load content file */
+                    //el.insertAdjacentElement('afterend', img);
+                    ui.dialog.f_indicator_show('Please wait for loading article ...!');
                     m.action = 'FILE_LOAD';
                     m.callback = 'tree.rs_node_click';
                     var input;
@@ -211,11 +224,43 @@ var ui = {
         },
         rs_node_click: function (m) {
             console.log(m);
-            var img = document.getElementById(m.selector + '.loading');
-            if (img != null) { img.remove(); }
+            /* Load content file */
             if (m.action == 'FILE_LOAD') {
-
+                switch (m.result_type) {
+                    case 'html':
+                        ui.article.f_load(m);
+                        ui.dialog.f_indicator_hide();
+                        var el = document.getElementById(m.selector);
+                        if (el != null) {
+                            Array.from(document.querySelectorAll('li.file')).forEach(function (it) { it.className = 'file'; });
+                            el.className = 'file active'
+                        }
+                        break;
+                    case 'text':
+                        var file = m.input.name;
+                        sessionStorage[file] = m.result;
+                        break;
+                    case 'word':
+                        var arrayWords = m.result;
+                        if (arrayWords != null && arrayWords.length > 0) {
+                            var el = ui.tab.m_ele_tab_word;
+                            if (el != null) {
+                                var s = '<table class="table-master-detail">'
+                                Array.from(arrayWords).forEach(function (it, index) {
+                                    s += '<tr id=' + it.w + '_w><td></td><td>' + it.w + '</td>' +
+                                        '<td id=' + it.w + '_m></td>' +
+                                        '<td>' + it.k + '</td>' +
+                                        '<td><i class="ico i-plus" do="tab.on_word_detail_click|' + it.w + '"></i></td>' +
+                                        '</tr><tr class=detail><td colspan=5 id=' + it.w + '_wd></td></tr>';
+                                });
+                                s += '</table';
+                                el.innerHTML = s;
+                            }
+                        }
+                        break;
+                }
             } else {
+                /* load sub folder and files */
                 var el = document.getElementById(m.selector);
                 if (el != null) {
                     var s = '<ul>';
@@ -235,15 +280,48 @@ var ui = {
                     div.innerHTML = s;
                     el.parentElement.appendChild(div);
                 }
+                var img = document.getElementById(m.selector + '.loading');
+                if (img != null) { img.remove(); }
             }
         }
     },
     tab: {
         m_ele_tab: document.getElementById('ui-tabs'),
+        m_ele_tab_word: document.getElementById('tab_word'),
         on_toggle_click: function (m) {
             var el = ui.tab.m_ele_tab;
             if (el != null) {
                 if (el.style.display == 'none') { el.style = ''; ui.cookie.f_set('TAB', 'block'); } else { el.style.display = 'none'; ui.cookie.f_set('TAB', 'none'); }
+            }
+        },
+        on_word_detail_click: function (m) {
+            console.log(m);
+            if (m.para != null && m.para.length > 0) {
+                var word = m.para[0];
+                var sel = document.getElementById(m.selector);
+                var el = document.getElementById(word + '_wd');
+                if (sel != null && el != null) {
+                    if (el.parentElement.style.display != 'table-row') {
+                        el.parentElement.style.display = 'table-row';
+                        sel.className = 'ico i-minus';
+                        //el.innerHTML = '<img class=loading src="/indicator.gif"/>';
+                        var ul = '<ul>', _word_iff = ' ' + word + ' ', _word_replace = ' <b>' + word + '</b> ';
+                        Array.from(document.querySelectorAll('article em')).forEach(function (it) {
+                            var tex = it.innerText;
+                            if (tex != null) {
+                                tex = ' ' + tex.trim().toLowerCase() + ' ';
+                                if (tex.indexOf(_word_iff) != -1) {
+                                    ul += '<li>' + tex.split(_word_iff).join(_word_replace) + '</li>';
+                                }
+                            }
+                        });
+                        ul += '</ul>';
+                        el.innerHTML = ul;
+                    } else {
+                        el.parentElement.style = '';
+                        sel.className = 'ico i-plus';
+                    }
+                }
             }
         },
     },
@@ -307,6 +385,7 @@ var ui = {
         },
         f_set_test_env: function () {
             document.querySelector('input[type="password"]').setAttribute('value', 'admin');
+            document.getElementById('tree_data').firstElementChild.click();
         },
         m_ele_page: document.getElementById('ui-page'),
         f_hide: function () {
