@@ -1,4 +1,6 @@
 ﻿var _APP_LOADED = false;
+var _split_action = '‖';
+var _path_root = 'C:/nginx/app_el_sys/bin/Debug/english';
 /* SOCKET */
 var _SOCKET_OPEN = false, ws = null;
 /* STORE DB */
@@ -65,19 +67,23 @@ function f_db_Query(m) {
 
     switch (m.action) {
         case 'FILE_LOAD':
-            setTimeout(function () {
-                m.ok = true;
-                m.result = {
-                    path: 'C:/nginx/app_el_sys/bin/Debug/english', 
-                };
-                self.postMessage(m);
-            }, 500);
+            //setTimeout(function () {
+            //    m.ok = true;
+            //    m.result = {
+            //        path: _path_root,
+            //    };
+            //    self.postMessage(m);
+            //}, 500);
+            var it = m.input;
+            if (it != null) {
+                f_socket_Send(m.action + _split_action + it.name + _split_action + it.type);
+            }
             break;
         case 'TREE_NODE':
             setTimeout(function () {
                 m.ok = true;
                 m.result = {
-                    path: 'C:/nginx/app_el_sys/bin/Debug/english',
+                    path: _path_root,
                     dirs: [
                         { name: 'folder 1', count: 0 },
                         { name: 'folder 2', count: 3 },
@@ -159,7 +165,7 @@ var on_message_ui = function (e) {
 /* Receive message from WebSocket */
 var on_message_websocket = function (e) {
     var data = e.data;
-    var a = data.split(':');
+    var a = data.split(_split_action);
     var key = a[0].toString().toUpperCase(), s = '';
     switch (key) {
         case 'GRAMMAR_LOAD':
