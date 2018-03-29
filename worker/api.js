@@ -1,5 +1,6 @@
 ﻿var _APP_LOADED = false;
-var _split_action = '‖';
+var _split_key = '¦';
+var _split_data = '‖';
 var _path_root = 'C:/nginx/app_el_sys/bin/Debug/english';
 /* SOCKET */
 var _SOCKET_OPEN = false, ws = null;
@@ -18,6 +19,12 @@ var _action_key = {
     GRAM_DETAIL_BY_KEY: 'GRAM_DETAIL_BY_KEY',
 };
 var _cache_request = {};
+
+function f_create_key(arr) {
+    var s = '';
+    if (arr !== null && arr.length > 0) { s = arr.join(_split_key); }
+    return s;
+}
 
 /****************************************/
 /* SOCKET */
@@ -82,20 +89,20 @@ function f_db_Query(m) {
         case _action_key.FILE_LOAD:
             if (input != null) {
                 result_type = 'html';
-                key = m.action + '.' + input.name + '.' + result_type;
+                key = f_create_key([m.action, input.name, result_type]);
                 m.result_type = result_type;
                 m.key_cache = key;
                 _cache_request[key] = m;
 
                 result_type = 'word';
-                var key2 = m.action + '.' + input.name + '.' + result_type;
+                var key2 = f_create_key([m.action, input.name, result_type]);
                 var m2 = _.clone(m);
                 m2.result_type = result_type;
                 m2.key_cache = key2;
                 _cache_request[key2] = m2;
 
                 result_type = 'text';
-                var key3 = m.action + '.' + input.name + '.' + result_type;
+                var key3 = f_create_key([m.action, input.name, result_type]);
                 var m3 = _.clone(m);
                 m3.result_type = result_type;
                 m3.key_cache = key3;
@@ -103,7 +110,7 @@ function f_db_Query(m) {
 
                 _db_article.getItem(key, function (err, value) {
                     if (value == null) {
-                        f_socket_Send(m.action + _split_action + input.name + _split_action + input.type);
+                        f_socket_Send(key);
                     } else {
                         m.result = value.result;
                         console.log('CACHE.HTML: ', m);
@@ -128,7 +135,7 @@ function f_db_Query(m) {
             break;
         case _action_key.TREE_NODE:
             if (input.folder != null && input.path != null) {
-                key = m.action + _split_action + input.path + _split_action + input.folder;
+                key = f_create_key([m.action, input.path, input.folder]);
                 m.key_cache = key;
                 _cache_request[key] = m;
                 f_socket_Send(key);
@@ -219,7 +226,7 @@ var on_message_ui = function (e) {
 /* Receive message from WebSocket */
 var on_message_websocket = function (e) {
     var rs = e.data;
-    var m = {}, a = rs.split(_split_action), key = a[0], data = '', result;
+    var m = {}, a = rs.split(_split_data), key = a[0], data = '|', result;
     if (a.length > 1) { data = a[1] };
     m = _cache_request[key];
     if (m != null) {
@@ -230,7 +237,7 @@ var on_message_websocket = function (e) {
             result = data;
         }
         m.result = result;
-        console.log('SOCKET -> WORKER: ', m);
+        console.log('SOCKET -> UI: ', m);
         self.postMessage(m);
 
         _db_article.setItem(key, m);
