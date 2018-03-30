@@ -1,0 +1,21 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Test script parse caching</title>
+    <style>
+        body {
+            max-width: 600px;
+            margin: 100px auto;
+            font-family: Helvetica, Arial, "sans-serif";
+        }
+    </style>
+</head>
+<body>
+    https://bl.ocks.org/nolanlawson/942f27a8fb9f5173d5f5fd5e8f87825a
+    <h1>Test script parse caching</h1>
+    <p>This test fetches a script, then inserts it into the DOM as an inline &lt;script&gt; with a random nonce. Then it inserts that same inline script again, with exactly the same content. Measurements come from the performance.mark/measure API. This demonstrates Chrome's checksum-based script caching.</p>
+    <pre id="display"></pre>
+    <script src="marky.min.1.1.3.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

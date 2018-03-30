@@ -1,0 +1,492 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>English</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="/ui.css" rel="stylesheet" />
+</head>
+<body>
+    <section id="ui-input" style="display:none;">
+        <shadow></shadow>
+        <content>
+            <aside>
+                <header>
+                    <h3>Message</h3>
+                </header>
+                <fieldset>
+                    <span>Value must not equal empty!</span>
+                    <p>Input label:</p>
+                    <input type="text" placeholder="" />
+                </fieldset>
+                <footer>
+                    <button>Ok</button>
+                    <button>Cancel</button>
+                </footer>
+            </aside>
+        </content>
+    </section>
+
+    <section id="ui-confirm" style="display:none;">
+        <shadow></shadow>
+        <content>
+            <aside>
+                <header>
+                    <h3>Message</h3>
+                </header>
+                <fieldset>
+                    <p>This is content alert ...</p>
+                </fieldset>
+                <footer>
+                    <button>Ok</button>
+                    <button>Cancel</button>
+                </footer>
+            </aside>
+        </content>
+    </section>
+
+    <section id="ui-folder-edit" style="display:none;">
+        <shadow></shadow>
+        <content>
+            <aside>
+                <header>
+                    <h3>Folder Edit</h3>
+                </header>
+                <fieldset>
+                    <label>Path</label>
+                    <p>/data/english/grammar</p>
+                    <span></span>
+                </fieldset>
+                <fieldset>
+                    <label>Name</label>
+                    <p><input type="text" placeholder="Enter name" value="Struct sentence" /></p>
+                    <span></span>
+                </fieldset>
+                <footer>
+                    <button>Save</button>
+                    <button>Cancel</button>
+                </footer>
+            </aside>
+        </content>
+    </section>
+
+    <section id="ui-content-edit" style="display:none;">
+        <shadow></shadow>
+        <content>
+            <aside>
+                <fieldset>
+                    <p><input type="text" placeholder="Title" value="Introduction to Service Worker" /></p>
+                    <span></span>
+                </fieldset>
+                <fieldset>
+                    <em class="no-select">
+                        <b class="active">WRAP TEXT</b><b>HEADING</b><b>LIST</b><b>CODE</b>
+                    </em>
+                    <p>
+                        <textarea>https://developers.google.com/web/ilt/pwa/introduction-to-service-worker
+
+*What is a service worker?
+
+A service worker is a type of web worker. It's essentially a JavaScript file that runs separately from the main browser thread, intercepting network requests, caching or retrieving resources from the cache, and delivering push messages.
+
+You ought not to have spent all that money on such a thing. I finished my work early and so was able to go to the pub with my friends.
+
+Because workers run separately from the main thread, service workers are independent of the application they are associated with. This has several consequences:
+
+#Because the service worker is not blocking (it's designed to be fully asynchronous) synchronous XHR and localStorage cannot be used in a service worker.
+#The service worker can receive push messages from a server when the app is not active. This lets your app show push notifications to the user, even when it is not open in the browser.
+
+Note: Whether notifications are received when the browser itself is not running depends on how the browser is integrated with the OS. For instance on desktop OS's, Chrome and Firefox only receive notifications when the browser is running. However, Android is designed to wake up any browser when a push message is received and will always receive push messages regardless of browser state. See the FAQ in Matt Gaunt's Web Push Book for more information.
+The service worker can't access the DOM directly. To communicate with the page, the service worker uses the postMessage() method to send data and a "message" event listener to receive data.
+
+*Things to note about Service Worker:
+
+A service worker is a programmable network proxy that lets you control how network requests from your page are handled.
+Service workers only run over HTTPS. Because service workers can intercept network requests and modify responses, "man-in-the-middle" attacks could be very bad.
+Note: Services like Letsencrypt let you procure SSL certificates for free to install on your server.
+The service worker becomes idle when not in use and restarts when it's next needed. You cannot rely on a global state persisting between events. If there is information that you need to persist and reuse across restarts, you can use IndexedDB databases.
+Service workers make extensive use of promises, so if you're new to promises, then you should stop reading this and check out Promises, an introduction.
+
+*What can service workers do?
+
+Service workers enable applications to control network requests, cache those requests to improve performance, and provide offline access to cached content.
+Service workers depend on two APIs to make an app work offline: Fetch (a standard way to retrieve content from the network) and Cache (a persistent content storage for application data). This cache is persistent and independent from the browser cache or network status.
+
+*Improve performance of your application/site
+Caching resources will make content load faster under most network conditions. See Caching files with the service worker and The Offline Cookbook for a full list of caching strategies.
+
+*Make your app "offline-first"
+
+Using the Fetch API inside a service worker, we can intercept network requests and then modify the response with content other than the requested resource. We can use this technique to serve resources from the cache when the user is offline. See Caching files with the service worker to get hands-on experience with this technique.
+
+*Act as the base for advanced features
+Service workers provide the starting point for features that make web applications work like native apps. Some of these features are:
+
+Notifications API: A way to display and interact with notifications using the operating system's native notification system.
+Push API: An API that enables your app to subscribe to a push service and receive push messages. Push messages are delivered to a service worker, which can use the information in the message to update the local state or display a notification to the user. Because service workers run independently of the main app, they can receive and display notifications even when the browser is not running.
+Background Sync API: Lets you defer actions until the user has stable connectivity. This is useful to ensure that whatever the user wants to send is actually sent. This API also allows servers to push periodic updates to the app so the app can update when it's next online
+Channel Messaging API: Lets web workers and service workers communicate with each other and with the host application. Examples of this API include new content notification and updates that require user interaction.
+
+*Service worker lifecycle
+
+A service worker goes through three steps in its lifecycle:
+
+# Registration
+# Installation
+# Activation
+# Registration and scope
+
+To install a service worker, you need to register it in your main JavaScript code. Registration tells the browser where your service worker is located, and to start installing it in the background. Let's look at an example:
+
+//#
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(function(registration) {
+    console.log('Registration successful, scope is:', registration.scope);
+  })
+  .catch(function(error) {
+    console.log('Service worker registration failed, error:', error);
+  });
+}
+//.
+
+This code starts by checking for browser support by examining navigator.serviceWorker. The service worker is then registered with navigator.serviceWorker.register, which returns a promise that resolves when the service worker has been successfully registered. The scope of the service worker is then logged with registration.scope.
+
+The scope of the service worker determines which files the service worker controls, in other words, from which path the service worker will intercept requests. The default scope is the location of the service worker file, and extends to all directories below. So if service-worker.js is located in the root directory, the service worker will control requests from all files at this domain.
+
+You can also set an arbitrary scope by passing in an additional parameter when registering. For example:
+
+//#
+navigator.serviceWorker.register('/service-worker.js', {
+  scope: '/app/'
+});
+//.
+
+In this case we are setting the scope of the service worker to /app/, which means the service worker will control requests from pages like /app/, /app/lower/ and /app/lower/lower, but not from pages like /app or /, which are higher.
+
+If the service worker is already installed, navigator.serviceWorker.register returns the registration object of the currently active service worker.
+
+*Installation
+
+Once the the browser registers a service worker, installation can be attempted. This occurs if the service worker is considered to be new by the browser, either because the site currently doesn't have a registered service worker, or because there is a byte difference between the new service worker and the previously installed one.
+
+A service worker installation triggers an install event in the installing service worker. We can include an install event listener in the service worker to perform some task when the service worker installs. For instance, during the install, service workers can precache parts of a web app so that it loads instantly the next time a user opens it (see caching the application shell). So, after that first load, you're going to benefit from instant repeat loads and your time to interactivity is going to be even better in those cases. An example of an installation event listener looks like this:
+
+//#
+// Listen for install event, set callback
+self.addEventListener('install', function(event) {
+    // Perform some task
+});
+//.
+
+*Activation
+
+Once a service worker has successfully installed, it transitions into the activation stage. If there are any open pages controlled by the previous service worker, the new service worker enters a waiting state. The new service worker only activates when there are no longer any pages loaded that are still using the old service worker. This ensures that only one version of the service worker is running at any given time.
+
+Note: Simply refreshing the page is not sufficient to transfer control to a new service worker, because the new page will be requested before the the current page is unloaded, and there won't be a time when the old service worker is not in use.
+When the new service worker activates, an activate event is triggered in the activating service worker. This event listener is a good place to clean up outdated caches (see the Offline Cookbook for an example).
+
+//#
+self.addEventListener('activate', function(event) {
+  // Perform some task
+});
+//.
+
+Once activated, the service worker controls all pages that load within its scope, and starts listening for events from those pages. However, pages in your app that were loaded before the service worker activation will not be under service worker control. The new service worker will only take over when you close and reopen your app, or if the service worker calls clients.claim(). Until then, requests from this page will not be intercepted by the new service worker. This is intentional as a way to ensure consistency in your site.
+
+*Service worker events
+
+Service workers are event driven. Both the installation and activation processes trigger corresponding install and activate events to which the service workers can respond. There are also message events, where the service worker can receive information from other scripts, and functional events such as fetch, push, and sync.
+
+To examine service workers, navigate to the Service Worker section in your browser's developer tools. The process is different in each browser that supports service workers. For information about using your browser's developer tools to check the status of service workers, see Tools for PWA Developers.
+
+*Further reading
+
+A more detailed introduction to The Service Worker Lifecycle
+
+# More on Service Worker Registration
+# Create your own service worker (lab)
+# Take a blog site offline (lab)
+# Cache files with Service Worker (lab)</textarea>
+                    </p>
+                    <span></span>
+                </fieldset>
+                <footer>
+                    <button>Save</button>
+                    <button>Cancel</button>
+                </footer>
+            </aside>
+        </content>
+    </section>
+
+    <section id="ui-login" style="display:none;">
+        <shadow></shadow>
+        <content>
+            <aside>
+                <form action="javascript:ui.f_form_submit('user.on_login_click')">
+                    <header>
+                        <h3>Login</h3>
+                    </header>
+                    <h5></h5>
+                    <fieldset>
+                        <label>Username</label>
+                        <p><input type="text" placeholder="Enter Username" value="admin" name="username" /></p>
+                        <span></span>
+                    </fieldset>
+                    <fieldset>
+                        <label>Password</label>
+                        <p><input type="password" placeholder="Enter Password" name="password" /></p>
+                        <span></span>
+                    </fieldset>
+                    <footer>
+                        <button type="submit">Login</button>
+                    </footer>
+                </form>
+            </aside>
+        </content>
+    </section>
+
+    <div id="ui-page" style="display:none;">
+        <div id="ui-toolbar">
+            <ol>
+                <li class="btn-ico" do="ui_toggleTree"><i class=i-menu></i></li>
+                <li class="btn-ico"><i class=i-add></i></li>
+                <li class="btn-ico"><i class=i-edit></i></li>
+                <li class="btn-ico"><i class=i-remove></i></li>
+                <li class="btn-ico"><i class=i-refresh></i></li>
+                <li class="btn-ico" do="ui_toggleTree"><i class=i-menu></i></li>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                <li title="Slower" style="width:111px;"><i class=i-sub></i><b>Rate down</b></li>
+                <li title="Speeder" style="width:83px;"><i class=i-add></i><b>Rate up</b></li>
+                <li style="width:63px;"><i class=i-prev></i><b>Prev</b></li>
+                <li class="btn-ico hide"><i class=i-stop></i></li>
+                <li class="btn-ico"><i class=i-play></i></li>
+                <li class="btn-ico"><i class=i-pause></i></li>
+                <li style="width:69px;"><i class="i-next float-right"></i><b class="float-right">Next</b></li>
+                <li class="btn-ico" do="ui_toggletTab"><i class=i-app></i></li>
+            </ol>
+        </div>
+        <div id="ui-category">
+            <div id="tree_data_cache">
+                <details id="tree_data">
+                    <summary do="tree.on_node_click">Document</summary>
+                </details>
+            </div>
+        </div>
+        <div id="ui-content">
+            <details class="player-config" for="_CONFIG_TYPE_SPEECH" style="display:none;">
+                <summary><i></i></summary>
+                <ul>
+                    <li>
+                        <input type="checkbox" id="c1" checked />
+                        <label for="c1"><i></i><b>Repeat</b></label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chk_translate" checked="checked" onchange="if (this.hasAttribute('checked')) { window['_TRANSLATE'] = false; this.removeAttribute('checked'); } else { window['_TRANSLATE'] = true; this.setAttribute('checked','checked'); }" />
+                        <label for="chk_translate"><i></i><b>Translate</b></label>
+                    </li>
+                </ul>
+                <div class="hr"></div>
+                <input type="radio" id="r0" name="speech_type" value="SPEECH_ALL" />
+                <label for="r0"><i></i>Speech all</label>
+                <br />
+                <input type="radio" id="r1" name="speech_type" value="SPEECH_WORD" checked />
+                <label for="r1"><i></i>Speech word</label>
+                <br />
+                <input type="radio" id="r2" name="speech_type" value="SPEECH_CLAUSE" />
+                <label for="r2"><i></i>Speech clause</label>
+                <br />
+                <input type="radio" id="r4" name="speech_type" value="SPEECH_SENTENCE" />
+                <label for="r4"><i></i>Speech sentence</label>
+                <br />
+                <input type="radio" id="r5" name="speech_type" value="SPEECH_PARAGRAPH" />
+                <label for="r5"><i></i>Speech paragraph</label>
+                <div class="hr"></div>
+                <p class="align-right">
+                    <b>Delay time(ms):</b><br />
+                    <label>Words: </label><input type="text" value="1000" onchange="window['_DELAY_WORDS'] = this.value;" /><br />
+                    <label>Sentence: </label><input type="text" value="3000" onchange="window['_DELAY_SENTENCE'] = this.value;" /><br />
+                    <label>Paragraph: </label><input type="text" value="5000" onchange="window['_DELAY_PARAGRAPH'] = this.value;" /><br />
+                </p>
+                <div class="hr"></div>
+                <ul>
+                    <li>
+                        <input type="checkbox" id="chk_toast_speak_everywh" checked="checked" onchange="if (this.hasAttribute('checked')) { window['_TOAST_SPEECH'] = false; this.removeAttribute('checked'); } else { window['_TOAST_SPEECH'] = true; this.setAttribute('checked','checked'); }" />
+                        <label for="chk_toast_speak_everywh"><i></i><b>Speech everywhere</b></label>
+                    </li>
+                </ul>
+                <div class="hr"></div>
+            </details>
+            <article for="_ARTICLE">
+                <h2><b><em><i>Introduction</i> <i>to</i> <i>Service</i> <i>Worker</i></em></b>.</h2>
+                <a>https://developers.google.com/web/ilt/pwa/introduction-to-service-worker</a>
+                <h3><b><em><i>What</i> <i>is</i> <i>a</i> <i>service</i> <i>worker?</i></em></b></h3>
+                <p><b><em><i>A</i> <i>service</i> <i>worker</i> <i>is</i> <i>a</i> <i>type</i> </em>of<em> <i>web</i> <i>worker</i></em></b>.<b><em> <i>It's</i> <i>essentially</i> <i>a</i> <i>JavaScript</i> <i>file</i> </em>that<em> <i>runs</i> <i>separately</i> </em>from<em> <i>the</i> <i>main</i> <i>browser</i> <i>thread</i></em>,<em> <i>intercepting</i> <i>network</i> <i>requests</i></em>,<em> <i>caching</i> <i>or</i> <i>retrieving</i> <i>resources</i> </em>from<em> <i>the</i> <i>cache</i></em>,<em> <i>and</i> <i>delivering</i> <i>push</i> <i>messages</i></em></b>.</p>
+                <p><b><em><i>You</i> <i>ought</i> <i>not</i> <i>to</i> <i>have</i> <i>spent</i> <i>all</i> </em>that<em> <i>money</i> <i>on</i> <i>such</i> <i>a</i> <i>thing</i></em></b>.<b><em> <i>I</i> <i>finished</i> <i>my</i> <i>work</i> <i>early</i> <i>and</i> <i>so</i> <i>was</i> <i>able</i> <i>to</i> <i>go</i> <i>to</i> <i>the</i> <i>pub</i> <i>with</i> <i>my</i> <i>friends</i></em></b>.</p>
+                <p><b><em><i>Because</i> <i>workers</i> <i>run</i> <i>separately</i> </em>from<em> <i>the</i> <i>main</i> <i>thread</i></em>,<em> <i>service</i> <i>workers</i> <i>are</i> <i>independent</i> </em>of<em> <i>the</i> <i>application</i> <i>they</i> <i>are</i> <i>associated</i> <i>with</i></em></b><b><em> <i>This</i> <i>has</i> <i>several</i> <i>consequences</i></em>:</b></p>
+                <ul><li><b><em><i>Because</i> <i>the</i> <i>service</i> <i>worker</i> <i>is</i> <i>not</i> <i>blocking</i> </em>(<em><i>it's</i> <i>designed</i> <i>to</i> <i>be</i> <i>fully</i> <i>asynchronous</i></em>)<em> <i>synchronous</i> <i>XHR</i> <i>and</i> <i>localStorage</i> <i>cannot</i> <i>be</i> <i>used</i> <i>in</i> <i>a</i> <i>service</i> <i>worker</i></em></b>.</li><li><b><em><i>The</i> <i>service</i> <i>worker</i> <i>can</i> <i>receive</i> <i>push</i> <i>messages</i> </em>from<em> <i>a</i> <i>server</i> </em>when<em> <i>the</i> <i>app</i> <i>is</i> <i>not</i> <i>active</i></em></b>.<b><em> <i>This</i> <i>lets</i> <i>your</i> <i>app</i> <i>show</i> <i>push</i> <i>notifications</i> <i>to</i> <i>the</i> <i>user</i></em>,<em> <i>even</i> </em>when<em> <i>it</i> <i>is</i> <i>not</i> <i>open</i> <i>in</i> <i>the</i> <i>browser</i></em></b>.</li></ul>
+                <span><b><em><i>Note</i></em>:<em> <i>Whether</i> <i>notifications</i> <i>are</i> <i>received</i> </em>when<em> <i>the</i> <i>browser</i> <i>itself</i> <i>is</i> <i>not</i> <i>running</i> <i>depends</i> <i>on</i> <i>how</i> <i>the</i> <i>browser</i> <i>is</i> <i>integrated</i> <i>with</i> <i>the</i> <i>OS</i></em></b>.<b><em> <i>For</i> <i>instance</i> <i>on</i> <i>desktop</i> <i>OS's</i></em>,<em> <i>Chrome</i> <i>and</i> <i>Firefox</i> <i>only</i> <i>receive</i> <i>notifications</i> </em>when<em> <i>the</i> <i>browser</i> <i>is</i> <i>running</i></em></b>.<b><em> <i>However</i></em>,<em> <i>Android</i> <i>is</i> <i>designed</i> <i>to</i> <i>wake</i> <i>up</i> <i>any</i> <i>browser</i> </em>when<em> <i>a</i> <i>push</i> <i>message</i> <i>is</i> <i>received</i> <i>and</i> <i>will</i> <i>always</i> <i>receive</i> <i>push</i> <i>messages</i> <i>regardless</i> </em>of<em> <i>browser</i> <i>state</i></em></b>.<b><em> <i>See</i> <i>the</i> <i>FAQ</i> <i>in</i> <i>Matt</i> <i>Gaunt's</i> <i>Web</i> <i>Push</i> <i>Book</i> <i>for</i> <i>more</i> <i>information</i></em></b>.</span>
+                <p><b><em><i>The</i> <i>service</i> <i>worker</i> <i>can't</i> <i>access</i> <i>the</i> <i>DOM</i> <i>directly</i></em></b>.<b><em> <i>To</i> <i>communicate</i> <i>with</i> <i>the</i> <i>page</i></em>,<em> <i>the</i> <i>service</i> <i>worker</i> <i>uses</i> <i>the</i> <i>postMessage</i></em>()<em> <i>method</i> <i>to</i> <i>send</i> <i>data</i> <i>and</i> <i>a</i> <i>"message"</i> <i>event</i> <i>listener</i> <i>to</i> <i>receive</i> <i>data</i></em></b>.</p>
+                <h3><b><em><i>Things</i> <i>to</i> <i>note</i> <i>about</i> <i>Service</i> <i>Worker</i></em>:</b></h3>
+                <p><b><em><i>A</i> <i>service</i> <i>worker</i> <i>is</i> <i>a</i> <i>programmable</i> <i>network</i> <i>proxy</i> </em>that<em> <i>lets</i> <i>you</i> <i>control</i> <i>how</i> <i>network</i> <i>requests</i> </em>from<em> <i>your</i> <i>page</i> <i>are</i> <i>handled</i></em></b>.</p>
+                <p><b><em><i>Service</i> <i>workers</i> <i>only</i> <i>run</i> <i>over</i> <i>HTTPS</i></em></b>.<b><em> <i>Because</i> <i>service</i> <i>workers</i> <i>can</i> <i>intercept</i> <i>network</i> <i>requests</i> <i>and</i> <i>modify</i> <i>responses</i></em>,<em> <i>"man-in-the-middle"</i> <i>attacks</i> <i>could</i> <i>be</i> <i>very</i> <i>bad</i></em></b>.</p>
+                <span><b><em><i>Note</i></em>:<em> <i>Services</i> <i>like</i> <i>Letsencrypt</i> <i>let</i> <i>you</i> <i>procure</i> <i>SSL</i> <i>certificates</i> <i>for</i> <i>free</i> <i>to</i> <i>install</i> <i>on</i> <i>your</i> <i>server</i></em></b>.</span>
+                <p><b><em><i>The</i> <i>service</i> <i>worker</i> <i>becomes</i> <i>idle</i> </em>when<em> <i>not</i> <i>in</i> <i>use</i> <i>and</i> <i>restarts</i> </em>when<em> <i>it's</i> <i>next</i> <i>needed</i></em></b>.<b><em> <i>You</i> <i>cannot</i> <i>rely</i> <i>on</i> <i>a</i> <i>global</i> <i>state</i> <i>persisting</i> <i>between</i> <i>events</i></em></b>.<b><em> <i>If</i> <i>there</i> <i>is</i> <i>information</i> </em>that<em> <i>you</i> <i>need</i> <i>to</i> <i>persist</i> <i>and</i> <i>reuse</i> <i>across</i> <i>restarts</i></em>,<em> <i>you</i> <i>can</i> <i>use</i> <i>IndexedDB</i> <i>databases</i></em></b>.</p>
+                <p><b><em><i>Service</i> <i>workers</i> <i>make</i> <i>extensive</i> <i>use</i> </em>of<em> <i>promises</i></em>, so if you're new to<em> <i>promises</i></em>,<em> <i>then</i> <i>you</i> <i>should</i> <i>stop</i> <i>reading</i> <i>this</i> <i>and</i> <i>check</i> <i>out</i> <i>Promises</i></em>,<em> <i>an</i> <i>introduction</i></em></b>.</p>
+                <h3><b><em><i>What</i> <i>can</i> <i>service</i> <i>workers</i> <i>do?</i></em></b></h3>
+                <p><b><em><i>Service</i> <i>workers</i> <i>enable</i> <i>applications</i> <i>to</i> <i>control</i> <i>network</i> <i>requests</i></em>,<em> <i>cache</i> <i>those</i> <i>requests</i> <i>to</i> <i>improve</i> <i>performance</i></em>,<em> <i>and</i> <i>provide</i> </em>of<em><i>fline</i> <i>access</i> <i>to</i> <i>cached</i> <i>content</i></em></b>.</p>
+                <p><b><em><i>Service</i> <i>workers</i> <i>depend</i> <i>on</i> <i>two</i> <i>APIs</i> <i>to</i> <i>make</i> <i>an</i> <i>app</i> <i>work</i> </em>of<em><i>fline</i></em>:<em> <i>Fetch</i> </em>(<em><i>a</i> <i>standard</i> <i>way</i> <i>to</i> <i>retrieve</i> <i>content</i> </em>from<em> <i>the</i> <i>network</i></em>)<em> <i>and</i> <i>Cache</i> </em>(<em><i>a</i> <i>persistent</i> <i>content</i> <i>storage</i> <i>for</i> <i>application</i> <i>data</i></em>)</b>.<b><em> <i>This</i> <i>cache</i> <i>is</i> <i>persistent</i> <i>and</i> <i>independent</i> </em>from<em> <i>the</i> <i>browser</i> <i>cache</i> <i>or</i> <i>network</i> <i>status</i></em></b>.</p>
+                <h3><b><em><i>Improve</i> <i>performance</i> </em>of<em> <i>your</i> <i>application/site</i></em></b>.</h3>
+                <p><b><em><i>Caching</i> <i>resources</i> <i>will</i> <i>make</i> <i>content</i> <i>load</i> <i>faster</i> <i>under</i> <i>most</i> <i>network</i> <i>conditions</i></em></b>.<b><em> <i>See</i> <i>Caching</i> <i>files</i> <i>with</i> <i>the</i> <i>service</i> <i>worker</i> <i>and</i> <i>The</i> <i>Offline</i> <i>Cookbook</i> <i>for</i> <i>a</i> <i>full</i> <i>list</i> </em>of<em> <i>caching</i> <i>strategies</i></em></b>.</p>
+                <h3><b><em><i>Make</i> <i>your</i> <i>app</i> <i>"</i></em>of<em><i>fline-first"</i></em></b>.</h3>
+                <p><b><em><i>Using</i> <i>the</i> <i>Fetch</i> <i>API</i> <i>inside</i> <i>a</i> <i>service</i> <i>worker</i></em>,<em> <i>we</i> <i>can</i> <i>intercept</i> <i>network</i> <i>requests</i> <i>and</i> <i>then</i> <i>modify</i> <i>the</i> <i>response</i> <i>with</i> <i>content</i> <i>other</i> <i>than</i> <i>the</i> <i>requested</i> <i>resource</i></em></b>.<b><em> <i>We</i> <i>can</i> <i>use</i> <i>this</i> <i>technique</i> <i>to</i> <i>serve</i> <i>resources</i> </em>from<em> <i>the</i> <i>cache</i> </em>when<em> <i>the</i> <i>user</i> <i>is</i> </em>of<em><i>fline</i></em></b>.<b><em> <i>See</i> <i>Caching</i> <i>files</i> <i>with</i> <i>the</i> <i>service</i> <i>worker</i> <i>to</i> <i>get</i> <i>hands-on</i> <i>experience</i> <i>with</i> <i>this</i> <i>technique</i></em></b>.</p>
+                <h3><b><em><i>Act</i> <i>as</i> <i>the</i> <i>base</i> <i>for</i> <i>advanced</i> <i>features</i></em></b>.</h3>
+                <p><b><em><i>Service</i> <i>workers</i> <i>provide</i> <i>the</i> <i>starting</i> <i>point</i> <i>for</i> <i>features</i> </em>that<em> <i>make</i> <i>web</i> <i>applications</i> <i>work</i> <i>like</i> <i>native</i> <i>apps</i></em></b><b><em> <i>Some</i> </em>of<em> <i>these</i> <i>features</i> <i>are</i></em>:</b></p>
+                <p><b><em><i>Notifications</i> <i>API</i></em>:<em> <i>A</i> <i>way</i> <i>to</i> <i>display</i> <i>and</i> <i>interact</i> <i>with</i> <i>notifications</i> <i>using</i> <i>the</i> <i>operating</i> <i>system's</i> <i>native</i> <i>notification</i> <i>system</i></em></b>.</p>
+                <p><b><em><i>Push</i> <i>API</i></em>:<em> <i>An</i> <i>API</i> </em>that<em> <i>enables</i> <i>your</i> <i>app</i> <i>to</i> <i>subscribe</i> <i>to</i> <i>a</i> <i>push</i> <i>service</i> <i>and</i> <i>receive</i> <i>push</i> <i>messages</i></em></b>.<b><em> <i>Push</i> <i>messages</i> <i>are</i> <i>delivered</i> <i>to</i> <i>a</i> <i>service</i> <i>worker</i></em>,<em> <i>which</i> <i>can</i> <i>use</i> <i>the</i> <i>information</i> <i>in</i> <i>the</i> <i>message</i> <i>to</i> <i>update</i> <i>the</i> <i>local</i> <i>state</i> <i>or</i> <i>display</i> <i>a</i> <i>notification</i> <i>to</i> <i>the</i> <i>user</i></em></b>.<b><em> <i>Because</i> <i>service</i> <i>workers</i> <i>run</i> <i>independently</i> </em>of<em> <i>the</i> <i>main</i> <i>app</i></em>,<em> <i>they</i> <i>can</i> <i>receive</i> <i>and</i> <i>display</i> <i>notifications</i> <i>even</i> </em>when<em> <i>the</i> <i>browser</i> <i>is</i> <i>not</i> <i>running</i></em></b>.</p>
+                <p><b><em><i>Background</i> <i>Sync</i> <i>API</i></em>:<em> <i>Lets</i> <i>you</i> <i>defer</i> <i>actions</i> <i>until</i> <i>the</i> <i>user</i> <i>has</i> <i>stable</i> <i>connectivity</i></em></b>.<b><em> <i>This</i> <i>is</i> <i>useful</i> <i>to</i> <i>ensure</i> </em>that<em> <i>whatever</i> <i>the</i> <i>user</i> <i>wants</i> <i>to</i> <i>send</i> <i>is</i> <i>actually</i> <i>sent</i></em></b>.<b><em> <i>This</i> <i>API</i> <i>also</i> <i>allows</i> <i>servers</i> <i>to</i> <i>push</i> <i>periodic</i> <i>updates</i> <i>to</i> <i>the</i> <i>app</i> <i>so</i> <i>the</i> <i>app</i> <i>can</i> <i>update</i> </em>when<em> <i>it's</i> <i>next</i> <i>online</i></em></b>.</p>
+                <p><b><em><i>Channel</i> <i>Messaging</i> <i>API</i></em>:<em> <i>Lets</i> <i>web</i> <i>workers</i> <i>and</i> <i>service</i> <i>workers</i> <i>communicate</i> <i>with</i> <i>each</i> <i>other</i> <i>and</i> <i>with</i> <i>the</i> <i>host</i> <i>application</i></em></b>.<b><em> <i>Examples</i> </em>of<em> <i>this</i> <i>API</i> <i>include</i> <i>new</i> <i>content</i> <i>notification</i> <i>and</i> <i>updates</i> </em>that<em> <i>require</i> <i>user</i> <i>interaction</i></em></b>.</p>
+                <h3><b><em><i>Service</i> <i>worker</i> <i>lifecycle</i></em></b>.</h3>
+                <p><b><em><i>A</i> <i>service</i> <i>worker</i> <i>goes</i> <i>through</i> <i>three</i> <i>steps</i> <i>in</i> <i>its</i> <i>lifecycle</i></em>:</b></p>
+                <ul><li><b><em><i>Registration</i></em></b>.</li><li><b><em><i>Installation</i></em></b>.</li><li><b><em><i>Activation</i></em></b>.</li><li><b><em><i>Registration</i> <i>and</i> <i>scope</i></em></b>.</li></ul>
+                <p><b><em><i>To</i> <i>install</i> <i>a</i> <i>service</i> <i>worker</i></em>,<em> <i>you</i> <i>need</i> <i>to</i> <i>register</i> <i>it</i> <i>in</i> <i>your</i> <i>main</i> <i>JavaScript</i> <i>code</i></em></b><b><em> <i>Registration</i> <i>tells</i> <i>the</i> <i>browser</i> <i>where</i> <i>your</i> <i>service</i> <i>worker</i> <i>is</i> <i>located</i></em>,<em> <i>and</i> <i>to</i> <i>start</i> <i>installing</i> <i>it</i> <i>in</i> <i>the</i> <i>background</i></em></b><b><em> <i>Let's</i> <i>look</i> <i>at</i> <i>an</i> <i>example</i></em>:</b></p>
+<pre>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(function(registration) {
+    console.log('Registration successful, scope is:', registration.scope);
+  })
+  .catch(function(error) {
+    console.log('Service worker registration failed, error:', error);
+  });
+}</pre>
+                <p><b><em><i>This</i> <i>code</i> <i>starts</i> <i>by</i> <i>checking</i> <i>for</i> <i>browser</i> <i>support</i> <i>by</i> <i>examining</i> <i>navigator</i></em></b>.<b><em><i>serviceWorker</i></em></b>.<b><em> <i>The</i> <i>service</i> <i>worker</i> <i>is</i> <i>then</i> <i>registered</i> <i>with</i> <i>navigator</i></em></b>.<b><em><i>serviceWorker</i></em></b>.<b><em><i>register</i></em>,<em> <i>which</i> <i>returns</i> <i>a</i> <i>promise</i> </em>that<em> <i>resolves</i> </em>when the service worker has been successfully <em><i>register</i></em>ed</b>.<b><em> <i>The</i> <i>scope</i> </em>of<em> <i>the</i> <i>service</i> <i>worker</i> <i>is</i> <i>then</i> <i>logged</i> <i>with</i> <i>registration</i></em></b>.<b><em><i>scope</i></em></b>.</p>
+                <p><b><em><i>The</i> <i>scope</i> </em>of<em> <i>the</i> <i>service</i> <i>worker</i> <i>determines</i> <i>which</i> <i>files</i> <i>the</i> <i>service</i> <i>worker</i> <i>controls</i></em>,<em> <i>in</i> <i>other</i> <i>words</i></em>, from<em> <i>which</i> <i>path</i> <i>the</i> <i>service</i> <i>worker</i> <i>will</i> <i>intercept</i> <i>requests</i></em></b>.<b><em> <i>The</i> <i>default</i> <i>scope</i> <i>is</i> <i>the</i> <i>location</i> </em>of<em> <i>the</i> <i>service</i> <i>worker</i> <i>file</i></em>,<em> <i>and</i> <i>extends</i> <i>to</i> <i>all</i> <i>directories</i> <i>below</i></em></b>.<b><em> <i>So</i> <i>if</i> <i>service-worker</i></em></b>.<b><em><i>js</i> <i>is</i> <i>located</i> <i>in</i> <i>the</i> <i>root</i> <i>directory</i></em>,<em> <i>the</i> <i>service</i> <i>worker</i> <i>will</i> <i>control</i> <i>requests</i> </em>from<em> <i>all</i> <i>files</i> <i>at</i> <i>this</i> <i>domain</i></em></b>.</p>
+                <p><b><em><i>You</i> <i>can</i> <i>also</i> <i>set</i> <i>an</i> <i>arbitrary</i> <i>scope</i> <i>by</i> <i>passing</i> <i>in</i> <i>an</i> <i>additional</i> <i>parameter</i> </em>when<em> <i>registering</i></em></b><b><em> <i>For</i> <i>example</i></em>:</b></p>
+<pre>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(function(registration) {
+    console.log('Registration successful, scope is:', registration.scope);
+  })
+  .catch(function(error) {
+    console.log('Service worker registration failed, error:', error);
+  });
+}
+navigator.serviceWorker.register('/service-worker.js', {
+  scope: '/app/'
+});</pre>
+                <p><b><em><i>In</i> <i>this</i> <i>case</i> <i>we</i> <i>are</i> <i>setting</i> <i>the</i> <i>scope</i> </em>of<em> <i>the</i> <i>service</i> <i>worker</i> <i>to</i> <i>/app/</i></em>,<em> <i>which</i> <i>means</i> <i>the</i> <i>service</i> <i>worker</i> <i>will</i> <i>control</i> <i>requests</i> </em>from<em> <i>pages</i> <i>like</i> <i>/app/</i></em>,<em> <i>/app/lower/</i> <i>and</i> <i>/app/lower/lower</i></em>,<em> <i>but</i> <i>not</i> </em>from<em> <i>pages</i> <i>like</i> <i>/app</i> <i>or</i> <i>/</i></em>,<em> <i>which</i> <i>are</i> <i>higher</i></em></b>.</p>
+                <p><b><em><i>If</i> <i>the</i> <i>service</i> <i>worker</i> <i>is</i> <i>already</i> <i>installed</i></em>,<em> <i>navigator</i></em></b>.<b><em><i>serviceWorker</i></em></b>.<b><em><i>register</i> <i>returns</i> <i>the</i> <i>registration</i> <i>object</i> </em>of<em> <i>the</i> <i>currently</i> <i>active</i> <i>service</i> <i>worker</i></em></b>.</p>
+                <h3><b><em><i>Installation</i></em></b>.</h3>
+                <p><b><em><i>Once</i> <i>the</i> <i>the</i> <i>browser</i> <i>registers</i> <i>a</i> <i>service</i> <i>worker</i></em>,<em> <i>installation</i> <i>can</i> <i>be</i> <i>attempted</i></em></b>.<b><em> <i>This</i> <i>occurs</i> <i>if</i> <i>the</i> <i>service</i> <i>worker</i> <i>is</i> <i>considered</i> <i>to</i> <i>be</i> <i>new</i> <i>by</i> <i>the</i> <i>browser</i></em>,<em> <i>either</i> <i>because</i> <i>the</i> <i>site</i> <i>currently</i> <i>doesn't</i> <i>have</i> <i>a</i> <i>registered</i> <i>service</i> <i>worker</i></em>,<em> <i>or</i> <i>because</i> <i>there</i> <i>is</i> <i>a</i> <i>byte</i> <i>difference</i> <i>between</i> <i>the</i> <i>new</i> <i>service</i> <i>worker</i> <i>and</i> <i>the</i> <i>previously</i> <i>installed</i> <i>one</i></em></b>.</p>
+                <p><b><em><i>A</i> <i>service</i> <i>worker</i> <i>installation</i> <i>triggers</i> <i>an</i> <i>install</i> <i>event</i> <i>in</i> <i>the</i> <i>installing</i> <i>service</i> <i>worker</i></em></b><b><em> <i>We</i> <i>can</i> <i>include</i> <i>an</i> <i>install</i> <i>event</i> <i>listener</i> <i>in</i> <i>the</i> <i>service</i> <i>worker</i> <i>to</i> <i>perform</i> <i>some</i> <i>task</i> </em>when<em> <i>the</i> <i>service</i> <i>worker</i> <i>installs</i></em></b><b><em> <i>For</i> <i>instance</i></em>,<em> <i>during</i> <i>the</i> <i>install</i></em>,<em> <i>service</i> <i>workers</i> <i>can</i> <i>precache</i> <i>parts</i> </em>of<em> <i>a</i> <i>web</i> <i>app</i> <i>so</i> </em>that<em> <i>it</i> <i>loads</i> <i>instantly</i> <i>the</i> <i>next</i> <i>time</i> <i>a</i> <i>user</i> <i>opens</i> <i>it</i> </em>(<em><i>see</i> <i>caching</i> <i>the</i> <i>application</i> <i>shell</i></em>)</b><b><em> <i>So</i></em>,<em> <i>after</i> </em>that<em> <i>first</i> <i>load</i></em>,<em> <i>you're</i> <i>going</i> <i>to</i> <i>benefit</i> </em>from<em> <i>instant</i> <i>repeat</i> <i>loads</i> <i>and</i> <i>your</i> <i>time</i> <i>to</i> <i>interactivity</i> <i>is</i> <i>going</i> <i>to</i> <i>be</i> <i>even</i> <i>better</i> <i>in</i> <i>those</i> <i>cases</i></em></b><b><em> <i>An</i> <i>example</i> </em>of<em> <i>an</i> <i>installation</i> <i>event</i> <i>listener</i> <i>looks</i> <i>like</i> <i>this</i></em>:</b></p>
+<pre>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(function(registration) {
+    console.log('Registration successful, scope is:', registration.scope);
+  })
+  .catch(function(error) {
+    console.log('Service worker registration failed, error:', error);
+  });
+}
+navigator.serviceWorker.register('/service-worker.js', {
+  scope: '/app/'
+});
+// Listen for install event, set callback
+self.addEventListener('install', function(event) {
+    // Perform some task
+});</pre>
+                <h3><b><em><i>Activation</i></em></b>.</h3>
+                <p><b><em><i>Once</i> <i>a</i> <i>service</i> <i>worker</i> <i>has</i> <i>successfully</i> <i>installed</i></em>,<em> <i>it</i> <i>transitions</i> <i>into</i> <i>the</i> <i>activation</i> <i>stage</i></em></b>.<b><em> <i>If</i> <i>there</i> <i>are</i> <i>any</i> <i>open</i> <i>pages</i> <i>controlled</i> <i>by</i> <i>the</i> <i>previous</i> <i>service</i> <i>worker</i></em>,<em> <i>the</i> <i>new</i> <i>service</i> <i>worker</i> <i>enters</i> <i>a</i> <i>waiting</i> <i>state</i></em></b>.<b><em> <i>The</i> <i>new</i> <i>service</i> <i>worker</i> <i>only</i> <i>activates</i> </em>when<em> <i>there</i> <i>are</i> <i>no</i> <i>longer</i> <i>any</i> <i>pages</i> <i>loaded</i> </em>that<em> <i>are</i> <i>still</i> <i>using</i> <i>the</i> <i>old</i> <i>service</i> <i>worker</i></em></b>.<b><em> <i>This</i> <i>ensures</i> </em>that<em> <i>only</i> <i>one</i> <i>version</i> </em>of<em> <i>the</i> <i>service</i> <i>worker</i> <i>is</i> <i>running</i> <i>at</i> <i>any</i> <i>given</i> <i>time</i></em></b>.</p>
+                <span><b><em><i>Note</i></em>:<em> <i>Simply</i> <i>refreshing</i> <i>the</i> <i>page</i> <i>is</i> <i>not</i> <i>sufficient</i> <i>to</i> <i>transfer</i> <i>control</i> <i>to</i> <i>a</i> <i>new</i> <i>service</i> <i>worker</i></em>,<em> <i>because</i> <i>the</i> <i>new</i> <i>page</i> <i>will</i> <i>be</i> <i>requested</i> <i>before</i> <i>the</i> <i>the</i> <i>current</i> <i>page</i> <i>is</i> <i>unloaded</i></em>,<em> <i>and</i> <i>there</i> <i>won't</i> <i>be</i> <i>a</i> <i>time</i> </em>when<em> <i>the</i> <i>old</i> <i>service</i> <i>worker</i> <i>is</i> <i>not</i> <i>in</i> <i>use</i></em></b>.</span>
+                <p><b><em><i>When</i> <i>the</i> <i>new</i> <i>service</i> <i>worker</i> <i>activates</i></em>,<em> <i>an</i> <i>activate</i> <i>event</i> <i>is</i> <i>triggered</i> <i>in</i> <i>the</i> <i>activating</i> <i>service</i> <i>worker</i></em></b>.<b><em> <i>This</i> <i>event</i> <i>listener</i> <i>is</i> <i>a</i> <i>good</i> <i>place</i> <i>to</i> <i>clean</i> <i>up</i> <i>outdated</i> <i>caches</i> </em>(<em><i>see</i> <i>the</i> <i>Offline</i> <i>Cookbook</i> <i>for</i> <i>an</i> <i>example</i></em>)</b>.</p>
+<pre>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(function(registration) {
+    console.log('Registration successful, scope is:', registration.scope);
+  })
+  .catch(function(error) {
+    console.log('Service worker registration failed, error:', error);
+  });
+}
+navigator.serviceWorker.register('/service-worker.js', {
+  scope: '/app/'
+});
+// Listen for install event, set callback
+self.addEventListener('install', function(event) {
+    // Perform some task
+});
+self.addEventListener('activate', function(event) {
+  // Perform some task
+});</pre>
+                <p><b><em><i>Once</i> <i>activated</i></em>,<em> <i>the</i> <i>service</i> <i>worker</i> <i>controls</i> <i>all</i> <i>pages</i> </em>that<em> <i>load</i> <i>within</i> <i>its</i> <i>scope</i></em>,<em> <i>and</i> <i>starts</i> <i>listening</i> <i>for</i> <i>events</i> </em>from<em> <i>those</i> <i>pages</i></em></b>.<b><em> <i>However</i></em>,<em> <i>pages</i> <i>in</i> <i>your</i> <i>app</i> </em>that<em> <i>were</i> <i>loaded</i> <i>before</i> <i>the</i> <i>service</i> <i>worker</i> <i>activation</i> <i>will</i> <i>not</i> <i>be</i> <i>under</i> <i>service</i> <i>worker</i> <i>control</i></em></b>.<b><em> <i>The</i> <i>new</i> <i>service</i> <i>worker</i> <i>will</i> <i>only</i> <i>take</i> <i>over</i> </em>when<em> <i>you</i> <i>close</i> <i>and</i> <i>reopen</i> <i>your</i> <i>app</i></em>,<em> <i>or</i> <i>if</i> <i>the</i> <i>service</i> <i>worker</i> <i>calls</i> <i>clients</i></em></b>.<b><em><i>claim</i></em>()</b>.<b><em> <i>Until</i> <i>then</i></em>,<em> <i>requests</i> </em>from<em> <i>this</i> <i>page</i> <i>will</i> <i>not</i> <i>be</i> <i>intercepted</i> <i>by</i> <i>the</i> <i>new</i> <i>service</i> <i>worker</i></em></b>.<b><em> <i>This</i> <i>is</i> <i>intentional</i> <i>as</i> <i>a</i> <i>way</i> <i>to</i> <i>ensure</i> <i>consistency</i> <i>in</i> <i>your</i> <i>site</i></em></b>.</p>
+                <h3><b><em><i>Service</i> <i>worker</i> <i>events</i></em></b>.</h3>
+                <p><b><em><i>Service</i> <i>workers</i> <i>are</i> <i>event</i> <i>driven</i></em></b>.<b><em> <i>Both</i> <i>the</i> <i>installation</i> <i>and</i> <i>activation</i> <i>processes</i> <i>trigger</i> <i>corresponding</i> <i>install</i> <i>and</i> <i>activate</i> <i>events</i> <i>to</i> <i>which</i> <i>the</i> <i>service</i> <i>workers</i> <i>can</i> <i>respond</i></em></b>.<b><em> <i>There</i> <i>are</i> <i>also</i> <i>message</i> <i>events</i></em>,<em> <i>where</i> <i>the</i> <i>service</i> <i>worker</i> <i>can</i> <i>receive</i> <i>information</i> </em>from<em> <i>other</i> <i>scripts</i></em>,<em> <i>and</i> <i>functional</i> <i>events</i> <i>such</i> <i>as</i> <i>fetch</i></em>,<em> <i>push</i></em>,<em> <i>and</i> <i>sync</i></em></b>.</p>
+                <p><b><em><i>To</i> <i>examine</i> <i>service</i> <i>workers</i></em>,<em> <i>navigate</i> <i>to</i> <i>the</i> <i>Service</i> <i>Worker</i> <i>section</i> <i>in</i> <i>your</i> <i>browser's</i> <i>developer</i> <i>tools</i></em></b>.<b><em> <i>The</i> <i>process</i> <i>is</i> <i>different</i> <i>in</i> <i>each</i> <i>browser</i> </em>that<em> <i>supports</i> <i>service</i> <i>workers</i></em></b>.<b><em> <i>For</i> <i>information</i> <i>about</i> <i>using</i> <i>your</i> <i>browser's</i> <i>developer</i> <i>tools</i> <i>to</i> <i>check</i> <i>the</i> <i>status</i> </em>of<em> <i>service</i> <i>workers</i></em>,<em> <i>see</i> <i>Tools</i> <i>for</i> <i>PWA</i> <i>Developers</i></em></b>.</p>
+                <h3><b><em><i>Further</i> <i>reading</i></em></b>.</h3>
+                <p><b><em><i>A</i> <i>more</i> <i>detailed</i> <i>introduction</i> <i>to</i> <i>The</i> <i>Service</i> <i>Worker</i> <i>Lifecycle</i></em></b>.</p>
+                <ul><li><b><em><i>More</i> <i>on</i> <i>Service</i> <i>Worker</i> <i>Registration</i></em></b>.</li><li><b><em><i>Create</i> <i>your</i> <i>own</i> <i>service</i> <i>worker</i> </em>(<em><i>lab</i></em>)</b>.</li><li><b><em><i>Take</i> <i>a</i> <i>blog</i> <i>site</i> </em>of<em><i>fline</i> </em>(<em><i>lab</i></em>)</b>.</li><li><b><em><i>Cache</i> <i>files</i> <i>with</i> <i>Service</i> <i>Worker</i> </em>(<em><i>lab</i></em>)</b>.</li></ul>
+            </article>
+        </div>
+        <div id="ui-tabs">
+            <div class="tab-box">
+                <div class="tab-header">
+                    <button do="tab_Open" for="tab_word">Words</button>
+                    <button do="tab_Open" for="tab_grammar">Grammar</button>
+                    <button do="tab_Open" for="tab_reading">Reading</button>
+                    <button do="tab_Open" for="tab_history">History</button>
+                    <button do="tab_Open" for="tab_bookmark">Bookmark</button>
+                </div>
+
+                <div id="tab_word" class="tab-content" for="_TAB_DETAIL">
+                    <ul class="list-checkbox">
+                        <li><i></i><label>Service</label><em>dịch vụ</em><b>9</b></li>
+                        <li><i></i><label>Worker</label><em></em><b>88</b></li>
+                        <li class="check"><i></i><label>Menu</label><em>danh mục</em><b>4</b></li>
+                        <li><i></i><label>Button</label><em></em><b>4</b></li>
+                        <li><i></i><label>Close</label><em>đóng, thoát</em><b>4</b></li>
+                    </ul>
+                </div>
+                <div id="tab_grammar" class="tab-content" for="_TAB_DETAIL"></div>
+                <div id="tab_reading" class="tab-content" for="_TAB_DETAIL"></div>
+                <div id="tab_history" class="tab-content" for="_TAB_DETAIL"></div>
+                <div id="tab_bookmark" class="tab-content" for="_TAB_DETAIL"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <section id="ui-indicator">
+        <shadow></shadow>
+        <content>
+            <img src="/indicator.gif" />
+            <p>Please wait ...</p>
+        </content>
+    </section>
+
+    <section id="ui-alert" style="display:none">
+        <shadow></shadow>
+        <content>
+            <aside>
+                <header>
+                    <h3>Message</h3>
+                </header>
+                <fieldset>
+                    <p>This is content alert ...</p>
+                </fieldset>
+                <footer>
+                    <button>Ok</button>
+                </footer>
+            </aside>
+        </content>
+    </section>
+
+    <div id="toast"></div>
+
+    <script src="/ui.js"></script>
+    <link href="/page.css" rel="stylesheet" />
+</body>
+</html>
