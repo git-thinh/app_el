@@ -142,8 +142,8 @@ registerPromiseWorker(function (m) {
                 console.log('STORE.BROADCAST.CONNECTED: ', config.BROADCAST_ID);
                 broadcast.addEventListener("message", (e) => {
                     var m = e.data;
-                    if (m.key_cache != null) {
-                        cache[m.key_cache] = m;
+                    if (m.cache_key != null) {
+                        cache[m.cache_key] = m;
                     }
                 }, false);
             }
@@ -156,7 +156,7 @@ registerPromiseWorker(function (m) {
         case config.API_TREE_NODE:
             if (input.folder != null && input.path != null) {
                 key = f_cache_key([m.action, input.path, input.folder]);
-                m.key_cache = key;
+                m.cache_key = key;
                 cache[key] = m;
                 f_socket_send(key);
             }
@@ -186,6 +186,55 @@ registerPromiseWorker(function (m) {
                 //    };
                 //    f_broadcast_send(m); 
                 //}, 3500);
+            }
+            break;
+        case config.API_FILE_LOAD:
+            if (input != null) {
+                result_type = 'html';
+                key = f_cache_key([m.action, result_type, input.path, input.file]);
+                m.result_type = result_type;
+                m.cache_key = key;
+                cache[key] = m;
+
+                result_type = 'word';
+                var key2 = f_cache_key([m.action, result_type, input.path, input.file]);
+                var m2 = _.clone(m);
+                m2.result_type = result_type;
+                m2.cache_key = key2;
+                cache[key2] = m2;
+
+                result_type = 'text';
+                var key3 = f_cache_key([m.action, result_type, input.path, input.file]);
+                var m3 = _.clone(m);
+                m3.result_type = result_type;
+                m3.cache_key = key3;
+                cache[key3] = m3;
+
+                f_socket_send(key);
+
+                //_db_article.getItem(key, function (err, value) {
+                //    if (value == null) {
+                //        f_socket_Send(key);
+                //    } else {
+                //        m.result = value.result;
+                //        console.log('CACHE.HTML: ', m);
+                //        self.postMessage(m);
+                //        _db_article.getItem(key2, function (err2, value2) {
+                //            if (value2 != null) {
+                //                m2.result = value2.result;
+                //                console.log('CACHE.WORD: ', m2);
+                //                self.postMessage(m2);
+                //            }
+                //        });
+                //        _db_article.getItem(key3, function (err3, value3) {
+                //            if (value3 != null) {
+                //                m3.result = value3.result;
+                //                console.log('CACHE.TEXT: ', m3);
+                //                self.postMessage(m3);
+                //            }
+                //        });
+                //    }
+                //});
             }
             break;
         default:

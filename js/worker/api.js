@@ -92,21 +92,21 @@ function f_db_Query(m) {
                 result_type = 'html';
                 key = f_create_key([m.action, input.name, result_type]);
                 m.result_type = result_type;
-                m.key_cache = key;
+                m.cache_key = key;
                 _cache_request[key] = m;
 
                 result_type = 'word';
                 var key2 = f_create_key([m.action, input.name, result_type]);
                 var m2 = _.clone(m);
                 m2.result_type = result_type;
-                m2.key_cache = key2;
+                m2.cache_key = key2;
                 _cache_request[key2] = m2;
 
                 result_type = 'text';
                 var key3 = f_create_key([m.action, input.name, result_type]);
                 var m3 = _.clone(m);
                 m3.result_type = result_type;
-                m3.key_cache = key3;
+                m3.cache_key = key3;
                 _cache_request[key3] = m3;
 
                 _db_article.getItem(key, function (err, value) {
@@ -137,7 +137,7 @@ function f_db_Query(m) {
         case _action_key.TREE_NODE:
             if (input.folder != null && input.path != null) {
                 key = f_create_key([m.action, input.path, input.folder]);
-                m.key_cache = key;
+                m.cache_key = key;
                 _cache_request[key] = m;
                 f_socket_Send(key);
             }

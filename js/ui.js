@@ -51,7 +51,7 @@ var ui = {
         var el = e.target;
         console.log('UI.CLICK: ', el.tagName);
         if (el.hasAttribute('type') && el.getAttribute('type') == 'submit') {
-            ui.m_elem_current_id = el.generateID();
+            ui.m_elem_current_id = el.getOrCreateID();
             ui.m_form_current = el.closest('form');
         } else {
             ui.m_form_current = null;
@@ -114,7 +114,7 @@ var ui = {
                 }
                 if (exist) {
                     if (m == null) { m = {}; }
-                    m.input = {};
+                    if (m.input == null) { m.input = {}; }
 
                     /* exist paramenters */
                     if (a.length > 1) {
@@ -152,7 +152,7 @@ var ui = {
         f_set: function (key, m) {
             if (config.BROADCAST_STATE && broadcast != null && key !== null) {
                 if (typeof key != 'string') { key = key.toString(); }
-                m.key_cache = key;
+                m.cache_key = key;
                 console.log('UI.BROADCAST -> STORE set cache: ' + key, m);
                 broadcast.postMessage(m);
             }
@@ -264,22 +264,20 @@ var ui = {
         on_node_click: function (m) {
             var el = document.getElementById(m.selector);
             if (el != null) {
-                //console.log(m);
+                console.log('UI.tree.on_node_click: ',m);
                 var node = m.input, pa = el.parentElement;
                 if (node == null) return;
 
                 switch (node.type) {
-                    case 'root':
+                    case 'root': case 'dir':
                         m.action = 'TREE_NODE';
                         m.callback = 'tree.rs_node_click';
                         ui.post(m, ui.dialog.f_indicator_show, ui.dialog.f_alert_show);
-                        break;
-                    case 'dir':
-                        m.action = 'TREE_NODE';
-                        m.callback = 'tree.rs_node_click';
+                        break; 
+                    case 'file': 
+                        m.action = 'FILE_LOAD';
+                        m.callback = 'tree.rs_node_click'; 
                         ui.post(m, ui.dialog.f_indicator_show, ui.dialog.f_alert_show);
-                        break;
-                    case 'file':
                         break;
                 }
 
@@ -353,16 +351,20 @@ var ui = {
                     Array.from(rs.dirs).forEach(function (it) {
                         if (it.count > 0) {
                             s += '<li><details><summary do="tree.on_node_click,node' +
-                                config.SPLIT_KEY + 'dir' +
-                                config.SPLIT_KEY + path +
-                                config.SPLIT_KEY + it.name +
-                                config.SPLIT_KEY + '">' + it.name + '(' + it.count + ')</summary></li>';
+                                config.SPLIT_KEY + 'dir' +/*path*/
+                                config.SPLIT_KEY + path + /*path*/
+                                config.SPLIT_KEY +  it.name +/*folder*/
+                                config.SPLIT_KEY + /*file*/ '">' + it.name + '(' + it.count + ')</summary></li>';
                         } else {
                             s += '<li class="dir-empty">' + it.name + '</li>';
                         }
                     });
                     Array.from(rs.files).forEach(function (it) {
-                        s += '<li class="file" do="tree.on_node_click|' + it.name + '|' + it.type + '">' + it.title + '</li>';
+                        s += '<li class="file" do="tree.on_node_click,node' +
+                                config.SPLIT_KEY + 'file' + /*path*/
+                                config.SPLIT_KEY + path + /*path*/
+                                config.SPLIT_KEY + /*folder*/
+                                config.SPLIT_KEY + it.name + /*file*/'">' + it.title + '</li>';
                     });
                     s += '</ul>';
 

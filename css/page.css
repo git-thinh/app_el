@@ -150,10 +150,25 @@ div.tab-content {
             color: #999;
         }
 
-        #tree_category details ul li.file {
-            padding: 0 0 0 14px;
-            /* color: #111; */
+        #tree_category details ul li.file:hover, 
+        #tree_category details ul li.file.active {
+            color: orangered;
+            /*font-weight: bold;
+            font-size: 15px;*/
         }
+
+        #tree_category details ul li.file {
+            padding: 0 0 7px 14px;
+            color: #111;
+            line-height: 18px;
+        }
+
+            #tree_category details ul li.file:before {
+                content: "»";
+                padding: 0 3px 0 0;
+                color: #777;
+                font-size: 1.4em;
+            }
 
 /* ARTICLE */
 #ui-article {
