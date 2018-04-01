@@ -1,11 +1,13 @@
 ﻿importScripts('promise-worker.register.min.js', 'localforage.min.js', 'underscore.min.js');
-Object.prototype.error = function (text_error) { var it = this; if (it == null) { it = {}; } it.ok = false; it.has_error = true; it.error_message = text_error; return it; };
-
+var vars = new Array;
 var broadcast;
+var broadcast_msg = new Array;
 var cache = {};
 var config = {
     /* cache */
+    API_CACHE_RENDER: 'API_CACHE_RENDER',
     API_CACHE_GET: 'API_CACHE_GET',
+    API_CACHE_GET_INPUT: 'API_CACHE_GET_INPUT',
     API_CACHE_CLEAN: 'API_CACHE_CLEAN',
     /* broadcast */
     BROADCAST_CONNECT: 'BROADCAST_CONNECT',
@@ -41,6 +43,15 @@ setInterval(function () {
         f_socket_init();
     }
 }, 5000);
+
+setInterval(function () {
+    if (broadcast_msg.length > 0) {
+        var m = broadcast_msg.pop();
+        if (config.BROADCAST_STATE && broadcast != null && m != null) {
+            broadcast.postMessage(m);
+        }
+    }
+}, 100);
 
 function f_socket_init() {
     ws = new WebSocket('ws://localhost:8889');
@@ -88,7 +99,9 @@ var on_socket_message_receiver = function (e) {
         m.result = result;
         console.log('STORE.SOCKET -> UI: ', m);
 
-        f_broadcast_send(m);
+        broadcast_msg.push(m);
+        console.log('MSG.PUSH.len = ', broadcast_msg.length);
+        //f_broadcast_send(m);
         //_db_article.setItem(key, m);
     }
 }
@@ -97,7 +110,7 @@ var on_socket_message_receiver = function (e) {
 /* API */
 
 function f_broadcast_send(m) {
-    if (config.BROADCAST_STATE && broadcast != null) {
+    if (config.BROADCAST_STATE && broadcast != null && m != null) {
         console.log('STORE.BROADCAST -> UI: ', m);
         broadcast.postMessage(m);
     }
@@ -130,9 +143,17 @@ function f_cache_key(arr) {
 
 registerPromiseWorker(function (m) {
     console.log('UI -> STORE: ', m);
-    if (m == null) return m.error('Message must be not null.');
+    if (m != null && m.lik) { delete m.lik; vars.push(m); return vars.length - 1; }
+
 
     var value, input = m.input, key;
+
+    m.ok = false;
+    m.has_error = 0;
+    //m.error_message = '';
+
+    //if (m == null) return m.error('Message must be not null.');
+
     switch (m.action) {
         case config.BROADCAST_CONNECT:
             if (m.input != null && 'BroadcastChannel' in self) {
@@ -148,10 +169,25 @@ registerPromiseWorker(function (m) {
                 }, false);
             }
             break;
+        case config.API_CACHE_GET_INPUT:
+            var id = Number(m.input);
+            if (id != NaN && id < vars.length) value = vars[id];
+            break;
+        case config.API_CACHE_RENDER:
+            value = '';
+            Array.from(m.input).forEach(function (it, index) {
+                vars.push(it);
+                var id = vars.length - 1;
+                var tem = m.template;
+                tem = tem.replace(/{{_id}}/g, function (match, field) { return id; });
+                tem = tem.replace(/{{(\w+)}}/g, function (match, field) { return it[field]; });
+                value += tem;
+            });
+            break;
         case config.API_CACHE_GET:
-            if (m.input == null || m.input == '') return m.error('input must be not null or empty');
+            //if (m.input == null || m.input == '') return m.error('input must be not null or empty');
             value = cache[m.input];
-            if (value == null) return m.error('Cannot find item: ' + m.input);
+            //if (value == null) return m.error('Cannot find item: ' + m.input);
             break;
         case config.API_TREE_NODE:
             if (input.folder != null && input.path != null) {
@@ -238,7 +274,7 @@ registerPromiseWorker(function (m) {
             }
             break;
         default:
-            return m.error('Cannot find API: ' + m.action);
+            //return m.error('Cannot find API: ' + m.action);
             break;
     }
     m.ok = true;
