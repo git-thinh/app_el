@@ -1,7 +1,5 @@
 ﻿var ___module_id = {
-    init: function (module) {
-        console.log('this is init ' + module.code, module);
-    },
+    init: function (module) { },
     controller: function (module) {
         var state = module.state,
             id = module.id,
@@ -11,16 +9,22 @@
 
         switch (state) {
             case 'load':
-                console.log('UI.MODULE.LOAD ' + module.code, module);
                 el.style.display = '';
-
+                page_show();
                 break;
             default:
                 console.log('UI.MODULE.' + state + ' - ' + module.code, module);
                 break;
         }
     },
-    username_change: function (event) {
-        console.log('this is event_username_change ', event);
+    on_root_click: function (el) {
+        var pa = document.getElementById('');
+        pa = el.parentElement;
+        if (pa != null) {
+            if (!pa.hasAttribute('open')) {
+                alert('open dirs');
+
+            }
+        }
     },
 };

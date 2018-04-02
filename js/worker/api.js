@@ -1,99 +1,72 @@
 ﻿importScripts('promise-worker.register.min.js', 'localforage.min.js', 'underscore.min.js');
 var load = function (url) { var r = new XMLHttpRequest(); r.open('GET', url, false); r.send(null); if (r.status === 200) { return r.responseText; } return ''; }
-var isOnline = false, cache = new Array, api = {}, template = {};
 
 /* WORKER - BROADCAST - EVENT SOURCE */
 var evtSource = new EventSource('http://localhost:3456/SERVER-SENT-EVENTS');
-evtSource.onmessage = api.on_online;
-evtSource.onerror = api.on_offline;
+evtSource.onmessage = (e) => { };
+evtSource.onerror = (e) => { };
 var broadcast; if ('BroadcastChannel' in self) { broadcast = new BroadcastChannel('BROADCAST_ID'); }
 registerPromiseWorker((m) => { self[m.action](m); });
-var post = function (m) { broadcast.postMessage(m); }
-
-/* API */
-api.on_online = function () {
-    if (isOnline == false) {
-        isOnline = true;
-        post('online');
-    }
-};
-api.on_offline = function () {
-    isOnline = false;
-    post('offline');
-};
-
-api.on_worker_receiver = function (m) {
-    console.log('WORKER: ', m);
-    eval(m);
-    return null;
-};
-
+var post_ui = function (m) { broadcast.postMessage(m); }
 
 /***********************************************************************/
 /* MODULE */
 
 function module_load(m) {
-    var input = m.input, id, code, type;
+    var input = m.input, id, code, type, selector;
     if (input == null) return;
+    selector = input.selector;
     code = input.code;
     id = input.id;
+    if (selector == null) selector = '';
     if (code == null) return;
+    code = code.toString().trim().toLowerCase();
     type = input.type;
     if (type == null) type = 'init';
     var controller = 'module_' + code + '_controller';
 
+    if (code.match(/[^A-Za-z0-9\_]/) || code.indexOf('___') != -1) {
+        console.log('Module code are characters a-z, A-Z, 0-9 and _');
+        return;
+    }
+
     switch (type) {
         case 'view':
-            console.log('WORKER.MODULE.VIEW:', m);
             if (id == null) return;
             var html = load('/view/' + code + '/index.html'),
                 _eval = '';
             if (html != '') {
-                html = '<shadow></shadow><content><aside>' + html + '</aside></content>';
+                html = html.split('___module_id').join(id);
+                if (selector == '') html = '<shadow></shadow><content><aside>' + html + '</aside></content>';
                 _eval =
-                    'setTimeout(function(){ module_init({ id:"' + id + '", code: "' + code + '", controller: "' + controller + '" }); ' +
-                    controller + '({ state: "load", id:"' + id + '", code: "' + code + '" }); }, 0);';
+                    'setTimeout(function(){ module_init_event({ id:"' + id + '", code: "' + code + '", selector: "' + selector + '"}); ' +
+                'if (' + id + ' != null && ' + id + '.controller != null && typeof ' + id + '.controller === "function") { ' + id + '.controller({ state: "load", id:"' + id + '", code: "' + code + '", selector: "' + selector + '" }); } ' +
+                    ' else { alert("Cannot find function ___module_id.controller() in file js.js"); } ' +
+                    ' }, 0);';
             }
-            post({ action: 'module_load', result: { type: type, code: code, id: id, html: html, eval: _eval, className: '' } });
+            post_ui({ action: 'module_load', result: { type: type, code: code, id: id, html: html, eval: _eval, className: '', selector: selector } });
             break;
         case 'init':
-            id = 'm_' + code + '_' + (new Date().getTime()).toString();
-                js = load('/view/' + code + '/js.js'),
+            id = code + '___' + (new Date().getTime()).toString();
+
+            js = load('/view/' + code + '/js.js'),
                 css = load('/view/' + code + '/css.css'),
                 _eval = '';
             if (js != '') {
-                js = 'function ' + controller + '(module){  if (module != null && module.state == "init" && typeof init === "function") { init(module); return; } \r\n ' + js + ' \r\n }; \r\n ';
+                js = js.split('___module_id').join(id);
+                js = ' \r\n ' + js + ' \r\n ';
+
                 _eval =
-                    'setTimeout(module_' + code + '_controller({ state: "init", id:"' + id + '", code: "' + code + '" }), 0);' +
-                'call_api("module_load", { code: "' + code + '", id:"' + id + '", type: "view" });';
+                    'setTimeout(function(){ ' +
+                'if (' + id + ' != null && ' + id + '.init != null && typeof ' + id + '.init === "function") { ' + id + '.init({ code: "' + code + '", id:"' + id + '", selector: "' + selector + '" }); } ' +
+                    ' else {  } ' +
+                id + '.controller({ state: "init", id:"' + id + '", code: "' + code + '", selector: "' + selector + '" }); }, 0);' +
+                'call_api("module_load", { code: "' + code + '", id:"' + id + '", type: "view", selector: "' + selector + '" });';
             }
             if (css != '') {
-                css = '\r\n' + css.split('module_id').join(id) + '\r\n';
+                css = '\r\n' + css.split('___module_id').join(id) + '\r\n';
             }
-            post({ action: 'module_load', result: { type: type, code: code, id: id, script: js, eval: _eval, style: css } });
+            post_ui({ action: 'module_load', result: { type: type, code: code, id: id, script: js, eval: _eval, style: css, selector: selector } });
             break;
     }
 }
-
-
-//    cache: {
-//        f_get: function (m) {
-//            if (m < cache.length) { return cache[m]; } else { return null } 
-//        },
-//        f_set: function (m) {
-//            if (m < cache.length) { return cache[m]; } else { return null } 
-//            switch (m) {
-//                case 'clean': case 'cls':
-//                    cache = new Array;
-//                    break;
-//                case 'print': case 'log': case 'cache':
-//                    console.log(cache);
-//                    break;
-//                default:
-//                    cache.push(m);
-//                    return cache.length - 1;
-//                    break;
-//            }
-//        }
-//    }
-//};
