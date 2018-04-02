@@ -150,7 +150,7 @@ div.tab-content {
             color: #999;
         }
 
-        #tree_category details ul li.file:hover, 
+        #tree_category details ul li.file:hover,
         #tree_category details ul li.file.active {
             color: orangered;
             /*font-weight: bold;
@@ -186,6 +186,12 @@ div.tab-content {
 article {
 }
 
+    article h1 {
+        font-weight: bold;
+        font-size: 1.5em;
+        text-align:center;
+    }
+
     article h2, article h3, article p, article span, article ul {
         padding-left: 20px;
         padding-right: 20px;
@@ -199,7 +205,7 @@ article {
         padding-bottom: 24px;
     }
 
-        article h2, article h2 b, article h2 b i {
+        article h2 b, article h2 b i {
             font-weight: 500;
             font-size: 1.2em;
         }
@@ -207,9 +213,11 @@ article {
     article h3 {
         padding-bottom: 11px;
         margin-top: 24px;
+        font-weight: bold;
+        font-size: 1.3em;
     }
 
-        article h3, article h3 b, article h3 b i {
+        article h3 b, article h3 b i {
             font-weight: 500;
             font-size: 1.1em;
         }

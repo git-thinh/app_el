@@ -1,8 +1,10 @@
 ﻿importScripts('promise-worker.register.min.js', 'localforage.min.js', 'underscore.min.js');
+var api_host = 'http://localhost:3456';
 var load = function (url) { var r = new XMLHttpRequest(); r.open('GET', url, false); r.send(null); if (r.status === 200) { return r.responseText; } return ''; }
+var ajax_get = function (url, event_ok, event_error) { var r = new XMLHttpRequest(); r.onreadystatechange = function () { if (this.readyState == 4 && this.status == 200) { if (event_ok != null) event_ok(JSON.parse(r.responseText)); } }; r.open("GET", url, true); r.send(); }
 
 /* WORKER - BROADCAST - EVENT SOURCE */
-var evtSource = new EventSource('http://localhost:3456/SERVER-SENT-EVENTS');
+var evtSource = new EventSource(api_host + '/SERVER-SENT-EVENTS');
 evtSource.onmessage = (e) => { };
 evtSource.onerror = (e) => { };
 var broadcast; if ('BroadcastChannel' in self) { broadcast = new BroadcastChannel('BROADCAST_ID'); }
@@ -72,9 +74,19 @@ function module_load(m) {
 /* API: DIR_GET, FILE_LOAD, ... */
 
 function dir_get(m) {
-
+    console.log('API.dir_get: ', m);
+    var url = api_host + '?type=dir_get';
+    var folder = m.input.folder, path = m.input.path;
+    if (folder != null && folder != '') url += '&folder=' + folder;
+    if (path != null && path != '') url += '&path=' + path;
+    ajax_get(url, (val) => { m.result = val; post_ui(m); });
 }
 
 function file_load(m) {
-
+    console.log('API.file_load: ', m);
+    var url = api_host + '?type=file_load';
+    var file_name = m.input.file_name, path = m.input.path;
+    if (file_name != null && file_name != '') url += '&file_name=' + file_name;
+    if (path != null && path != '') url += '&path=' + path;
+    ajax_get(url, (val) => { m.result = val; post_ui(m); }); 
 }

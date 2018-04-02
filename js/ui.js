@@ -4,9 +4,10 @@ Date.prototype.customFormat = function (formatString) { var YYYY, YY, MMMM, MMM,
 
 /* WORKER - BROADCAST */
 var worker = new PromiseWorker(new Worker('js/worker/api.js'));
-var broadcast; if ('BroadcastChannel' in window) { broadcast = new BroadcastChannel('BROADCAST_ID'); broadcast.addEventListener("message", (e) => { var m = e.data; window[m.callback](m); }, false); }
-var post_api = function (m) { worker.postMessage(m); }
+var broadcast; if ('BroadcastChannel' in window) { broadcast = new BroadcastChannel('BROADCAST_ID'); broadcast.addEventListener("message", (e) => { var m = e.data; if (m.callback == null) return; if (m.callback.indexOf('___') == -1) window[m.callback](m); else { var a = m.callback.split('.'); if (a.length > 1 && window[a[0]] != null && typeof window[a[0]][a[1]] === 'function') window[a[0]][a[1]](m); } }, false); }
+var post_api = function (m) { console.log('UI.post_api: ', m); worker.postMessage(m); }
 
+/* MODULE */
 function module_load(m) {
     var result = m.result;
     if (result == null) return;
@@ -111,15 +112,45 @@ function module_submit_form(module_id, form_id) {
     }
 }
 
-/* TEST MODULE */
-// post_api({ action: 'module_load', input: { code: 'confirm' } });
-// post_api({ action: 'module_load', input: { code: 'content_edit', config: { c2: true } } });
-// post_api({ action: 'module_load', input: { code: 'folder_edit' } });
-// post_api({ action: 'module_load', input: { code: 'input' } });
-// post_api({ action: 'module_load', input: { code: 'login', config: { c1: true } } });
+function module_close(module_id) {
+    var el = document.getElementById(module_id);
+    if (el != null) el.remove();
+    var js = document.getElementById(module_id + '_js');
+    if (js != null) js.remove();
+    var css = document.getElementById(module_id + '_css');
+    if (css != null) css.remove();
+}
+
+function module_broadcast(m) {
+    var id;
+    Array.from(document.querySelectorAll('.module')).forEach(function (it) {
+        id = it.id;
+        if (id != null && window[id] != null && typeof window[id].message === 'function') {
+            window[id].message(m);
+        }
+    });
+}
+
+indicator_show();
+post_api({ action: 'module_load', input: { code: 'content_view', selector: '#ui-content' } });
 post_api({ action: 'module_load', input: { code: 'tree_dir', selector: '#ui-category' } });
 
 /* PAGE - LOGIN - ... */
+
+function indicator_show() {
+    var el = document.getElementById('ui-indicator');
+    if (el != null) {
+        el.style = '';
+    }
+}
+
+function indicator_hide() {
+    var el = document.getElementById('ui-indicator');
+    if (el != null) {
+        el.style.display = 'none';
+    }
+}
+
 function page_show() {
     var el = document.getElementById('ui-page');
     if (el != null) {
@@ -128,6 +159,17 @@ function page_show() {
 }
 
 function page_hide() {
+    var el = document.getElementById('ui-page');
+    if (el != null) {
+        el.style.display = 'none';
+    }
+}
+
+function login_show() {
+    post_api({ action: 'module_load', input: { code: 'login' } });
+}
+
+function login_hide() {
     var el = document.getElementById('ui-page');
     if (el != null) {
         el.style.display = 'none';
