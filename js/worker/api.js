@@ -9,9 +9,7 @@ var broadcast; if ('BroadcastChannel' in self) { broadcast = new BroadcastChanne
 registerPromiseWorker((m) => { self[m.action](m); });
 var post_ui = function (m) { broadcast.postMessage(m); }
 
-/***********************************************************************/
 /* MODULE */
-
 function module_load(m) {
     var input = m.input, id, code, type, selector;
     if (input == null) return;
@@ -61,7 +59,7 @@ function module_load(m) {
                 'if (' + id + ' != null && ' + id + '.init != null && typeof ' + id + '.init === "function") { ' + id + '.init({ code: "' + code + '", id:"' + id + '", selector: "' + selector + '" }); } ' +
                     ' else {  } ' +
                 id + '.controller({ state: "init", id:"' + id + '", code: "' + code + '", selector: "' + selector + '" }); }, 0);' +
-                'call_api("module_load", { code: "' + code + '", id:"' + id + '", type: "view", selector: "' + selector + '" });';
+                'post_api({ action: "module_load", input: { code: "' + code + '", id:"' + id + '", type: "view", selector: "' + selector + '" }});';
             }
             if (css != '') {
                 css = '\r\n' + css.split('___module_id').join(id) + '\r\n';
@@ -69,4 +67,14 @@ function module_load(m) {
             post_ui({ action: 'module_load', result: { type: type, code: code, id: id, script: js, eval: _eval, style: css, selector: selector } });
             break;
     }
+}
+
+/* API: DIR_GET, FILE_LOAD, ... */
+
+function dir_get(m) {
+
+}
+
+function file_load(m) {
+
 }

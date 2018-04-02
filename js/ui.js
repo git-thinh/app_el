@@ -5,7 +5,7 @@ Date.prototype.customFormat = function (formatString) { var YYYY, YY, MMMM, MMM,
 /* WORKER - BROADCAST */
 var worker = new PromiseWorker(new Worker('js/worker/api.js'));
 var broadcast; if ('BroadcastChannel' in window) { broadcast = new BroadcastChannel('BROADCAST_ID'); broadcast.addEventListener("message", (e) => { var m = e.data; window[m.action](m); }, false); }
-var call_api = function (func, input) { var m = { action: func, input: input }; worker.postMessage(m); }
+var post_api = function (m) { worker.postMessage(m); }
 
 function module_load(m) {
     var result = m.result;
@@ -112,12 +112,12 @@ function module_submit_form(module_id, form_id) {
 }
 
 /* TEST MODULE */
-//call_api('module_load', { code: 'confirm' });
-//call_api('module_load', { code: 'content_edit', config: { c2: true } });
-//call_api('module_load', { code: 'folder_edit' });
-//call_api('module_load', { code: 'input' });
-//call_api('module_load', { code: 'login', config: { c1: true } });
-call_api('module_load', { code: 'tree_dir', selector: '#ui-category' });
+// post_api({ action: 'module_load', input: { code: 'confirm' } });
+// post_api({ action: 'module_load', input: { code: 'content_edit', config: { c2: true } } });
+// post_api({ action: 'module_load', input: { code: 'folder_edit' } });
+// post_api({ action: 'module_load', input: { code: 'input' } });
+// post_api({ action: 'module_load', input: { code: 'login', config: { c1: true } } });
+post_api({ action: 'module_load', input: { code: 'tree_dir', selector: '#ui-category' } });
 
 /* PAGE - LOGIN - ... */
 function page_show() {
