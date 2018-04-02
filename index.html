@@ -13,21 +13,6 @@
         <div id="ui-content"> 
         </div>
         <div id="ui-tabs">
-            <div class="tabs">
-                <button do="tab.on_item_click|tab_history">History</button>
-                <button do="tab.on_item_click|tab_bookmark">Bookmark</button>
-                <button do="tab.on_item_click|tab_reading">Reading</button>
-                <button do="tab.on_item_click|tab_grammar">Grammar</button>
-                <button do="tab.on_item_click|tab_word" class="active">Words</button>
-            </div>
-            <div class="tab-items"> 
-                <div id="tab_word" class="tab-content">
-                </div>
-                <div id="tab_grammar" class="tab-content"></div>
-                <div id="tab_reading" class="tab-content"></div>
-                <div id="tab_history" class="tab-content"></div>
-                <div id="tab_bookmark" class="tab-content"></div>
-            </div>
         </div>
     </div>
 
@@ -61,6 +46,6 @@
 
     <script src="/js/ui.js"></script>
     <link href="/css/page.css" rel="stylesheet" />
-    
+    <script src="/js/worker/underscore.min.js" async></script>    
 </body>
 </html>

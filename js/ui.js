@@ -126,12 +126,13 @@ function module_broadcast(m) {
     Array.from(document.querySelectorAll('.module')).forEach(function (it) {
         id = it.id;
         if (id != null && window[id] != null && typeof window[id].message === 'function') {
-            window[id].message(m);
+            setTimeout(window[id].message(m), 0);
         }
     });
 }
 
 indicator_show();
+post_api({ action: 'module_load', input: { code: 'tabs', selector: '#ui-tabs' } });
 post_api({ action: 'module_load', input: { code: 'content_view', selector: '#ui-content' } });
 post_api({ action: 'module_load', input: { code: 'tree_dir', selector: '#ui-category' } });
 
