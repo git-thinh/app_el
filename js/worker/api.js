@@ -42,7 +42,7 @@ function module_load(m) {
                     ' else { alert("Cannot find function ___module_id.controller() in file js.js"); } ' +
                     ' }, 0);';
             }
-            post_ui({ action: 'module_load', result: { type: type, code: code, id: id, html: html, eval: _eval, className: '', selector: selector } });
+            post_ui({ action: 'module_load', callback: 'module_load', result: { type: type, code: code, id: id, html: html, eval: _eval, className: '', selector: selector } });
             break;
         case 'init':
             id = code + '___' + (new Date().getTime()).toString();
@@ -64,7 +64,7 @@ function module_load(m) {
             if (css != '') {
                 css = '\r\n' + css.split('___module_id').join(id) + '\r\n';
             }
-            post_ui({ action: 'module_load', result: { type: type, code: code, id: id, script: js, eval: _eval, style: css, selector: selector } });
+            post_ui({ action: 'module_load', callback: 'module_load', result: { type: type, code: code, id: id, script: js, eval: _eval, style: css, selector: selector } });
             break;
     }
 }

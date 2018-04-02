@@ -4,7 +4,7 @@ Date.prototype.customFormat = function (formatString) { var YYYY, YY, MMMM, MMM,
 
 /* WORKER - BROADCAST */
 var worker = new PromiseWorker(new Worker('js/worker/api.js'));
-var broadcast; if ('BroadcastChannel' in window) { broadcast = new BroadcastChannel('BROADCAST_ID'); broadcast.addEventListener("message", (e) => { var m = e.data; window[m.action](m); }, false); }
+var broadcast; if ('BroadcastChannel' in window) { broadcast = new BroadcastChannel('BROADCAST_ID'); broadcast.addEventListener("message", (e) => { var m = e.data; window[m.callback](m); }, false); }
 var post_api = function (m) { worker.postMessage(m); }
 
 function module_load(m) {
