@@ -2,4 +2,164 @@
 Date.prototype.customFormat = function (formatString) { var YYYY, YY, MMMM, MMM, MM, M, DDDD, DDD, DD, D, hhhh, hhh, hh, h, mm, m, ss, s, ampm, AMPM, dMod, th; var dateObject = this; YY = ((YYYY = dateObject.getFullYear()) + "").slice(-2); MM = (M = dateObject.getMonth() + 1) < 10 ? ('0' + M) : M; MMM = (MMMM = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][M - 1]).substring(0, 3); DD = (D = dateObject.getDate()) < 10 ? ('0' + D) : D; DDD = (DDDD = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][dateObject.getDay()]).substring(0, 3); th = (D >= 10 && D <= 20) ? 'th' : ((dMod = D % 10) == 1) ? 'st' : (dMod == 2) ? 'nd' : (dMod == 3) ? 'rd' : 'th'; formatString = formatString.replace("#YYYY#", YYYY).replace("#YY#", YY).replace("#MMMM#", MMMM).replace("#MMM#", MMM).replace("#MM#", MM).replace("#M#", M).replace("#DDDD#", DDDD).replace("#DDD#", DDD).replace("#DD#", DD).replace("#D#", D).replace("#th#", th); h = (hhh = dateObject.getHours()); if (h == 0) h = 24; if (h > 12) h -= 12; hh = h < 10 ? ('0' + h) : h; hhhh = hhh < 10 ? ('0' + hhh) : hhh; AMPM = (ampm = hhh < 12 ? 'am' : 'pm').toUpperCase(); mm = (m = dateObject.getMinutes()) < 10 ? ('0' + m) : m; ss = (s = dateObject.getSeconds()) < 10 ? ('0' + s) : s; return formatString.replace("#hhhh#", hhhh).replace("#hhh#", hhh).replace("#hh#", hh).replace("#h#", h).replace("#mm#", mm).replace("#m#", m).replace("#ss#", ss).replace("#s#", s).replace("#ampm#", ampm).replace("#AMPM#", AMPM); };
 Object.prototype.getOrCreateID = function () { var id = 'ID' + (new Date().getTime() + Math.floor(Math.random() * 100)).toString() /*random [0,99]*/; if (this.hasAttribute('id')) { id = this.getAttribute('id'); } else { this.setAttribute('id', id); } return id; }
 //window.console.log = function (title, data) { };
-var api = new PromiseWorker(new Worker('js/worker/api.js'));
+
+/* WORKER - BROADCAST */
+var worker = new PromiseWorker(new Worker('js/worker/api.js'));
+var broadcast; if ('BroadcastChannel' in window) { broadcast = new BroadcastChannel('BROADCAST_ID'); broadcast.addEventListener("message", (e) => { var m = e.data; window[m.action](m); }, false); }
+var call_api = function (func, input) { var m = { action: func, input: input }; worker.postMessage(m); }
+
+//call_api('module_load', { code: 'confirm' });
+//call_api('module_load', { code: 'content_edit', config: { c2: true } });
+//call_api('module_load', { code: 'folder_edit' });
+//call_api('module_load', { code: 'input' });
+call_api('module_load', { code: 'login', config: { c1: true } });
+
+
+
+
+
+
+
+
+
+
+/* API */
+var ui = {}, api = {}, isOnline = false;
+api.on_broadcast_message_receiver = function (e) {
+
+};
+api.on_online = function () {
+    if (isOnline == false) {
+        isOnline = true;
+        console.log('isOnline = ', isOnline);
+    }
+};
+api.on_offline = function () {
+    if (isOnline) {
+        isOnline = false;
+        console.log('isOnline = ', isOnline);
+    }
+};
+
+ui.cookie = {
+    f_set: function (cname, cvalue) {
+        var d = new Date(), exdays = 10;
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    },
+    f_get: function (cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return '';
+    }
+};
+
+function module_load(m) {
+
+    var result = m.result;
+    if (result == null) return;
+    var type = result.type;
+
+    switch (type) {
+        case 'init':
+            var jsID = result.id + '_js',
+                script = result.script,
+                cssID = result.id + '_css',
+                style = result.style,
+                _eval = result.eval;
+            if (document.getElementById(jsID) == null) {
+                var js = document.createElement('script');
+                js.id = jsID;
+                js.type = 'text/javascript';
+                js.innerHTML = script;
+                document.body.appendChild(js);
+                if (_eval != null) eval(_eval);
+            }
+            if (document.getElementById(cssID) == null) {
+                var css = document.createElement('style');
+                css.id = cssID;
+                css.type = 'text/css';
+                css.innerHTML = style;
+                document.body.appendChild(css);
+            }
+            break;
+        case 'view':
+            var code = result.code, htmID = result.id, html = result.html, _eval = result.eval, className = result.className;
+            if (document.getElementById(htmID) == null) {
+                var div = document.createElement('section');
+                div.style.display = 'none';
+                div.id = htmID;
+                div.innerHTML = html;
+                div.setAttribute('for', code);
+                if (className != null)
+                    div.className = 'module ' + className;
+                else
+                    div.className = 'module';
+                document.body.appendChild(div);
+                if (_eval != null) eval(_eval);
+            }
+            break;
+    }
+}
+
+function module_init(m) {
+    if (m == null) return;
+    var id = m.id,
+        el = document.getElementById(m.id),
+        controller = m.controller,
+        code = m.code, js, name, form_id;
+    if (el == null || code == null || controller == null) return;
+    Array.from(el.querySelectorAll('form')).forEach(function (it, index) {
+        if (it.hasAttribute('name')) {
+            form_id = code + '-' + id + '-form' + index;
+            it.id = form_id;
+            it.setAttribute('action', 'javascript:module_submit_form("' + form_id + '","' + controller + '");');
+        } else {
+            it.setAttribute('action', 'javascript:alert("That form miss attribute [name] for submit");');
+
+        }
+    });
+}
+
+function module_submit_form(form_id, controller) {
+    var el = document.getElementById(form_id);
+    if (el == null) return;
+    var name, code, id;
+    if (el.hasAttribute('name')) name = el.getAttribute('name');
+    var a = form_id.split('-');
+    if (a.length > 1) { code = a[0]; id = a[1]; }
+    if (name != null && code != null && id != null) {
+        var data = {};
+        var formElements = el.elements, name;
+        for (var i = 0; i < formElements.length; i++) {
+            if (formElements[i].type != "submit") {
+                name = formElements[i].name;
+                if (name != null && name.toString().trim().length != 0) {
+                    data[formElements[i].name] = formElements[i].value;
+                }
+            }
+        }
+        var module = { state: "submit.form." + name, id: id, code: code, input: data };
+        if (typeof window[controller] == 'function') {
+            window[controller](module);
+        }
+    }
+}
+
+var post = function (m, callback, error) {
+    worker.postMessage(m).then(function (val) {
+        if (val != null && val.ok == true && callback != null && typeof callback === 'function') { callback(val); }
+        else if (val != null && val.has_error == true && error != null && typeof error === 'function') { error(val); }
+    });
+}; 
