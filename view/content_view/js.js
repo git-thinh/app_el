@@ -6,7 +6,7 @@
         var el = document.getElementById('ui-article');
         if (el != null) {
             var htm = '<article>', s = m.result.text,
-                a = _split(s, ['\r', '\n']), si = '',
+                a = _split(s, ['\r', '\n']), si = '', c0, lang = 'e',
                 isList = false, isCode = false;
             for (var i = 0; i < a.length; i++) {
                 si = a[i];
@@ -46,10 +46,26 @@
                             break;
                         default:
                             if (si.trim().length > 0) {
-                                if (isCode)
+                                if (isCode) {
                                     htm += si + '\r\n';
-                                else
-                                    htm += '<p>' + si + '</p>';
+                                } else {
+                                    si = si.trim();
+                                    c0 = si.substring(0, 2);
+                                    if (c0 == 'I.' || c0 == 'II' || c0 == 'V.' || c0 == 'IV' || c0 == 'VI' ||
+                                        c0 == 'A.' || c0 == 'B.' || c0 == 'C.' || c0 == 'D.' || c0 == 'E.' || c0 == 'F.' || c0 == 'G.' || c0 == 'H.') {
+                                        htm += '<h3>' + si + '</h3>';
+                                    } else {
+                                        lang = 'e';
+                                        if (si.length > si.replace(/[^\x20-\x7E]+/g, '').length) {
+                                            lang = 'v';
+                                            if (si.split('.').length > 1) lang += ' p';
+                                        }
+                                        if (si[0] == '-')
+                                            htm += '<p class="' + lang + ' b">' + si + '</p>';
+                                        else
+                                            htm += '<p class="' + lang + '">' + si + '</p>';
+                                    }
+                                }
                             }
                             break;
                     }

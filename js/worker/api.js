@@ -79,7 +79,7 @@ function dir_get(m) {
     var folder = m.input.folder, path = m.input.path;
     if (folder != null && folder != '') url += '&folder=' + folder;
     if (path != null && path != '') url += '&path=' + path;
-    ajax_get(url, (val) => { m.result = val; post_ui(m); });
+    ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 300); });
 }
 
 function file_load(m) {
@@ -88,5 +88,5 @@ function file_load(m) {
     var file_name = m.input.file_name, path = m.input.path;
     if (file_name != null && file_name != '') url += '&file_name=' + file_name;
     if (path != null && path != '') url += '&path=' + path;
-    ajax_get(url, (val) => { m.result = val; post_ui(m); }); 
+    ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 100); }); 
 }

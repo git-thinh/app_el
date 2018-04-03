@@ -80,8 +80,9 @@
             if (m.result.ok == false) { alert(m.result.msg); return; }
 
             var rs = m.result, folder = m.input.folder,
-                path = rs.path, title;
+                path = rs.path, title, cssRoot = '';
             if (folder == null || folder == '') folder = '___root';
+            if (folder == '___root') cssRoot = 'class=___root';
 
             var folder_key = this.convertToASCII(folder).split(' ').join('-');  
             Array.from(el.parentElement.querySelectorAll('ul.' + folder_key)).forEach(function (it) { it.remove(); });
@@ -89,7 +90,7 @@
             var s = '<ul class="' + folder_key + '">';
             Array.from(rs.dirs).forEach(function (it) {
                 if (it.sum_file > 0) {
-                    s += '<li><details><summary onclick="___module_id.on_node_click(this,\'' + it.dir + '\')" for="' + path + '">' + it.dir + '(' + it.sum_file + ')</summary></li>';
+                    s += '<li><details><summary ' + cssRoot+' onclick="___module_id.on_node_click(this,\'' + it.dir + '\')" for="' + path + '">' + it.dir + '(' + it.sum_file + ')</summary></li>';
                 } else {
                     s += '<li class="dir-empty">' + it.dir + '</li>';
                 }
@@ -104,8 +105,15 @@
             var div = document.createElement('div');
             div.innerHTML = s;
             el.parentElement.appendChild(div);
-
-            this.page_ready();
+            
+            if (folder == '___root') {
+                setTimeout(function () {
+                    var elroot = document.querySelector('summary.___root');
+                    if (elroot) elroot.click();
+                    ___module_id.page_ready();
+                }, 100);
+            } else
+                this.page_ready();
         }
     },
     on_file_click: function (el, file_name) {
