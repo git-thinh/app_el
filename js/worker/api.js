@@ -4,6 +4,7 @@ var load = function (url) { var r = new XMLHttpRequest(); r.open('GET', url, fal
 var ajax_get = function (url, event_ok, event_error) { var r = new XMLHttpRequest(); r.onreadystatechange = function () { if (this.readyState == 4 && this.status == 200) { if (event_ok != null) event_ok(JSON.parse(r.responseText)); } }; r.open("GET", url, true); r.send(); }
 
 /* WORKER - BROADCAST - EVENT SOURCE */
+var modules = {};
 var evtSource = new EventSource(api_host + '/SERVER-SENT-EVENTS');
 evtSource.onmessage = (e) => { };
 evtSource.onerror = (e) => { };
@@ -66,6 +67,7 @@ function module_load(m) {
             if (css != '') {
                 css = '\r\n' + css.split('___module_id').join(id) + '\r\n';
             }
+            modules[code] = id;
             post_ui({ action: 'module_load', callback: 'module_load', result: { type: type, code: code, id: id, script: js, eval: _eval, style: css, selector: selector } });
             break;
     }
@@ -88,5 +90,5 @@ function file_load(m) {
     var file_name = m.input.file_name, path = m.input.path;
     if (file_name != null && file_name != '') url += '&file_name=' + file_name;
     if (path != null && path != '') url += '&path=' + path;
-    ajax_get(url, (val) => { m.result = val;  post_ui(m); }); 
+    ajax_get(url, (val) => { m.result = val; post_ui(m); });
 }

@@ -13,7 +13,7 @@ function _split(str, tokens) {
 
 /* WORKER - BROADCAST */
 var worker = new PromiseWorker(new Worker('js/worker/api.js'));
-var broadcast; if ('BroadcastChannel' in window) { broadcast = new BroadcastChannel('BROADCAST_ID'); broadcast.addEventListener("message", (e) => { var m = e.data; if (m.callback == null) return; if (m.callback.indexOf('___') == -1) window[m.callback](m); else { var a = m.callback.split('.'); if (a.length > 1 && window[a[0]] != null && typeof window[a[0]][a[1]] === 'function') window[a[0]][a[1]](m); } }, false); }
+var broadcast; if ('BroadcastChannel' in window) { broadcast = new BroadcastChannel('BROADCAST_ID'); broadcast.addEventListener("message", (e) => { var m = e.data; if (m.callback == null) return; if (m.callback.indexOf('___') == -1) window[m.callback](m); else { var a = m.callback.split('.'); if (a.length > 1) { if (window[a[0]] != null && typeof window[a[0]][a[1]] === 'function') { window[a[0]][a[1]](m); } } } }, false); }
 var post_api = function (m) { console.log('UI.post_api: ', m); worker.postMessage(m); }
 
 /* MODULE */
@@ -154,6 +154,9 @@ indicator_show();
 post_api({ action: 'module_load', input: { code: 'tabs', selector: '#ui-tabs' } });
 post_api({ action: 'module_load', input: { code: 'content_view', selector: '#ui-content' } });
 post_api({ action: 'module_load', input: { code: 'tree_dir', selector: '#ui-category' } });
+
+if (localStorage['file_load'] != null) setTimeout(post_api(JSON.parse(localStorage['file_load'])), 1000);
+
 
 /* PAGE - LOGIN - ... */
 

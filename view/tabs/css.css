@@ -85,6 +85,7 @@
                 #___module_id .table-master-detail tr td:first-child,
                 #___module_id .table-master-detail tr td:last-of-type {
                     width: 32px;
+                    text-align:center;
                 }
 
                 #___module_id .table-master-detail tr td:first-child {

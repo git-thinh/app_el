@@ -1,9 +1,9 @@
 ﻿<ul class="toolbar">
+    <li class="tree_show" style="display:none;" onclick="___module_id.on_tree_show_click(this)"><button>&#9776;</button></li>
     <li class="box-search">
         <input type="text" id="___module_id_text_search" onkeypress="if (event.keyCode == 13) { ___module_id.on_search_click(this.value); }" ondblclick="this.value = '';" />
         <button onclick="___module_id.on_search_click(document.getElementById('___module_id_text_search').value);">&#128269;</button>
     </li>
-    <li class="tree_show" style="display:none;" onclick="___module_id.on_tree_show_click(this)"><button>&#9776;</button></li>
 
     <li class="float-right" title="Show|Hide tabs" onclick="___module_id.on_tab_show_hide_click(this)"><button>&#9776;</button></li>
     <li class="float-right" title="Setting"><button>&#9874;</button></li>

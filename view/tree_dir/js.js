@@ -63,6 +63,14 @@
             }
         }
     },
+    build_domID: function(text){
+        return this.convertToASCII(text)
+                .split(' ').join('-')
+                .split(':').join('')
+                .split('/').join('_')
+                .split('.').join('_')
+                .split('\\').join('-');
+    },
     convertToASCII: function (str) {
         if (str == null) return '';
         //var str;
@@ -111,8 +119,8 @@
             });
             Array.from(rs.files).forEach(function (it) {
                 title = it.title;
-                if (title == null || title == '') title = it.file;
-                s += '<li class="file" onclick="___module_id.on_file_click(this,\'' + it.file + '\')" for="' + path + '"><em></em><b>' + title + '</b></li>';
+                if (title == null || title == '') title = it.file; 
+                s += '<li class="file" id="' + ___module_id.build_domID(path + it.file) + '" onclick="___module_id.on_file_click(this,\'' + it.file + '\')" for="' + path + '"><em></em><b>' + title + '</b></li>';
             });
             s += '</ul>';
 
@@ -134,8 +142,13 @@
         if (el.hasAttribute('for')) {
             indicator_show();
             var path = el.getAttribute('for');
-            el.id = 'ID' + new Date().getTime();
-            post_api({ action: 'file_load', selector: el.id, callback: '___module_id.rs_file_view', input: { path: path, file_name: file_name } })
+            //el.id = 'ID' + new Date().getTime();
+            //el.id = this.build_domID(path + file_name);
+            var m = { action: 'file_load', selector: el.id, callback: '___module_id.rs_file_view', input: { path: path, file_name: file_name } };
+            var m2 = _.clone(m);
+            m2.callback = 'module_broadcast';
+            localStorage['file_load'] = JSON.stringify(m2);
+            post_api(m);
         }
     },
     rs_file_view: function (m) {
