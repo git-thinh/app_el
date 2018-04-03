@@ -49,6 +49,29 @@
             }
         }
     },
+    convertToASCII: function (str) {
+        if (str == null) return '';
+        //var str;
+        //if (eval(obj))
+        //    str = eval(obj).value;
+        //else
+        //    str = obj;
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        //str= str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g,"-");  
+        /* tìm và thay thế các kí tự đặc biệt trong chuỗi sang kí tự - */
+        //str= str.replace(/-+-/g,"-"); //thay thế 2- thành 1-  
+        str = str.replace(/^\-+|\-+$/g, "");
+        //cắt bỏ ký tự - ở đầu và cuối chuỗi 
+        //eval(obj).value = str.toUpperCase();
+        return str;
+    },
     rs_draw_node: function (m) {
         console.log(m);
         var el = document.getElementById(m.selector);
@@ -60,9 +83,10 @@
                 path = rs.path, title;
             if (folder == null || folder == '') folder = '___root';
 
-            Array.from(el.parentElement.querySelectorAll('ul.' + folder)).forEach(function (it) { it.remove(); });
+            var folder_key = this.convertToASCII(folder).split(' ').join('-');  
+            Array.from(el.parentElement.querySelectorAll('ul.' + folder_key)).forEach(function (it) { it.remove(); });
 
-            var s = '<ul class="' + folder + '">';
+            var s = '<ul class="' + folder_key + '">';
             Array.from(rs.dirs).forEach(function (it) {
                 if (it.sum_file > 0) {
                     s += '<li><details><summary onclick="___module_id.on_node_click(this,\'' + it.dir + '\')" for="' + path + '">' + it.dir + '(' + it.sum_file + ')</summary></li>';

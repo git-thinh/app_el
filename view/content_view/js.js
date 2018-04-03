@@ -6,7 +6,7 @@
         var el = document.getElementById('ui-article');
         if (el != null) {
             var htm = '<article>', s = m.result.text,
-                a = s.split('\r\n'), si = '',
+                a = _split(s, ['\r', '\n']), si = '',
                 isList = false, isCode = false;
             for (var i = 0; i < a.length; i++) {
                 si = a[i];
@@ -45,10 +45,12 @@
                             htm += '</pre>';
                             break;
                         default:
-                            if (isCode)
-                                htm += si + '\r\n';
-                            else
-                                htm += '<p>' + si + '</p>';
+                            if (si.trim().length > 0) {
+                                if (isCode)
+                                    htm += si + '\r\n';
+                                else
+                                    htm += '<p>' + si + '</p>';
+                            }
                             break;
                     }
                 }
