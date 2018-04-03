@@ -13,12 +13,14 @@
                 var s = '<table class="table-master-detail">'
                 for (var key in aw) {
                     w = key;
-                    k = aw[key].length;
-                    s += '<tr id=' + w + '_w><td></td><td>' + w + '</td>' +
-                        '<td id=' + w + '_m></td>' +
-                        '<td>' + k + '</td>' +
-                        '<td><i class="ico i-plus" do="tab.on_word_detail_click' + w + '"></i></td>' +
-                        '</tr><tr class=detail><td colspan=5 id=' + w + '_wd></td></tr>';
+                    if (w.length > 3) {
+                        k = aw[key].length;
+                        s += '<tr id=' + w + '_w><td></td><td>' + w + '</td>' +
+                            '<td id=' + w + '_m></td>' +
+                            '<td>' + k + '</td>' +
+                            '<td class=wd onclick="___module_id.on_word_detail_click(this,\'' + w + '\')">+</td>' +
+                            '</tr><tr class=detail><td colspan=5 id=' + w + '_wd></td></tr>';
+                    }
                 }
                 s += '</table';
             }
@@ -42,5 +44,29 @@
                 console.log('UI.MODULE.' + state + ' - ' + module.code, module);
                 break;
         }
+    },
+    on_word_detail_click: function (sel, word) {  
+        var el = document.getElementById(word + '_wd');
+        if (sel != null && el != null) {
+            if (el.parentElement.style.display != 'table-row') {
+                el.parentElement.style.display = 'table-row';
+                sel.innerHTML = '-';
+                var ul = '<ul>', _word_iff = ' ' + word + ' ', _word_replace = ' <b>' + word + '</b> ';
+                Array.from(document.querySelectorAll('article em')).forEach(function (it) {
+                    var tex = it.innerText;
+                    if (tex != null) {
+                        tex = ' ' + tex.trim().toLowerCase() + ' ';
+                        if (tex.indexOf(_word_iff) != -1) {
+                            ul += '<li>' + tex.split(_word_iff).join(_word_replace) + '</li>';
+                        }
+                    }
+                });
+                ul += '</ul>';
+                el.innerHTML = ul;
+            } else {
+                el.parentElement.style = '';
+                sel.innerHTML = '+';
+            }
+        } 
     },
 };

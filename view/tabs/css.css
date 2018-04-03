@@ -1,6 +1,78 @@
-﻿#___module_id {
-    background-color: red;
+﻿#___module_id { 
 }
 
-#___module_id {
-}
+    #___module_id .table-master-detail {
+        width: 100%;
+        border: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        #___module_id .table-master-detail tr.detail {
+            display: none;
+        }
+
+            #___module_id .table-master-detail tr.detail td {
+                border-top: 1px solid #aaa;
+                border-bottom: 1px solid #eee;
+                padding: 0;
+                background-color: #fff;
+                width: 100%;
+            }
+
+                #___module_id .table-master-detail tr.detail td img.loading {
+                    width: 100%;
+                }
+
+                #___module_id .table-master-detail tr.detail td ul {
+                    max-height: 350px;
+                    /* display: inline-block; */
+                    overflow-x: hidden;
+                    /* background-color:  red; */
+                    overflow-y: auto;
+                }
+
+                    #___module_id .table-master-detail tr.detail td ul li {
+                        list-style: circle;
+                        cursor: pointer;
+                        border-bottom: 1px solid #eee;
+                        line-height: 19px;
+                        padding: 7px 3px 7px 32px;
+                    }
+
+                        #___module_id .table-master-detail tr.detail td ul li b {
+                            border-bottom: 1px solid orangered;
+                        }
+
+        #___module_id .table-master-detail tr {
+            border: 0;
+        }
+
+            #___module_id .table-master-detail tr td {
+                position: relative;
+                border: 0;
+                font-size: 0.9em;
+                border-bottom: 1px solid #ddd;
+            }
+
+                #___module_id .table-master-detail tr td.wd {
+                    text-align: center;
+                    color: #aaa;
+                    cursor: pointer;
+                }
+
+                #___module_id .table-master-detail tr td.wd:hover {
+                    background-color: orange;
+                    color:#111;
+                }
+
+                #___module_id .table-master-detail tr td:first-child,
+                #___module_id .table-master-detail tr td:last-of-type {
+                    width: 32px;
+                }
+
+                #___module_id .table-master-detail tr td:first-child {
+                }
+
+                #___module_id .table-master-detail tr td:last-of-type {
+                }

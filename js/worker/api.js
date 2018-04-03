@@ -88,5 +88,5 @@ function file_load(m) {
     var file_name = m.input.file_name, path = m.input.path;
     if (file_name != null && file_name != '') url += '&file_name=' + file_name;
     if (path != null && path != '') url += '&path=' + path;
-    ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 100); }); 
+    ajax_get(url, (val) => { m.result = val;  post_ui(m); }); 
 }

@@ -23,10 +23,10 @@
             padding: 0 5px 17px 5px;
         }
 
-        #___module_id article h2, 
-        #___module_id article h3, 
-        #___module_id article p, 
-        #___module_id article span, 
+        #___module_id article h2,
+        #___module_id article h3,
+        #___module_id article p,
+        #___module_id article span,
         #___module_id article ul {
             padding-left: 20px;
             padding-right: 20px;
@@ -40,10 +40,11 @@
             padding-bottom: 24px;
         }
 
-            #___module_id article h2 b, 
+            #___module_id article h2 b,
             #___module_id article h2 b i {
                 font-weight: 500;
                 font-size: 1.2em;
+                font-style: normal;
             }
 
         #___module_id article h3 {
@@ -137,19 +138,40 @@
                 color: #555;
             }
 
-            #___module_id article p.v.p {
-                margin: 10px 0 0 0;
-            }
+                #___module_id article p.v.p {
+                    margin: 10px 0 0 0;
+                }
 
         #___module_id article b {
             font-weight: normal;
         }
 
         #___module_id article em {
+            font-style: normal;
         }
 
-        #___module_id article i, 
-        #___module_id ol li, 
+            #___module_id article em i {
+                margin-left: 5px;
+            }
+
+        #___module_id article d {
+            margin-left: 3px;
+        }
+
+        #___module_id article e {
+        }
+
+        #___module_id article v,
+        #___module_id article d,
+        #___module_id article e {
+            display: inline-block;
+            font-weight: normal;
+            font-style: normal;
+            text-transform: none;
+        }
+
+        #___module_id article i,
+        #___module_id ol li,
         #___module_id input[type="checkbox"] + label {
             font-style: normal;
             -webkit-touch-callout: none; /* iOS Safari */
