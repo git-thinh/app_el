@@ -1,26 +1,35 @@
 ﻿#___module_id {
 }
 
- #___module_id span.volum {height:40px; width:40px; display:block; position:relative;} 
-#___module_id .demoSpan1{position:relative;}
-#___module_id .demoSpan1:before, .demoSpan1:after, .demoSpan2:before, .demoSpan2:after{content:''; height:10px; width:6px; display:block; background:#333; position:absolute; bottom:0px; left:0px;}
-#___module_id .demoSpan1:before{left:0px;}
-#___module_id .demoSpan1:after{height:20px; left:10px;}
-#___module_id .demoSpan2{position:absolute; bottom:0; left:0;}
-#___module_id .demoSpan2:before{height:30px; left:20px;}
-#___module_id .demoSpan2:after{height:40px; left:30px;}
+    #___module_id .box-search {
+        padding: 0;
+        margin: 0;
+    }
 
+        #___module_id .box-search input {
+            border: 1px solid #ccc;
+            border-radius: 3px 0 0 3px;
+            padding: 0px 10px 0;
+            margin-left: 3px;
+            float: left;
+            border-right: none;
+            height: 21px;
+            font-size: 0.8em;
+            background-color: #f4f4f4;
+            width: 99px;
+        }
 
-
- 
-
-
-
-
-
-
-
-
+        #___module_id .box-search button {
+            float: left;
+            border: 1px solid #ccc;
+            border-left: none;
+            border-radius: 0 3px;
+            padding: 0px 6px;
+            height: 23px;
+            background-color: #ccc;
+            cursor: pointer;
+            font-size: 12px;
+        }
 
 
 

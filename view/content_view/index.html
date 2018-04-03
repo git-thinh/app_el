@@ -1,48 +1,66 @@
 ﻿<ul class="toolbar">
-    <li><button>&#9776;</button></li>
-    <li><button>&#9658;</button></li>
-    <li><button>&#10074;&#10074;</button></li>
-
-    <li><button>&#9744;</button></li>
-    <li><button>&#9745;</button></li>
-
-    <li><button>&#10697;</button></li>
-    <li><button>&#9993;</button></li>
-    <li><button>&#9998;</button></li>
-    <li><button>&#10687;</button></li>
-    <li><button>&#10686;</button></li>
-    <li><button>&#9872;</button></li>
-    <li><button>&#9873;</button></li>
-    <li><button>&#9874;</button></li>
-    <li><button>&#9888;</button></li>
-    <li><button>&#9919;</button></li>
-    <li><button>&#9937;</button></li>
-    <li><button>&#10005;</button></li>
-    <li><button>&#10003;</button></li>
-    <li><button>&#10011;</button></li>
-    <li><button>&#10560;</button></li>
-    <li><button>&#10006;</button></li>
-    <li><button>&#8621;</button></li>
-    <li><button>&#9738;</button></li>
-    <li><button>&#10663;</button></li>
-    <li><button>&#10227;</button></li>
-    <li><button>&#9655;</button></li>
-    <li><button>&#9723;</button></li>
-    <li><button>&#9724;</button></li>
-    <li><button>&#10226;</button></li>
-    <li><button>&#10095;</button></li>
-    <li><button>&#10094;</button></li>
-    <li><button>&#10566;</button></li>
-    <li><button>&#10565;</button></li>
-    <li><button>&#10239;</button></li>
-    <li><button></button></li>
-    <li>
+    <li class="box-search">
+        <input type="text" id="___module_id_text_search" onkeypress="if (event.keyCode == 13) { ___module_id.on_search_click(this.value); }" ondblclick="this.value = '';" />
+        <button onclick="___module_id.on_search_click(document.getElementById('___module_id_text_search').value);">&#128269;</button>
     </li>
+    <li class="tree_show" style="display:none;" onclick="___module_id.on_tree_show_click(this)"><button>&#9776;</button></li>
+
+    <li class="float-right" title="Show|Hide tabs" onclick="___module_id.on_tab_show_hide_click(this)"><button>&#9776;</button></li>
+    <li class="float-right" title="Setting"><button>&#9874;</button></li>
+    <li class="float-right" title="Rate up"><button class="i-volume-up"></button></li>
+    <li class="float-right" title="Rate down"><button class="i-volume-down"></button></li>
+    <li class="float-right" title="Next"><button>&#10095;</button></li>
+    <li class="float-right" title="Play"><button>&#9658;</button></li>
+    <!--<li class="float-right" title="Pause"><button>&#10074;&#10074;</button></li>-->
+    <li class="float-right" title="Prev"><button>&#10094;</button></li>
+    <li class="float-right" title="Repeat"><button>&#10227;</button></li>
+    <!--<li class="float-right" title="Bookmark"><button>&#9873;</button></li>-->
+    <li class="float-right" title="Bookmark"><button>&#9872;</button></li>
+    <li class="float-right" title="Remove"><button class="i-trash"></button></li>
+    <li class="float-right" title="Edit"><button>&#9998;</button></li>
+    <li class="float-right" title="Create new"><button>&#10011;</button></li>
 </ul>
 <div id="ui-article">
+    <br />
+    <br />
+    <ul class="toolbar">
+        <li><button>&#9734;</button></li>
+        <li><button>&#9733;</button></li>
+        <li><button>&#9744;</button></li>
+        <li><button>&#9745;</button></li>
+        <li><button>&#10697;</button></li>
+        <li><button>&#9993;</button></li>
+        <li><button>&#10687;</button></li>
+        <li><button>&#10686;</button></li>
+        <li><button>&#9888;</button></li>
+        <li><button>&#9919;</button></li>
+        <li><button>&#9937;</button></li>
+        <li><button>&#10005;</button></li>
+        <li><button>&#10003;</button></li>
+        <li><button>&#10560;</button></li>
+        <li><button>&#10006;</button></li>
+        <li><button>&#8621;</button></li>
+        <li><button>&#9738;</button></li>
+        <li><button>&#10663;</button></li>
+        <li><button>&#9655;</button></li>
+        <li><button>&#9723;</button></li>
+        <li><button>&#9724;</button></li>
+        <li><button>&#10226;</button></li>
+        <li><button>&#8788;</button></li>
 
-    <span class="volum demoSpan1">
-        <span class="volum demoSpan2">
-        </span>
-    </span>  
+        <li class="float-right" title="Show|Hide tabs" onclick="___module_id.on_tab_show_hide_click(this)"><button>&#9776;</button></li>
+        <li class="float-right" title="Setting"><button>&#9874;</button></li>
+        <li class="float-right" title="Rate up"><button class="i-volume-up"></button></li>
+        <li class="float-right" title="Rate down"><button class="i-volume-down"></button></li>
+        <li class="float-right" title="Next"><button>&#10095;</button></li>
+        <li class="float-right" title="Play"><button>&#9658;</button></li>
+        <li class="float-right" title="Pause"><button>&#10074;&#10074;</button></li>
+        <li class="float-right" title="Prev"><button>&#10094;</button></li>
+        <li class="float-right" title="Repeat"><button>&#10227;</button></li>
+        <li class="float-right" title="Bookmark"><button>&#9873;</button></li>
+        <li class="float-right" title="Bookmark"><button>&#9872;</button></li>
+        <li class="float-right" title="Remove"><button class="i-trash"></button></li>
+        <li class="float-right" title="Edit"><button>&#9998;</button></li>
+        <li class="float-right" title="Create new"><button>&#10011;</button></li>
+    </ul>
 </div>

@@ -9,6 +9,12 @@
 
         switch (state) {
             case 'load':
+                if (localStorage['tree_display'] == null) localStorage['tree_display'] = 'block';
+                var tree = document.getElementById('ui-category');
+                if (tree != null) tree.style.display = localStorage['tree_display'];
+
+
+
                 el.style.display = '';
                 var tree_node_root = document.getElementById('tree_node_root');
                 if (tree_node_root) tree_node_root.click();
@@ -18,12 +24,17 @@
                 break;
         }
     },
+    on_tree_hide_click: function (el) {
+        var m = document.getElementById('ui-category');
+        if (m != null) {
+            m.style.display = 'none';
+            module_broadcast({ action: 'tree_hide' });
+            localStorage['tree_display'] = 'none';
+        }
+    },
     page_ready: function () {
         page_show();
         indicator_hide();
-    },
-    on_search_click: function (keyword) {
-        console.log(keyword);
     },
     on_root_click: function (el) {
         var pa = document.getElementById('');

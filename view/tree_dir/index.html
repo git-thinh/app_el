@@ -1,9 +1,9 @@
 ﻿<ul class="toolbar">
-    <li class="box-search">
-        <input type="text" id="___module_id_text_search" onkeypress="if (event.keyCode == 13) { ___module_id.on_search_click(this.value); }" ondblclick="this.value = '';" />
-        <button onclick="___module_id.on_search_click(document.getElementById('___module_id_text_search').value);">&#128269;</button> 
-    </li>
-    <li>
+    <li title="Create new"><button>&#10011;</button></li>
+    <li title="Edit"><button>&#9998;</button></li>
+    <li title="Remove"><button class="i-trash"></button></li>
+
+    <li class="float-right" onclick="___module_id.on_tree_hide_click(this)">
         <button>&#9776;</button>
     </li>
 </ul>

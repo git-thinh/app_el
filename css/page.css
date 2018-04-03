@@ -72,9 +72,9 @@
 
 /* TOOLBAR */
 ul.toolbar {
-    position: absolute;
+    /*position: absolute;
     left: 0;
-    top: 0;
+    top: 0;*/
     width: 100%;
     display: inline-block;
     background-color: #aaa;
