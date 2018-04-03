@@ -1,6 +1,29 @@
 ﻿#___module_id {
 }
 
+ #___module_id span.volum {height:40px; width:40px; display:block; position:relative;} 
+#___module_id .demoSpan1{position:relative;}
+#___module_id .demoSpan1:before, .demoSpan1:after, .demoSpan2:before, .demoSpan2:after{content:''; height:10px; width:6px; display:block; background:#333; position:absolute; bottom:0px; left:0px;}
+#___module_id .demoSpan1:before{left:0px;}
+#___module_id .demoSpan1:after{height:20px; left:10px;}
+#___module_id .demoSpan2{position:absolute; bottom:0; left:0;}
+#___module_id .demoSpan2:before{height:30px; left:20px;}
+#___module_id .demoSpan2:after{height:40px; left:30px;}
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
     #___module_id #ui-article {
         position: absolute;
         width: 100%;

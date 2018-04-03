@@ -22,6 +22,9 @@
         page_show();
         indicator_hide();
     },
+    on_search_click: function (keyword) {
+        console.log(keyword);
+    },
     on_root_click: function (el) {
         var pa = document.getElementById('');
         pa = el.parentElement;

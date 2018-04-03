@@ -1,9 +1,11 @@
 ﻿<ul class="toolbar">
-    <li do="ui_toggleTree"><i class="ico i-menu"></i></li>
-    <li><i class="ico i-add"></i></li>
-    <li><i class="ico i-edit"></i></li>
-    <li><i class="ico i-remove"></i></li>
-    <li><i class="ico i-refresh"></i></li>
+    <li class="box-search">
+        <input type="text" id="___module_id_text_search" onkeypress="if (event.keyCode == 13) { ___module_id.on_search_click(this.value); }" ondblclick="this.value = '';" />
+        <button onclick="___module_id.on_search_click(document.getElementById('___module_id_text_search').value);">&#128269;</button> 
+    </li>
+    <li>
+        <button>&#9776;</button>
+    </li>
 </ul>
 <div id="tree_category">
     <details id="tree_data">

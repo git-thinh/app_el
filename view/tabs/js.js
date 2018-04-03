@@ -5,26 +5,30 @@
         if (m == null || m.action != 'file_load' || m.result == null || m.result.ok == false || m.result.text == null) return;
         var tab_word = document.getElementById('tab_word');
         if (tab_word != null) {
-            var htm = '<article>', s = m.result.text,
-                a = s.split(' '), w = '', k = 0; 
-            if (a.length > 0) {
-                var aw = _.groupBy(a);
+            var s = m.result.text;
+            if (s == null || s.length == 0) {
+            } else {
+                s = s.convertToASCII();//.toLowerCase();
+                var a = _.filter(s.split(' '), function (w) { return w.length > 2; });
 
-                var s = '<table class="table-master-detail">'
-                for (var key in aw) {
-                    w = key;
-                    if (w.length > 3) {
-                        k = aw[key].length;
-                        s += '<tr id=' + w + '_w><td></td><td>' + w + '</td>' +
-                            '<td id=' + w + '_m></td>' +
-                            '<td>' + k + '</td>' +
-                            '<td class=wd onclick="___module_id.on_word_detail_click(this,\'' + w + '\')">+</td>' +
-                            '</tr><tr class=detail><td colspan=5 id=' + w + '_wd></td></tr>';
-                    }
+                if (a.length > 0) {
+                    var aw = _.groupBy(a);
+                    a = _.map(aw, function (val, key) { return { w: key, k: val.length }; });
+                    a = _.sortBy(a, function (o) { return o.k; })
+                    a.reverse();
+
+                    var s = '<table class="table-master-detail">';
+                    a.forEach(function (it) {
+                        s += '<tr id=' + it.w + '_w><td>&#9734</td><td class=w>' + it.w + '</td>' +
+                            '<td id=' + it.w + '_m>&#9733</td>' +
+                            '<td>' + it.k + '</td>' +
+                            '<td class=wd onclick="___module_id.on_word_detail_click(this,\'' + it.w + '\')">+</td>' +
+                            '</tr><tr class=detail><td colspan=5 id=' + it.w + '_wd></td></tr>';
+                    });
+                    s += '</table';
                 }
-                s += '</table';
+                tab_word.innerHTML = s;
             }
-            tab_word.innerHTML = s;
         }
     },
     controller: function (module) {
@@ -45,28 +49,43 @@
                 break;
         }
     },
-    on_word_detail_click: function (sel, word) {  
+    on_word_detail_click: function (sel, word) {
         var el = document.getElementById(word + '_wd');
         if (sel != null && el != null) {
             if (el.parentElement.style.display != 'table-row') {
                 el.parentElement.style.display = 'table-row';
                 sel.innerHTML = '-';
-                var ul = '<ul>', _word_iff = ' ' + word + ' ', _word_replace = ' <b>' + word + '</b> ';
-                Array.from(document.querySelectorAll('article em')).forEach(function (it) {
-                    var tex = it.innerText;
-                    if (tex != null) {
-                        tex = ' ' + tex.trim().toLowerCase() + ' ';
-                        if (tex.indexOf(_word_iff) != -1) {
-                            ul += '<li>' + tex.split(_word_iff).join(_word_replace) + '</li>';
-                        }
+                var ul = '<ul id="">', s = '', se = '';
+                Array.from(document.querySelectorAll('article i, article d')).forEach(function (it) {
+                    s = it.innerText;
+                    if (s != null) {
+                        s = s.toLowerCase().trim();                        
+                        if (s == word) {
+                            se = it.parentElement.innerHTML.replace(/(<([^>]+)>)/ig, ' ');
+                            se = se.split(word).join('<i class=sel>' + word + '</i>');
+                            ul += '<li>' + se + '</li>';
+                            it.className = 'sel';
+                        } else it.className = '';
                     }
                 });
                 ul += '</ul>';
                 el.innerHTML = ul;
+                setTimeout(function () {
+                    Array.from(document.querySelectorAll('#' + word + '_wd i, #' + word + '_wd d')).forEach(function (it) {
+                        s = it.innerText;
+                        if (s != null) {
+                            s = s.toLowerCase().trim();
+                            if (s == word) {
+                                it.className = 'sel';
+                            } else
+                                it.className = '';
+                        }
+                    });
+                }, 500);
             } else {
                 el.parentElement.style = '';
                 sel.innerHTML = '+';
             }
-        } 
+        }
     },
 };

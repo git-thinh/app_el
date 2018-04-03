@@ -83,11 +83,26 @@ ul.toolbar {
 
     ul.toolbar li {
         float: left;
-        font-size: 0.9em;
-        line-height: 18px;
-        padding-top: 3px;
-        color: #666;
+        padding: 0;
+        margin: 0;
     }
+
+        ul.toolbar li button {
+            padding: 0;
+            margin: 0;
+            height: 24px;
+            width: 32px;
+            border: 1px solid #bbb;
+            background-color: #ccc;
+            cursor: pointer;
+            color: #333;
+            font-size: 1.2em;
+            line-height: 16px;
+        }
+
+            ul.toolbar li button:hover {
+                background-color: orange;
+            }
 
 /* TABS */
 div.tabs {

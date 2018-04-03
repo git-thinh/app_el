@@ -1,4 +1,4 @@
-﻿#___module_id { 
+﻿#___module_id {
 }
 
     #___module_id .table-master-detail {
@@ -37,12 +37,23 @@
                         cursor: pointer;
                         border-bottom: 1px solid #eee;
                         line-height: 19px;
-                        padding: 7px 3px 7px 32px;
+                        padding: 2px 3px 7px 32px;
+                        clear: both;
+                        display: inline-block;
+                        width: calc(100% - 35px);
                     }
 
-                        #___module_id .table-master-detail tr.detail td ul li b {
-                            border-bottom: 1px solid orangered;
+                        #___module_id .table-master-detail tr.detail td ul li i,
+                        #___module_id .table-master-detail tr.detail td ul li d {
+                            font-style: normal;
+                            font-weight: normal;
                         }
+
+                            article i.sel,
+                            #___module_id .table-master-detail tr.detail td ul li i.sel,
+                            #___module_id .table-master-detail tr.detail td ul li d.sel {
+                                border-bottom: 1px solid orangered;
+                            }
 
         #___module_id .table-master-detail tr {
             border: 0;
@@ -55,16 +66,21 @@
                 border-bottom: 1px solid #ddd;
             }
 
+                #___module_id .table-master-detail tr td.w {
+                    text-transform: capitalize;
+                    font-weight: bold;
+                }
+
                 #___module_id .table-master-detail tr td.wd {
                     text-align: center;
                     color: #aaa;
                     cursor: pointer;
                 }
 
-                #___module_id .table-master-detail tr td.wd:hover {
-                    background-color: orange;
-                    color:#111;
-                }
+                    #___module_id .table-master-detail tr td.wd:hover {
+                        background-color: orange;
+                        color: #111;
+                    }
 
                 #___module_id .table-master-detail tr td:first-child,
                 #___module_id .table-master-detail tr td:last-of-type {

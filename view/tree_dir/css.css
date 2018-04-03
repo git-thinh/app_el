@@ -1,6 +1,35 @@
 ﻿#___module_id {
     background-color: red;
-}
+} 
+     
+    #___module_id .box-search {
+        padding: 0;
+        margin: 0;
+    }
+
+        #___module_id .box-search input {
+            border: 1px solid #ccc;
+            border-radius: 3px 0 0 3px;
+            padding: 0px 10px 0;
+            margin-left: 3px;
+            float: left;
+            border-right: none;
+            height: 21px;
+            font-size: 0.8em;
+            background-color:#f4f4f4;
+        }
+
+        #___module_id .box-search button {
+            float: left;
+            border: 1px solid #ccc;
+            border-left: none;
+            border-radius: 0 3px;
+            padding: 0px 6px;
+            height: 23px;
+            background-color: #ccc;
+            cursor:pointer;
+        }
+
 
     #___module_id details {
         cursor: pointer;
@@ -59,7 +88,7 @@
                 color: #111;
                 line-height: 18px;
                 margin: 0 0 3px 0;
-                display: inline-block; 
+                display: inline-block;
                 width: calc(100% - 14px);
                 float: left;
             }
