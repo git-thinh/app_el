@@ -166,21 +166,21 @@ function start_App() {
 
     //if (localStorage['file_load'] != null) setTimeout(post_api(JSON.parse(localStorage['file_load'])), 1000);
 
-    indicator_hide();
+    
 }
 
 /* PAGE - LOGIN - ... */
 
 function indicator_show() {
     var el = document.getElementById('ui-indicator');
-    if (el != null) {
-        el.style = '';
+    if (el != null && el.style.display == 'none') {
+        el.style.display = 'table';
     }
 }
 
 function indicator_hide() {
     var el = document.getElementById('ui-indicator');
-    if (el != null) {
+    if (el != null && el.style.display == 'table') {
         el.style.display = 'none';
     }
 }

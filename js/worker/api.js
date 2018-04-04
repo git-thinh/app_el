@@ -63,12 +63,12 @@ function module_load(m) {
             if (html != '') {
                 html = html.split('___module_id').join(id);
                 if (selector == '') html = '<shadow></shadow><content><aside>' + html + '</aside></content>';
-                _eval =
-                    'setTimeout(function(){ module_init_event({ id:"' + id + '", code: "' + code + '", selector: "' + selector + '"}); ' +
-                'if (' + id + ' != null && ' + id + '.controller != null && typeof ' + id + '.controller === "function") { ' + id + '.controller({ state: "load", id:"' + id + '", code: "' + code + '", selector: "' + selector + '" }); } ' +
-                    ' else { alert("Cannot find function ___module_id.controller() in file js.js"); } ' +
-                    ' }, 0);';
             }
+            _eval =
+                'setTimeout(function(){ module_init_event({ id:"' + id + '", code: "' + code + '", selector: "' + selector + '"}); ' +
+            'if (' + id + ' != null && ' + id + '.controller != null && typeof ' + id + '.controller === "function") { ' + id + '.controller({ state: "load", id:"' + id + '", code: "' + code + '", selector: "' + selector + '" }); } ' +
+                ' else { alert("Cannot find function ___module_id.controller() in file js.js"); } ' +
+                ' }, 0);';
             post_ui({ action: 'module_load', callback: 'module_load', result: { type: type, code: code, id: id, html: html, eval: _eval, className: '', selector: selector } });
             break;
         case 'init':
