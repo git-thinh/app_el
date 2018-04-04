@@ -1,0 +1,17 @@
+﻿
+#___module_id div.i-dir,
+#___module_id div.i-file {
+    font-style: normal;
+}
+
+#___module_id td[for="dir_file"] div.i-dir:before {
+    content: '\1F5C1';
+    font-size: 1.3em;
+    padding-right: 1px;
+}
+
+#___module_id td[for="dir_file"] div.i-file:before {
+    content: '\1F5CB';
+    font-size: 1.7em;
+    padding-right: 7px;
+}

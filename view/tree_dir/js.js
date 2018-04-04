@@ -1,5 +1,9 @@
 ﻿var ___module_id = {
-    init: function (module) { },
+    m_node_selected: { type: 'dir', path: '', dir: '', file: '', title: '' },
+    init: function (module) {
+        /* load tree dirs */
+        post_api({ action: 'dir_get', selector: 'tree_category', callback: '___module_id.rs_draw_node', input: { path: '', folder: '' } });
+    },
     controller: function (module) {
         var state = module.state,
             id = module.id,
@@ -9,15 +13,15 @@
 
         switch (state) {
             case 'load':
+                /* update state box panel tree lastest */
                 if (localStorage['tree_display'] == null) localStorage['tree_display'] = 'block';
                 var tree = document.getElementById('ui-category');
                 if (tree != null) tree.style.display = localStorage['tree_display'];
-
-
-
+                /* display module */
                 el.style.display = '';
-                var tree_node_root = document.getElementById('tree_node_root');
-                if (tree_node_root) tree_node_root.click();
+                /* click auto node root */
+                //var tree_node_root = document.getElementById('tree_node_root');
+                //if (tree_node_root) tree_node_root.click();
                 break;
             default:
                 console.log('UI.MODULE.' + state + ' - ' + module.code, module);
@@ -36,16 +40,7 @@
         page_show();
         indicator_hide();
     },
-    on_root_click: function (el) {
-        var pa = document.getElementById('');
-        pa = el.parentElement;
-        if (pa != null) {
-            if (!pa.hasAttribute('open')) {
-                indicator_show();
-                post_api({ action: 'dir_get', selector: el.id, callback: '___module_id.rs_draw_node', input: { path: '', folder: '' } })
-            }
-        }
-    },
+    /* NODE */
     on_node_click: function (el, dir) {
         var pa = document.getElementById('');
         pa = el.parentElement;
@@ -63,13 +58,13 @@
             }
         }
     },
-    build_domID: function(text){
+    build_domID: function (text) {
         return this.convertToASCII(text)
-                .split(' ').join('-')
-                .split(':').join('')
-                .split('/').join('_')
-                .split('.').join('_')
-                .split('\\').join('-');
+            .split(' ').join('-')
+            .split(':').join('')
+            .split('/').join('_')
+            .split('.').join('_')
+            .split('\\').join('-');
     },
     convertToASCII: function (str) {
         if (str == null) return '';
@@ -101,43 +96,51 @@
             if (m == null || m.result == null || m.input == null) return;
             if (m.result.ok == false) { alert(m.result.msg); return; }
 
-            var rs = m.result, folder = m.input.folder,
+            var s = '', rs = m.result, isRoot = false,
+                folder = m.input.folder,
                 path = rs.path, title, cssRoot = '';
-            if (folder == null || folder == '') folder = '___root';
-            if (folder == '___root') cssRoot = 'class=___root';
+            if (folder == null || folder == '') isRoot = true;
+            if (isRoot) {
+                folder = '___root';
+                cssRoot = 'class=___root';
+            }
 
-            var folder_key = this.convertToASCII(folder).split(' ').join('-');  
+            /* dir sub */
+            var folder_key = this.convertToASCII(folder).split(' ').join('-');
             Array.from(el.parentElement.querySelectorAll('ul.' + folder_key)).forEach(function (it) { it.remove(); });
 
-            var s = '<ul class="' + folder_key + '">';
+            s = '<ul class="' + folder_key + '">';
             Array.from(rs.dirs).forEach(function (it) {
                 if (it.sum_file > 0) {
-                    s += '<li><details><summary ' + cssRoot+' onclick="___module_id.on_node_click(this,\'' + it.dir + '\')" for="' + path + '">' + it.dir + '(' + it.sum_file + ')</summary></li>';
+                    s += '<li><details><summary ' + cssRoot + ' onclick="___module_id.on_node_click(this,\'' + it.dir + '\')" for="' + path + '">' + it.dir + '(' + it.sum_file + ')</summary></li>';
                 } else {
                     s += '<li class="dir-empty">' + it.dir + '</li>';
                 }
             });
             Array.from(rs.files).forEach(function (it) {
                 title = it.title;
-                if (title == null || title == '') title = it.file; 
+                if (title == null || title == '') title = it.file;
                 s += '<li class="file" id="' + ___module_id.build_domID(path + it.file) + '" onclick="___module_id.on_file_click(this,\'' + it.file + '\')" for="' + path + '"><em></em><b>' + title + '</b></li>';
             });
             s += '</ul>';
 
-            var div = document.createElement('div');
-            div.innerHTML = s;
-            el.parentElement.appendChild(div);
-            
-            if (folder == '___root') {
+            if (isRoot) {
+                el.innerHTML = s;
+                /* auto click node root to open subs folder */
                 setTimeout(function () {
                     var elroot = document.querySelector('summary.___root');
                     if (elroot) elroot.click();
                     ___module_id.page_ready();
                 }, 100);
-            } else
+            } else {
+                var div = document.createElement('div');
+                div.innerHTML = s;
+                el.parentElement.appendChild(div);
                 this.page_ready();
+            }
         }
     },
+    /* FILE */
     on_file_click: function (el, file_name) {
         if (el.hasAttribute('for')) {
             indicator_show();

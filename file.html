@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="/css/ui.css" rel="stylesheet" />
+    <script src="/js/jquery-1.12.4.min.js"></script>
+    <script src="/js/w2ui/w2ui.min.js"></script>
+    <link href="/js/w2ui/w2ui.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="___module_id" style="position:absolute;width: 100%; height: 100vh;left:0;top:0;"></div>
+    <script type="text/javascript">
+        $(function () {
+            $('#___module_id').w2grid({
+                name: '___module_id',
+                show: {
+                    toolbar: true,
+                    footer: true,
+                    toolbarAdd: true,
+                    toolbarDelete: true,
+                    toolbarSave: true,
+                    toolbarEdit: true
+                },
+                reorderRows: true,                
+                searches: [
+                    { field: 'name', caption: 'Name', type: 'text' },
+                    { field: 'email', caption: 'Email', type: 'text' }
+                ],
+                columns: [
+                    { field: 'recid', caption: 'ID', size: '50px', sortable: true, attr: 'align=center' },
+                    { field: 'type', caption: 'Type', size: '10%', sortable: true, resizable: true, hidden: true },  
+                    {
+                        field: 'name', caption: 'Name', sortable: true, resizable: true, attr: "for=dir_file",
+                        render: function (record, index, column_index) {
+                            return '<div class=i-' + record.type + '>' + record.name + '</div>';
+                        }
+                    },
+                    { field: 'email', caption: 'Email', size: '40%' },
+                    { field: 'sdate', caption: 'Start Date', size: '120px' }
+                ],
+                onAdd: function (event) {
+                    w2alert('add');
+                },
+                onEdit: function (event) {
+                    w2alert('edit');
+                },
+                onDelete: function (event) {
+                    console.log('delete has default behavior');
+                },
+                onSave: function (event) {
+                    w2alert('save');
+                },
+                toolbar: {
+                    items: [
+                        { id: 'bt1', type: 'button', caption: 'Button 1', img: 'icon-folder' },
+                        { id: 'bt2', type: 'button', caption: 'Button 2', img: 'icon-folder' },
+                        { id: 'bt3', type: 'spacer' },
+                        { id: 'bt4', type: 'button', caption: 'Reset', img: 'icon-page' },
+                        { id: 'bt5', type: 'button', caption: 'Save', img: 'icon-page' }
+                    ],
+                    onClick: function (event) {
+                        if (event.target == 'bt4') w2ui.form.clear();
+                        if (event.target == 'bt5') w2ui.form.save();
+                    }
+                },
+                records: [
+                    { recid: 1, type: 'dir', name: 'Doe', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 2, type: 'dir', name: 'Motzart', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 3, type: 'dir', name: 'Franson', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 4, type: 'dir', name: 'Ottie', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 5, type: 'dir', name: 'Silver', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 6, type: 'dir', name: 'Gatos', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 7, type: 'dir', name: 'Welldo', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 8, type: 'dir', name: 'Bahh', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 9, type: 'dir', name: 'Rachmaninov', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 20, type: 'file', name: 'Doe', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 21, type: 'file', name: 'Motzart', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 22, type: 'file', name: 'Franson', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 23, type: 'file', name: 'Ottie', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 24, type: 'file', name: 'Silver', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 25, type: 'file', name: 'Gatos', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 26, type: 'file', name: 'Welldo', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 27, type: 'file', name: 'Bahh', email: 'jdoe@gmail.com', sdate: '4/3/2012' },
+                    { recid: 28, type: 'file', name: 'Rachmaninov', email: 'jdoe@gmail.com', sdate: '4/3/2012' }
+                ]
+            });
+        });
+    </script>
+
+    <link href="/file.css" rel="stylesheet" />
+</body>
+</html>
