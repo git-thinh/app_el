@@ -9,6 +9,13 @@
     <link href="/css/ui.css" rel="stylesheet" />
 </head>
 <body>     
+    <section id="ui-indicator">
+        <shadow></shadow>
+        <content>
+            <img src="/indicator.gif" />
+            <p>Please wait ...</p>
+        </content>
+    </section>
     <div id="ui-page" style="display:none;">
         <div id="ui-category">
         </div>
@@ -16,38 +23,9 @@
         </div>
         <div id="ui-tabs">
         </div>
-    </div>
-
-
-    <section id="ui-indicator" style="display:none;">
-        <shadow></shadow>
-        <content>
-            <img src="/indicator.gif" />
-            <p>Please wait ...</p>
-        </content>
-    </section>
-
-    <section id="ui-alert" style="display:none">
-        <shadow></shadow>
-        <content>
-            <aside>
-                <header>
-                    <h3>Message</h3>
-                </header>
-                <fieldset>
-                    <p>This is content alert ...</p>
-                </fieldset>
-                <footer>
-                    <button>Ok</button>
-                </footer>
-            </aside>
-        </content>
-    </section>
-
-    <div id="toast"></div>
-
+    </div>    
+    
     <link href="/css/page.css" rel="stylesheet" />
-    <script src="/js/worker/underscore.min.js"></script>    
     <script src="/js/ui.js"></script>
 </body>
 </html>

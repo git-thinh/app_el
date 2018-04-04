@@ -12,6 +12,30 @@ var broadcast; if ('BroadcastChannel' in self) { broadcast = new BroadcastChanne
 registerPromiseWorker((m) => { self[m.action](m); });
 var post_ui = function (m) { broadcast.postMessage(m); }
 
+/* JS - CSS */
+var db_cache = localforage.createInstance({ name: "CACHE" });
+db_cache.getItem('js', function (err, val) {
+    if (val) {
+        post_ui(val);
+    } else {
+        var js1 = load('/js/jquery-1.12.4.min.js');
+        var js2 = load('/js/w2ui/w2ui.min.js');
+        var js3 = load('/js/worker/underscore.min.js');
+        var js = js1 + '\r\n' + js2 + '\r\n' + js3 + '\r\n start_App()';
+        post_ui(js);
+        db_cache.setItem('js', js);
+    }
+});
+db_cache.getItem('css', function (err, val) {
+    if (val) {
+        post_ui(val);
+    } else {
+        var css = load('/js/w2ui/w2ui.min.css');
+        post_ui(css);
+        db_cache.setItem('css', css);
+    }
+});
+
 /* MODULE */
 function module_load(m) {
     var input = m.input, id, code, type, selector;
@@ -92,3 +116,4 @@ function file_load(m) {
     if (path != null && path != '') url += '&path=' + path;
     ajax_get(url, (val) => { m.result = val; post_ui(m); });
 }
+
