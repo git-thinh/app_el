@@ -1,16 +1,20 @@
-﻿
-<div class="tabs">
-    <button do="tab.on_item_click|tab_history">History</button>
-    <button do="tab.on_item_click|tab_bookmark">Bookmark</button>
-    <button do="tab.on_item_click|tab_reading">Reading</button>
-    <button do="tab.on_item_click|tab_grammar">Grammar</button>
-    <button do="tab.on_item_click|tab_word" class="active">Words</button>
-</div>
+﻿<ul class="tabs toolbar">
+    <li><a do="tab.on_item_click|tab_word" class="active">Words</a></li>
+    <li><a do="tab.on_item_click|tab_reading">Reading</a></li>
+    <li><a do="tab.on_item_click|tab_grammar">Grammar</a></li>
+
+    <li class="float-right" title="Setting"><button>&#9874;</button></li>
+    <!--<li class="float-right" title="Rate up"><button>&#128361;</button></li>
+    <li class="float-right" title="Rate down"><button>&#128362;</button></li>-->
+    <li class="float-right" title="Next"><button>&#10095;</button></li>
+    <li class="float-right" title="Play"><button>&#9658;</button></li>
+    <!--<li class="float-right" title="Pause"><button>&#10074;&#10074;</button></li>-->
+    <li class="float-right" title="Prev"><button>&#10094;</button></li>
+    <li class="float-right" title="Repeat"><button>&#10227;</button></li>
+</ul>
 <div class="tab-items">
     <div id="tab_word" class="tab-content">
     </div>
     <div id="tab_grammar" class="tab-content"></div>
     <div id="tab_reading" class="tab-content"></div>
-    <div id="tab_history" class="tab-content"></div>
-    <div id="tab_bookmark" class="tab-content"></div>
 </div>

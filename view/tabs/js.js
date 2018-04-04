@@ -40,6 +40,10 @@
 
         switch (state) {
             case 'load':
+                if (localStorage['tabs_display'] == null) localStorage['tabs_display'] = 'block';
+                var tabs = document.getElementById('ui-tabs');
+                if (tabs != null) tabs.style.display = localStorage['tabs_display'];
+
                 el.style.display = '';
                 var tree_node_root = document.getElementById('tree_node_root');
                 if (tree_node_root) tree_node_root.click();

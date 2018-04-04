@@ -9,7 +9,7 @@
     color: #303030;
     color: #212121;
     margin: 0;
-    background: #fafafa;
+    background-color: #fcfcfc;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     height: 100%;
@@ -29,21 +29,9 @@
     padding: 0;
 }
 
-#ui-toolbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 45px;
-    background-color: #aaa;
-}
-
-#ui-category, #ui-content {
-}
-
 #ui-category {
-    width: 300px;
-    background-color: #eee;
+    width: 250px;
+    border-right: 1px solid #eee;
     overflow-x: hidden;
     overflow-y: auto;
     height: 100vh;
@@ -62,12 +50,13 @@
 }
 
 #ui-tabs {
-    width: 350px;
-    background-color: #eee;
+    width: calc(100% - 1000px);
     overflow-x: hidden;
     overflow-y: hidden;
     height: 100vh;
     position: relative;
+    max-width: 800px;
+    min-width: 350px;
 }
 
 /* TOOLBAR */
@@ -77,8 +66,10 @@ ul.toolbar {
     top: 0;*/
     width: 100%;
     display: inline-block;
-    background-color: #aaa;
-    height: 25px;
+    /* background-color: #f9f9f9; */
+    height: 24px;
+    /* border-bottom: 1px solid #ccc; */
+    /* height: 29px; */
 }
 
     ul.toolbar li {
@@ -92,59 +83,20 @@ ul.toolbar {
             margin: 0;
             height: 24px;
             width: 32px;
-            border: 1px solid #bbb;
-            background-color: #ccc;
+            background-color: transparent;
             cursor: pointer;
             color: #333;
             font-size: 1.2em;
             line-height: 16px;
+            border-top: none;
+            border-bottom: none;
+            border-right: none;
+            border-left: none;
         }
 
             ul.toolbar li button:hover {
                 background-color: orange;
             }
-
-/* TABS */
-div.tabs {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    display: inline-block;
-    background-color: #aaa;
-    height: 25px;
-    text-align: right;
-    right: 0;
-}
-
-    div.tabs button {
-        height: 21px;
-        border: none;
-        padding: 0 7px;
-        float: right;
-        margin: 4px 0 0 0;
-        background-color: #aaa;
-        cursor: pointer;
-        color: #555;
-    }
-
-        div.tabs button.active, div.tabs button:hover {
-            background-color: #eee;
-            color: #000;
-        }
-
-div.tab-items {
-    position: absolute;
-    width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    display: inline-block;
-    top: 25px;
-    bottom: 0;
-}
-
-div.tab-content {
-}
 
 /* DETAIL - TREE */
 

@@ -178,12 +178,12 @@
         var m = document.getElementById('ui-tabs');
         if (m != null) {
             if (m.style.display == 'none') {
-                m.style = 'block';
-                module_broadcast({ action: 'tabs_show' });
+                m.style.display = 'block';
+                //module_broadcast({ action: 'tabs_show' });
                 localStorage['tabs_display'] = 'block';
             } else {
                 m.style.display = 'none';
-                module_broadcast({ action: 'tabs_hide' });
+                //module_broadcast({ action: 'tabs_hide' });
                 localStorage['tabs_display'] = 'none';
             }
         }

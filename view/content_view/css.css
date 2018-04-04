@@ -4,31 +4,32 @@
     #___module_id .box-search {
         padding: 0;
         margin: 0;
+        background-color: #f9f9f9;
+        border-radius: 3px;
+        border: 1px solid #ccc;
     }
 
         #___module_id .box-search input {
-            border: 1px solid #ccc;
-            border-radius: 3px 0 0 3px;
+            border: none;
             padding: 0px 10px 0;
             margin-left: 3px;
             float: left;
             border-right: none;
             height: 21px;
             font-size: 0.8em;
-            background-color: #f4f4f4;
-            width: 99px;
+            width: 77px;
+            background-color:transparent;
         }
 
         #___module_id .box-search button {
             float: left;
-            border: 1px solid #ccc;
-            border-left: none;
-            border-radius: 0 3px;
-            padding: 0px 6px;
+            border: none;
+            padding: 0px;
             height: 23px;
-            background-color: #ccc;
+            background-color: #f1f1f1;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 19px;
+            width:21px;
         }
 
 

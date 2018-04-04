@@ -1,6 +1,61 @@
 ﻿#___module_id {
 }
 
+    #___module_id .tabs {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        display: inline-block;
+        background-color: #fff;
+        border-left: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        height: 25px;
+        text-align: right;
+        right: 0;
+    }
+
+        #___module_id .tabs li {
+            float: left;
+        }
+
+        #___module_id .tabs button{
+            font-size: 1.1em;
+        }
+
+        #___module_id .tabs a {
+            height: 21px;
+            border: none;
+            padding: 0 7px;
+            float: right;
+            margin: 4px 0 0 0;
+            background-color: transparent;
+            cursor: pointer;
+            color: #555;
+            font-size: 0.8em;
+            line-height: 21px;
+        }
+
+            #___module_id .tabs a.active,
+            #___module_id .tabs a:hover {
+                background-color: #eee;
+                color: #000;
+            }
+
+    #___module_id .tab-items {
+        position: absolute;
+        width: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: inline-block;
+        top: 25px;
+        bottom: 0;
+        border-left: 1px solid #eee;
+    }
+
+    #___module_id .tab-content {
+    }
+
     #___module_id .table-master-detail {
         width: 100%;
         border: 0;
@@ -41,6 +96,7 @@
                         clear: both;
                         display: inline-block;
                         width: calc(100% - 35px);
+                        text-align: left;
                     }
 
                         #___module_id .table-master-detail tr.detail td ul li i,
@@ -68,7 +124,8 @@
 
                 #___module_id .table-master-detail tr td.w {
                     text-transform: capitalize;
-                    font-weight: bold;
+                    font-weight: normal;
+                    font-size: 0.8em;
                 }
 
                 #___module_id .table-master-detail tr td.wd {
@@ -85,7 +142,7 @@
                 #___module_id .table-master-detail tr td:first-child,
                 #___module_id .table-master-detail tr td:last-of-type {
                     width: 32px;
-                    text-align:center;
+                    text-align: center;
                 }
 
                 #___module_id .table-master-detail tr td:first-child {
