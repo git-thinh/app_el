@@ -78,6 +78,15 @@
 
         post_api({ id: m.id, action: 'dir_get', callback: '___module_id.f_bind_data_grid', input: { path: path, folder: folder } });
     },
+    f_confirm_close: function () {
+        w2confirm('Are you sure close?')
+            .yes(function () {
+                module_close('___module_id');
+            })
+            .no(function () {
+                console.log('NO');
+            });
+    },
     f_draw_grid: function (m) {
 
         $('#' + m.id).w2grid({
@@ -91,7 +100,7 @@
                 expandColumn: false,  // indicates if expand column is visible
                 selectColumn: false,  // indicates if select column is visible
                 emptyRecords: true,   // indicates if empty records are visible
-                toolbarReload: true,   // indicates if toolbar reload button is visible
+                toolbarReload: false,   // indicates if toolbar reload button is visible
                 toolbarColumns: false,   // indicates if toolbar columns button is visible
                 toolbarSearch: true,   // indicates if toolbar search controls are visible
 
@@ -137,10 +146,12 @@
             },
             toolbar: {
                 items: [
-                    { id: 'bt1', type: 'button', caption: 'Button 1', img: 'icon-folder' },
-                    { id: 'bt3', type: 'spacer' },
-                    { id: 'bt4', type: 'button', caption: 'Reset', img: 'icon-page' },
-                    { id: 'bt5', type: 'button', caption: 'Save', img: 'icon-page' }
+                    { id: 'add', type: 'html', html: '<i title="Create new" class=ico style="padding: 0 9px">&#10011;</i>' },
+                    { id: 'edit', type: 'html', html: '<i title="Edit" class=ico style="padding: 0 9px">&#9998;</i>' },
+                    { id: 'remove', type: 'html', html: '<i title="Remove" class=ico style="padding: 0 9px">&#128465;</i>' },
+                    { type: 'spacer' },
+                    //{ id: 'save', type: 'html', html: '<i class=ico style="padding: 0 9px">&#128427;</i>' },
+                    { id: 'close', type: 'html', html: '<i title="Close" class=ico style="padding: 0 9px" onclick="___module_id.f_confirm_close()">&#10005;</i>' },
                 ],
                 onClick: function (event) {
                     if (event.target == 'bt4') w2ui.form.clear();
