@@ -69,17 +69,6 @@ body {
     user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-.ico {
-    font-style: normal;
-    font-size: 2.1em;
-    cursor: pointer;
-    color: #111;
-}
-
-    .ico:hover {
-        color: orange;
-    }
-
 /* SCROLLBAR */
 
 ::-webkit-scrollbar {
@@ -262,111 +251,164 @@ section {
                         text-decoration: none;
                     }
 
-/* MODULE - ui-alert */
-#ui-input aside,
-#ui-alert aside,
-#ui-confirm aside {
-    min-width: 350px;
-}
-
-    #ui-input aside fieldset, #ui-input aside footer,
-    #ui-alert aside fieldset, #ui-alert aside footer,
-    #ui-confirm aside fieldset, #ui-confirm aside footer {
-        text-align: center;
-    }
-
-    #ui-input aside footer,
-    #ui-alert aside footer,
-    #ui-confirm aside footer {
-        padding: 10px 0;
-        width: 100%;
-    }
-
-#ui-input fieldset p,
-#ui-alert fieldset p,
-#ui-confirm fieldset p {
-    width: 100%;
-    display: inline-block;
-    font-weight: normal;
-}
-
-#ui-input fieldset p {
-    text-align: left;
-}
-
-#ui-input fieldset span {
-    color: red;
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-    display: inline-block;
-}
-
-#ui-input fieldset input {
-    width: calc(100% - 14px);
-}
-
-/* MODULE - ui-content-edit */
-#ui-content-edit aside {
-    min-width: 799px;
-    min-height: 599px;
-    padding: 10px 0;
-}
-
-    #ui-content-edit aside fieldset {
-        padding: 0;
-    }
-
-#ui-content-edit input[type="text"],
-#ui-content-edit textarea {
-    width: calc(100% - 14px);
-    padding: 7px;
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
-    border-color: #f4f4f4;
-}
-
-#ui-content-edit textarea {
-    height: 455px;
-}
-
-#ui-content-edit fieldset label,
-#ui-content-edit fieldset p {
-    display: inline-block;
-    width: 100%;
-    text-align: left;
-}
-
-#ui-content-edit fieldset label {
-    padding-right: 10px;
-    text-align: right;
-    width: calc(100% - 10px);
-}
-
-#ui-content-edit fieldset input[type="text"] {
-    font-weight: bold;
-    font-size: 1.5em;
-    border: none;
-}
-
-#ui-content-edit fieldset textarea {
-    height: calc(100vh - 230px);
-}
-
-/* MODULE - ui-folder-edit */
-#ui-folder-edit fieldset label {
-    width: 39px;
-}
-
 /* MODULE - ui-indicator */
-#ui-indicator content {
-    z-index: 3;
+#ui-indicator {
+    z-index: 99999;
 }
 
-    #ui-indicator content p {
+    #ui-indicator content {
+        z-index: 3;
     }
 
-    #ui-indicator content img {
-        width: 164px;
+        #ui-indicator content p {
+        }
+
+        #ui-indicator content img {
+            width: 164px;
+        }
+
+/* ICONS */
+
+.i-close:before {
+    content: '\2715';
+}
+
+.i-save:before {
+    content: '\1F5AB';
+}
+
+.i-add:before {
+    content: '\271B';
+}
+
+.i-edit:before {
+    content: '\270E';
+}
+
+.i-remove:before {
+    content: '\1F5D1';
+}
+
+.i-search:before {
+    content: '\26B2';
+}
+
+/* W2UI */
+
+/* W2UI - FROM */
+.w2ui-field div em {
+    padding-left: 3px;
+    color: red;
+}
+
+.mobi .w2ui-column.col-0 {
+    width:100%;
+}
+
+.mobi .w2ui-field {
+    position: relative;
+    display: inline-block;
+    width:100%;
+}
+
+
+.mobi .w2ui-field.w2ui-required label:after {
+    content: '*';
+    color: red;
+}
+
+.mobi .w2ui-field label {
+    width: 100% !important;
+    text-align: left;
+    float: none;
+    padding: 0 0 0 5px;
+    margin: 0;
+    min-height: 13px;
+}
+
+.mobi .w2ui-field.w2ui-required div:before {
+    content: '' !important;
+}
+
+.mobi .w2ui-field div {
+    width: 100%;
+    margin: 0 !important;
+}
+
+    .mobi .w2ui-field div input {
+        width: 100% !important;
+        float: none;
     }
+
+    .mobi .w2ui-field div em {
+        padding: 4px 0 0 3px;
+        display: inline-block;
+        color: red;
+    }
+
+/* W2UI - POPUP */
+.w2ui-popup .w2ui-popup-title {
+    line-height: 15px;
+}
+
+/* W2UI: TOOLBAR, ICON */
+.w2ui-grid .w2ui-toolbar-search,
+.w2ui-grid .w2ui-toolbar-search .w2ui-search-all {
+    max-width: 99px !important;
+}
+
+.w2ui-toolbar button {
+    display: table;
+    padding: 3px 9px 1px;
+    margin: 0 1px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #666;
+    background-color: #f9f9f9;
+    border-color: #ccc;
+    position: relative;
+}
+
+    .w2ui-toolbar button:hover {
+        background-color: orange;
+    }
+
+        .w2ui-toolbar button:hover i,
+        .w2ui-toolbar button:hover b {
+            color: #fff;
+        }
+
+    .w2ui-toolbar button i {
+        font-style: normal;
+        cursor: pointer;
+        display: table-cell;
+        padding: 0;
+        font-size: 1.4em;
+    }
+
+    .w2ui-toolbar button b {
+        display: table-cell;
+        height: 17px;
+        line-height: 16px;
+        padding: 0 0 0 3px;
+        vertical-align: middle;
+    }
+
+.mobi .w2ui-toolbar button b,
+.tablet .w2ui-toolbar button b {
+    display: none !important;
+}

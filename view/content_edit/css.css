@@ -1,2 +1,51 @@
 ﻿#___module_id {
 }
+
+
+/* MODULE - ui-content-edit */
+#___module_id aside {
+    min-width: 799px;
+    min-height: 599px;
+    padding: 10px 0;
+}
+
+    #___module_id aside fieldset {
+        padding: 0;
+    }
+
+#___module_id input[type="text"],
+#___module_id textarea {
+    width: calc(100% - 14px);
+    padding: 7px;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    border-color: #f4f4f4;
+}
+
+#___module_id textarea {
+    height: 455px;
+}
+
+#___module_id fieldset label,
+#___module_id fieldset p {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+}
+
+#___module_id fieldset label {
+    padding-right: 10px;
+    text-align: right;
+    width: calc(100% - 10px);
+}
+
+#___module_id fieldset input[type="text"] {
+    font-weight: bold;
+    font-size: 1.5em;
+    border: none;
+}
+
+#___module_id fieldset textarea {
+    height: calc(100vh - 230px);
+}

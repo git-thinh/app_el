@@ -21,7 +21,7 @@ db_cache.getItem('js', function (err, val) {
         var js1 = load('/js/jquery-1.12.4.min.js');
         var js2 = load('/js/w2ui/w2ui.min.js');
         var js3 = load('/js/worker/underscore.min.js');
-        var js = js1 + '\r\n' + js2 + '\r\n' + js3 + '\r\n start_App()';
+        var js = js1 + '\r\n ' + js2 + ' \r\n ' + js3 + ' \r\n start_App(); ';
         post_ui(js);
         db_cache.setItem('js', js);
     }
@@ -66,7 +66,7 @@ function module_load(m) {
             }
             _eval =
                 'setTimeout(function(){ module_init_event({ id:"' + id + '", code: "' + code + '", selector: "' + selector + '"}); ' +
-            'if (' + id + ' != null && ' + id + '.controller != null && typeof ' + id + '.controller === "function") { ' + id + '.controller({ state: "load", id:"' + id + '", code: "' + code + '", selector: "' + selector + '" }); } ' +
+                'if (' + id + ' != null && ' + id + '.controller != null && typeof ' + id + '.controller === "function") { ' + id + '.controller({ state: "load", id:"' + id + '", code: "' + code + '", selector: "' + selector + '" }); } ' +
                 ' else { alert("Cannot find function ___module_id.controller() in file js.js"); } ' +
                 ' }, 0);';
             post_ui({ action: 'module_load', callback: 'module_load', result: { type: type, code: code, id: id, html: html, eval: _eval, className: '', selector: selector } });
@@ -83,10 +83,10 @@ function module_load(m) {
 
                 _eval =
                     'setTimeout(function(){ ' +
-                'if (' + id + ' != null && ' + id + '.init != null && typeof ' + id + '.init === "function") { ' + id + '.init({ code: "' + code + '", id:"' + id + '", selector: "' + selector + '" }); } ' +
+                    'if (' + id + ' != null && ' + id + '.init != null && typeof ' + id + '.init === "function") { ' + id + '.init({ code: "' + code + '", id:"' + id + '", selector: "' + selector + '" }); } ' +
                     ' else {  } ' +
-                id + '.controller({ state: "init", id:"' + id + '", code: "' + code + '", selector: "' + selector + '" }); }, 0);' +
-                'post_api({ action: "module_load", input: { code: "' + code + '", id:"' + id + '", type: "view", selector: "' + selector + '" }});';
+                    id + '.controller({ state: "init", id:"' + id + '", code: "' + code + '", selector: "' + selector + '" }); }, 0);' +
+                    'post_api({ action: "module_load", input: { code: "' + code + '", id:"' + id + '", type: "view", selector: "' + selector + '" }});';
             }
             if (css != '') {
                 css = '\r\n' + css.split('___module_id').join(id) + '\r\n';

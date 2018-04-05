@@ -4,6 +4,12 @@ String.prototype.convertToASCII = function () { return this.replace(/[^a-zA-Z0-9
 function _split(str, tokens) { var tempChar = tokens[0]; for (var i = 1; i < tokens.length; i++) { str = str.split(tokens[i]).join(tempChar); } str = str.split(tempChar); return str; };
 //window.console.log = function (title, data) { };
 
+var device = 'pc';
+var browser_width = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth, document.body.offsetWidth, document.documentElement.offsetWidth, document.documentElement.clientWidth);
+var browser_height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight, document.documentElement.clientHeight);
+if (browser_width < 401) device = 'mobi'; else if (browser_width < 1024) device = 'tablet';
+document.body.className = device;
+
 function init_js_css(src) {
     if (src[0] == '#') {
         var s = document.createElement('style');
@@ -126,7 +132,7 @@ function module_submit_form(module_id, form_id) {
                 }
             }
         }
-        var module = { state: "submit.form." + name_form, id: module_id, code: code, input: data };
+        var module = { state: form_id, id: module_id, code: code, input: data };
         if (typeof window[module_id].controller == 'function') {
             window[module_id].controller(module);
         }
@@ -166,7 +172,7 @@ function start_App() {
 
     //if (localStorage['file_load'] != null) setTimeout(post_api(JSON.parse(localStorage['file_load'])), 1000);
 
-    
+
 }
 
 /* PAGE - LOGIN - ... */

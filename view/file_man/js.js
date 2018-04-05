@@ -1,11 +1,10 @@
 ﻿var ___module_id = {
-    m_folder_prev: '',
-    m_folder_current: '',
     m_path_root: '',
     m_path: '',
     m_item_current: null,
     m_items: [],
     m_inited: false,
+    /* MODULE */
     init: function (module) {
         console.log('this is init ' + module.code, module);
     },
@@ -19,16 +18,29 @@
         switch (state) {
             case 'load':
                 //console.log('UI.MODULE.LOAD ' + module.code, module);
-                ___module_id.f_draw_grid(module);
+                ___module_id.f_grid_init(module);
                 el.style.display = '';
+                break;
+            case this.m_form_edit_dir_id:
+                this.f_form_edit_dir_submit(module);
                 break;
             default:
                 console.log('UI.MODULE.' + state + ' - ' + module.code, module);
                 break;
         }
     },
-    f_bind_data_grid: function (m) {
-        console.log(m);
+    f_module_close: function () {
+        w2confirm('Are you sure close?')
+            .yes(function () {
+                module_close('___module_id');
+            })
+            .no(function () {
+                console.log('NO');
+            });
+    },
+    /* GRID */
+    f_grid_draw: function (m) {
+        //console.log(m);
         if (m == null || m.result == null) return;
 
         //var url = api_host + '?type=dir_get&path=' + path + '&folder=' + folder;
@@ -70,24 +82,15 @@
 
         indicator_hide();
     },
-    f_load_dir: function (m, path, folder) {
+    f_grid_post_api: function (m, path, folder) {
         if (path == null) path = '';
         if (folder == null) folder = '';
 
         indicator_show();
 
-        post_api({ id: m.id, action: 'dir_get', callback: '___module_id.f_bind_data_grid', input: { path: path, folder: folder } });
+        post_api({ id: m.id, action: 'dir_get', callback: '___module_id.f_grid_draw', input: { path: path, folder: folder } });
     },
-    f_confirm_close: function () {
-        w2confirm('Are you sure close?')
-            .yes(function () {
-                module_close('___module_id');
-            })
-            .no(function () {
-                console.log('NO');
-            });
-    },
-    f_draw_grid: function (m) {
+    f_grid_init: function (m) {
 
         $('#' + m.id).w2grid({
             name: m.id,
@@ -146,12 +149,11 @@
             },
             toolbar: {
                 items: [
-                    { id: 'add', type: 'html', html: '<i title="Create new" class=ico style="padding: 0 9px">&#10011;</i>' },
-                    { id: 'edit', type: 'html', html: '<i title="Edit" class=ico style="padding: 0 9px">&#9998;</i>' },
-                    { id: 'remove', type: 'html', html: '<i title="Remove" class=ico style="padding: 0 9px">&#128465;</i>' },
+                    { type: 'html', html: '<button title="Create" type="button" onclick="___module_id.f_form_create_init()"><i class=i-add></i><b>Create</b></button>' },
+                    { type: 'html', html: '<button title="Edit" type="button" onclick="___module_id.f_form_edit_init()"><i class=i-edit></i><b>Edit</b></button>' },
+                    { type: 'html', html: '<button title="Delete" type="button" onclick="___module_id.f_form_delete_init()"><i class=i-remove></i><b>Delete</b></button>' },
                     { type: 'spacer' },
-                    //{ id: 'save', type: 'html', html: '<i class=ico style="padding: 0 9px">&#128427;</i>' },
-                    { id: 'close', type: 'html', html: '<i title="Close" class=ico style="padding: 0 9px" onclick="___module_id.f_confirm_close()">&#10005;</i>' },
+                    { type: 'html', html: '<button title="Close" type="button" onclick="___module_id.f_module_close()"><i class=i-close></i><b>Close</b></button>' },
                 ],
                 onClick: function (event) {
                     if (event.target == 'bt4') w2ui.form.clear();
@@ -171,12 +173,12 @@
                             fol = a[a.length - 1],
                             len = fol.length + 1,
                             pt = ___module_id.m_path.substring(0, ___module_id.m_path.length - len);
-                        ___module_id.f_load_dir(m, pt, '');
+                        ___module_id.f_grid_post_api(m, pt, '');
                     } else {
                         ___module_id.m_item_current = it;
                         if (it.type == 'dir') {
                             var folder = it.name;
-                            ___module_id.f_load_dir(m, ___module_id.m_path, folder);
+                            ___module_id.f_grid_post_api(m, ___module_id.m_path, folder);
                         }
                     }
                 }
@@ -186,8 +188,119 @@
         w2ui[m.id].on('*', function (event) {
             if (event.type == 'resize' && ___module_id.m_inited == false) {
                 ___module_id.m_inited = true;
-                ___module_id.f_load_dir(m);
+                ___module_id.f_grid_post_api(m);
             }
         });
-    }
+
+    },
+    /* CREATE - EDIT - REMOVE */
+    f_form_create_init: function () { },
+    f_form_edit_init: function () {
+        this.f_form_edit_dir_init();
+    },
+    f_form_delete_init: function () { },
+    /* FORM FOLDER EDIT */
+    m_form_edit_dir_validate: '',
+    m_form_edit_dir_id: 'ID' + new Date().getTime(),
+    f_form_edit_dir_submit: function (m) {
+        console.log('f_form_edit_dir_submit: ', m);
+
+        var fom = w2ui[this.m_form_edit_dir_id];
+        if (fom) {
+            var it = m.input, fs = fom.fields, caption = '';
+            if (it == null) {
+                return;
+            }
+
+            if (it.name == '') {
+                caption = fs[0].html.caption;
+                w2alert(caption + ': must be not empty.');
+                return;
+            }
+
+            if (this.m_form_edit_dir_validate != '') {
+                caption = fs[0].html.caption;
+                w2alert(caption + ': ' + this.m_form_edit_dir_validate);
+                return;
+            }
+
+            w2popup.lock('Saving data', true);
+            setTimeout(function () { w2popup.unlock(); }, 5000);
+        }
+    },
+    f_form_edit_dir_input_name_change: function (el, val) {
+        console.log(val);
+        if (val.match(/[^A-Za-z0-9 \-\_]/)) {
+            el.className = 'w2ui-input w2ui-error';
+            this.m_form_edit_dir_validate = 'Characters only: a-z,0-9,-, ,_';
+        } else {
+            el.className = 'w2ui-input';
+            this.m_form_edit_dir_validate = '';
+        }
+    },
+    f_form_edit_dir_close: function () {
+        w2popup.close();
+    },
+    f_form_edit_dir_init: function () {
+        var form_id = this.m_form_edit_dir_id;
+
+        if (!w2ui[form_id]) {
+            var form_config = {
+                name: form_id,
+                fields: [
+                    {
+                        field: 'name', type: 'text', required: true,
+                        html: {
+                            caption: 'Folder name',
+                            text: '<em>Character [a-z,0-9, ,-,_] </em>',
+                            attr: 'onfocusout="___module_id.f_form_edit_dir_input_name_change(this,this.value)"',
+                        }
+                    },
+                ],
+                toolbar: {
+                    items: [
+                        { type: 'spacer' },
+                        { type: 'html', html: '<button title="Save" type="submit"><i class=i-save></i><b>Save</b></button>' },
+                        { type: 'html', html: '<button title="Close" type="button" onclick="___module_id.f_form_edit_dir_close()"><i class=i-close></i><b>Close</b></button>' },
+                    ]
+                },
+                record: { name: 'english' },
+            };
+
+            $().w2form(form_config);
+        }
+
+        var hi = 150;
+        if (device == 'mobi') hi = 300;
+        $().w2popup('open', {
+            title: 'Edit folder',
+            body: '<form name="edit_dir" id="' + form_id + '" action="javascript:module_submit_form(\'___module_id\',\'' + form_id + '\');" style="width: 100%; height: 100%;"></form>',
+            style: 'padding: 0px',
+            //width: 500,
+            height: hi,
+
+            modal: true,
+            showClose: false,
+            showMax: false,
+            
+            onClose: function (event) { console.log('close'); },
+            onMax: function (event) { console.log('max'); },
+            onMin: function (event) { console.log('min'); },
+            onKeydown: function (event) { console.log('keydown'); },
+
+            onToggle: function (event) {
+                $(w2ui[form_id].box).hide();
+                event.onComplete = function () {
+                    $(w2ui[form_id].box).show();
+                    w2ui[form_id].resize();
+                }
+            },
+            onOpen: function (event) {
+                event.onComplete = function () {
+                    // specifying an onOpen handler instead is equivalent to specifying an onBeforeOpen handler, which would make this code execute too early and hence not deliver.
+                    $('#' + form_id).w2render(form_id);
+                }
+            }
+        });
+    },
 };
