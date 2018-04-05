@@ -144,6 +144,42 @@ function dir_remove(m) {
     ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 300); });
 }
 
+function file_create(m) {
+    console.log('API.' + m.action + ': ', m);
+    var url = api_host + '?type=' + m.action;
+    var folder = m.input.folder,
+        file_name = m.input.file_name,
+        path = m.input.path;
+    if (file_name != null && file_name != '') url += '&file_name=' + file_name;
+    if (folder != null && folder != '') url += '&folder=' + folder;
+    if (path != null && path != '') url += '&path=' + path;
+    ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 300); });
+}
+
+function file_edit(m) {
+    console.log('API.' + m.action + ': ', m);
+    var url = api_host + '?type=' + m.action;
+    var folder = m.input.folder,
+        file_name = m.input.file_name,
+        path = m.input.path;
+    if (file_name != null && file_name != '') url += '&file_name=' + file_name;
+    if (folder != null && folder != '') url += '&folder=' + folder;
+    if (path != null && path != '') url += '&path=' + path;
+    ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 300); });
+}
+
+function file_remove(m) {
+    console.log('API.' + m.action + ': ', m);
+    var url = api_host + '?type=' + m.action;
+    var folder = m.input.folder,
+        file_name = m.input.file_name,
+        path = m.input.path;
+    if (file_name != null && file_name != '') url += '&file_name=' + file_name;
+    if (folder != null && folder != '') url += '&folder=' + folder;
+    if (path != null && path != '') url += '&path=' + path;
+    ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 300); });
+}
+
 function file_load(m) {
     console.log('API.file_load: ', m);
     var url = api_host + '?type=file_load';

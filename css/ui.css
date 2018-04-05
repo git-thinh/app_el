@@ -293,6 +293,10 @@ section {
     content: '\26B2';
 }
 
+.i-file:before {
+    content: '\1F5CB';
+}
+
 /* W2UI */
 
 /* W2UI - FROM */
