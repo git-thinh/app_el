@@ -6,6 +6,7 @@
     m_items: [],
     m_inited: false,
     /* MODULE */
+    m_module_id: null,
     init: function (module) {
         console.log('this is init ' + module.code, module);
     },
@@ -94,6 +95,7 @@
         post_api(msg);
     },
     f_grid_init: function (m) {
+        ___module_id.m_module_id = m.id;
 
         $('#' + m.id).w2grid({
             name: m.id,
@@ -205,6 +207,7 @@
         }
 
         var md = ___module_id;
+        md.m_item_current = null;
 
         if (result.ok == true && result.msg != null) {
             w2alert(result.msg).done(function () {
