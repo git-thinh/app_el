@@ -135,18 +135,6 @@
                 { field: 'count', caption: 'Count', size: '50px' },
                 { field: 'date', caption: 'Date', size: '60px' }
             ],
-            onAdd: function (event) {
-                w2alert('add');
-            },
-            onEdit: function (event) {
-                w2alert('edit');
-            },
-            onDelete: function (event) {
-                console.log('delete has default behavior');
-            },
-            onSave: function (event) {
-                w2alert('save');
-            },
             toolbar: {
                 items: [
                     { type: 'html', html: '<button title="Create" type="button" onclick="___module_id.f_form_create_init()"><i class=i-add></i><b>Create</b></button>' },
@@ -154,31 +142,40 @@
                     { type: 'html', html: '<button title="Delete" type="button" onclick="___module_id.f_form_delete_init()"><i class=i-remove></i><b>Delete</b></button>' },
                     { type: 'spacer' },
                     { type: 'html', html: '<button title="Close" type="button" onclick="___module_id.f_module_close()"><i class=i-close></i><b>Close</b></button>' },
-                ],
-                onClick: function (event) {
-                    if (event.target == 'bt4') w2ui.form.clear();
-                    if (event.target == 'bt5') w2ui.form.save();
+                ]
+            },
+            records: [],
+            onClick: function (event) {
+                var md = ___module_id;
+                var id = parseInt(event.recid);
+                var its = _.filter(md.m_items, function (it) { return it.recid == id; });
+                //console.log(its);
+                if (its != null && its.length > 0) {
+                    var it = its[0];
+                    if (it.name != '...') {
+                        md.m_item_current = it;
+                    }
                 }
             },
-            records: [], //___module_id.m_items,
             onDblClick: function (event) {
                 //console.log(event);
+                var md = ___module_id;
                 var id = parseInt(event.recid);
-                var its = _.filter(___module_id.m_items, function (it) { return it.recid == id; });
+                var its = _.filter(md.m_items, function (it) { return it.recid == id; });
                 //console.log(its);
                 if (its != null && its.length > 0) {
                     var it = its[0];
                     if (it.name == '...') {
-                        var a = ___module_id.m_path.split('/'),
+                        var a = md.m_path.split('/'),
                             fol = a[a.length - 1],
                             len = fol.length + 1,
-                            pt = ___module_id.m_path.substring(0, ___module_id.m_path.length - len);
-                        ___module_id.f_grid_post_api(m, pt, '');
+                            pt = md.m_path.substring(0, md.m_path.length - len);
+                        md.f_grid_post_api(m, pt, '');
                     } else {
-                        ___module_id.m_item_current = it;
+                        md.m_item_current = it;
                         if (it.type == 'dir') {
                             var folder = it.name;
-                            ___module_id.f_grid_post_api(m, ___module_id.m_path, folder);
+                            md.f_grid_post_api(m, md.m_path, folder);
                         }
                     }
                 }
@@ -194,8 +191,39 @@
 
     },
     /* CREATE - EDIT - REMOVE */
-    f_form_create_init: function () { },
+    f_form_create_init: function () {
+        w2prompt({
+            label: 'Enter folder name',               // label for the input control
+            value: '',               // initial value of input
+            attrs: 'size=35',               // attributes for input control
+            title: 'Create new folder',   // title of dialog
+            ok_text: 'Create',             // text of Ok button
+            cancel_text: 'Cancel',         // text of Cancel button
+            width: 400,              // width of the dialog
+            height: 220,              // height of dialog
+            callBack: null              // callBack function, if any
+        })
+            .change(function (event) {
+                //console.log('Input value changed.', event);
+                var el = event.target,
+                    val = el.value;
+
+                if (val.length == 0 || val.match(/[^A-Za-z0-9 \-\_]/)) {
+                    el.className = 'w2ui-input w2ui-error';
+                    document.querySelector('#w2ui-popup #Ok').setAttribute('disabled', 'disabled');
+                    if (document.getElementById('w2ui-message0') == null)
+                        w2alert('Characters only: a-z,0-9,-, ,_');
+                } else {
+                    el.className = 'w2ui-input';
+                    document.querySelector('#w2ui-popup #Ok').removeAttribute('disabled');
+                }
+            })
+            .ok(function (val) {
+                alert(val);
+            });
+    },
     f_form_edit_init: function () {
+        var md = ___module_id;
         this.f_form_edit_dir_init();
     },
     f_form_delete_init: function () { },
@@ -282,7 +310,7 @@
             modal: true,
             showClose: false,
             showMax: false,
-            
+
             onClose: function (event) { console.log('close'); },
             onMax: function (event) { console.log('max'); },
             onMin: function (event) { console.log('min'); },
