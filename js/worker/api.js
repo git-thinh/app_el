@@ -100,9 +100,45 @@ function module_load(m) {
 /* API: DIR_GET, FILE_LOAD, ... */
 
 function dir_get(m) {
-    console.log('API.dir_get: ', m);
-    var url = api_host + '?type=dir_get';
+    console.log('API.' + m.action + ': ', m);
+    var url = api_host + '?type=' + m.action;
     var folder = m.input.folder, path = m.input.path;
+    if (folder != null && folder != '') url += '&folder=' + folder;
+    if (path != null && path != '') url += '&path=' + path;
+    ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 300); });
+}
+
+function dir_create(m) {
+    console.log('API.' + m.action + ': ', m);
+    var url = api_host + '?type=' + m.action;
+    var folder = m.input.folder,
+        folder_new = m.input.folder_new,
+        path = m.input.path;
+    if (folder_new != null && folder_new != '') url += '&folder_new=' + folder_new;
+    if (folder != null && folder != '') url += '&folder=' + folder;
+    if (path != null && path != '') url += '&path=' + path;
+    ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 300); });
+}
+
+function dir_edit(m) {
+    console.log('API.' + m.action + ': ', m);
+    var url = api_host + '?type=' + m.action;
+    var folder = m.input.folder,
+        folder_new = m.input.folder_new,
+        path = m.input.path;
+    if (folder_new != null && folder_new != '') url += '&folder_new=' + folder_new;
+    if (folder != null && folder != '') url += '&folder=' + folder;
+    if (path != null && path != '') url += '&path=' + path;
+    ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 300); });
+}
+
+function dir_remove(m) {
+    console.log('API.' + m.action + ': ', m);
+    var url = api_host + '?type=' + m.action;
+    var folder = m.input.folder,
+        folder_new = m.input.folder_new,
+        path = m.input.path;
+    if (folder_new != null && folder_new != '') url += '&folder_new=' + folder_new;
     if (folder != null && folder != '') url += '&folder=' + folder;
     if (path != null && path != '') url += '&path=' + path;
     ajax_get(url, (val) => { m.result = val; setTimeout(function () { post_ui(m); }, 300); });

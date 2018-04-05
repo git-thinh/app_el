@@ -2,6 +2,7 @@
     m_path_root: '',
     m_path: '',
     m_item_current: null,
+    m_query_current: null,
     m_items: [],
     m_inited: false,
     /* MODULE */
@@ -88,7 +89,9 @@
 
         indicator_show();
 
-        post_api({ id: m.id, action: 'dir_get', callback: '___module_id.f_grid_draw', input: { path: path, folder: folder } });
+        var msg = { id: m.id, action: 'dir_get', callback: '___module_id.f_grid_draw', input: { path: path, folder: folder } };
+        ___module_id.m_query_current = msg;
+        post_api(msg);
     },
     f_grid_init: function (m) {
 
@@ -191,7 +194,27 @@
 
     },
     /* CREATE - EDIT - REMOVE */
+    f_form_edit_callback: function (m) {
+        console.log(m);
+        if (m == null || m.result == null) return;
+        var result = m.result;
+
+        if (result.ok == false && result.msg != null) {
+            w2alert(result.msg);
+            return;
+        }
+
+        var md = ___module_id;
+
+        if (result.ok == true && result.msg != null) {
+            w2alert(result.msg).done(function () {
+            });
+            if (md.m_query_current) post_api(md.m_query_current);
+        }
+    },
     f_form_create_init: function () {
+        var md = ___module_id;
+
         w2prompt({
             label: 'Enter folder name',               // label for the input control
             value: '',               // initial value of input
@@ -208,7 +231,13 @@
                 var el = event.target,
                     val = el.value;
 
-                if (val.length == 0 || val.match(/[^A-Za-z0-9 \-\_]/)) {
+                if (val.length == 0) {
+                    el.className = 'w2ui-input w2ui-error';
+                    document.querySelector('#w2ui-popup #Ok').setAttribute('disabled', 'disabled');
+                    return;
+                }
+
+                if (val.match(/[^A-Za-z0-9 \-\_]/)) {
                     el.className = 'w2ui-input w2ui-error';
                     document.querySelector('#w2ui-popup #Ok').setAttribute('disabled', 'disabled');
                     if (document.getElementById('w2ui-message0') == null)
@@ -219,14 +248,96 @@
                 }
             })
             .ok(function (val) {
-                alert(val);
+                //alert(val);
+                var msg = { action: 'dir_create', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder_new: val } };
+                console.log(msg);
+                post_api(msg);
             });
     },
     f_form_edit_init: function () {
         var md = ___module_id;
-        this.f_form_edit_dir_init();
+        //this.f_form_edit_dir_init();
+        if (md.m_item_current == null) {
+            w2alert('Please select folder to edit name!');
+            return;
+        }
+
+        w2prompt({
+            label: 'Enter folder name',               // label for the input control
+            value: md.m_item_current.name,               // initial value of input
+            attrs: 'size=35',               // attributes for input control
+            title: 'Edit folder',   // title of dialog
+            ok_text: 'Save',             // text of Ok button
+            cancel_text: 'Cancel',         // text of Cancel button
+            width: 400,              // width of the dialog
+            height: 220,              // height of dialog
+            callBack: null              // callBack function, if any
+        })
+            .change(function (event) {
+                //console.log('Input value changed.', event);
+                var el = event.target,
+                    val = el.value;
+
+                if (val.length == 0) {
+                    el.className = 'w2ui-input w2ui-error';
+                    document.querySelector('#w2ui-popup #Ok').setAttribute('disabled', 'disabled');
+                    return;
+                }
+
+                if (val.match(/[^A-Za-z0-9 \-\_]/)) {
+                    el.className = 'w2ui-input w2ui-error';
+                    document.querySelector('#w2ui-popup #Ok').setAttribute('disabled', 'disabled');
+                    if (document.getElementById('w2ui-message0') == null)
+                        w2alert('Characters only: a-z,0-9,-, ,_');
+                } else {
+                    el.className = 'w2ui-input';
+                    document.querySelector('#w2ui-popup #Ok').removeAttribute('disabled');
+                }
+            })
+            .ok(function (val) {
+                //alert(val);
+                var msg = { action: 'dir_edit', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_item_current.name, folder_new: val } };
+                console.log(msg);
+                post_api(msg);
+            });
     },
-    f_form_delete_init: function () { },
+    f_form_delete_init: function () {
+
+        var md = ___module_id;
+        //this.f_form_edit_dir_init();
+        if (md.m_item_current == null) {
+            w2alert('Please select folder to remove name!');
+            return;
+        }
+
+        w2confirm({
+            msg: 'Are you sure for remove folder [' + md.m_item_current.name + ']?',
+            title: 'Delete',
+            width: 450,     // width of the dialog
+            height: 220,     // height of the dialog
+            btn_yes: {
+                text: 'Yes',   // text for yes button (or yes_text)
+                class: '',      // class for yes button (or yes_class)
+                style: '',      // style for yes button (or yes_style)
+                callBack: null     // callBack for yes button (or yes_callBack)
+            },
+            btn_no: {
+                text: 'No',    // text for no button (or no_text)
+                class: '',      // class for no button (or no_class)
+                style: '',      // style for no button (or no_style)
+                callBack: null     // callBack for no button (or no_callBack)
+            },
+            callBack: null     // common callBack
+        })
+            .yes(function () {
+                var msg = { action: 'dir_remove', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_item_current.name } };
+                console.log(msg);
+                post_api(msg);
+            })
+            .no(function () {
+                console.log("user clicked NO")
+            });
+    },
     /* FORM FOLDER EDIT */
     m_form_edit_dir_validate: '',
     m_form_edit_dir_id: 'ID' + new Date().getTime(),
