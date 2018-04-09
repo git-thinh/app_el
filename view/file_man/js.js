@@ -1,7 +1,7 @@
 ﻿var ___module_id = {
     m_path_root: '',
     m_path: '',
-    m_folder_current: null,
+    m_item_current: null,
     m_query_current: null,
     m_items: [],
     m_inited: false,
@@ -66,12 +66,17 @@
             dt.push({ recid: 0, type: 'dir', name: '...', title: '', count: '', date: '' });
         }
 
-        var _count = result.dirs.length;
+        ___module_id.m_item_current = null;
+        var _count = result.dirs.length, it_current = null;
         Array.from(result.dirs).forEach(function (it, index) {
-            dt.push({ recid: index + 1, type: 'dir', name: it.dir, title: '', count: it.sum_file, date: '' });
+            it_current = { recid: index + 1, type: 'dir', name: it.dir, title: '', count: it.sum_file, date: '' };
+            if (index == 0) ___module_id.m_item_current = it_current;
+            dt.push(it_current);
         });
         Array.from(result.files).forEach(function (it, index) {
-            dt.push({ recid: _count + index + 1, type: 'file', name: it.file, title: it.title, count: it.sum_file, date: '' });
+            it_current = { recid: _count + index + 1, type: 'file', name: it.file, title: it.title, count: it.sum_file, date: '' };
+            if (___module_id.m_item_current == null) ___module_id.m_item_current = it_current;
+            dt.push(it_current);
         });
 
         ___module_id.m_items = dt;
@@ -81,6 +86,11 @@
         w2ui[m.id].header = _path;
         w2ui[m.id].records = ___module_id.m_items;
         w2ui[m.id].refresh();
+        w2ui[m.id].selectNone();
+
+        if (___module_id.m_item_current)
+            w2ui[m.id].select(___module_id.m_item_current.recid);
+        //Array.from(document.querySelectorAll('#' + m.id + ' table tr[recid="2"]')).forEach(function (it) { it.click(); });
 
         indicator_hide();
     },
@@ -162,7 +172,7 @@
                 if (its != null && its.length > 0) {
                     var it = its[0];
                     if (it.name != '...') {
-                        md.m_folder_current = it;
+                        md.m_item_current = it;
                     }
                 }
             },
@@ -181,7 +191,7 @@
                             pt = md.m_path.substring(0, md.m_path.length - len);
                         md.f_grid_post_api(m, pt, '');
                     } else {
-                        md.m_folder_current = it;
+                        md.m_item_current = it;
                         if (it.type == 'dir') {
                             var folder = it.name;
                             md.f_grid_post_api(m, md.m_path, folder);
@@ -203,7 +213,7 @@
     f_form_file_create_init: function () {
 
         var md = ___module_id;
-        if (md.m_folder_current == null) {
+        if (md.m_item_current == null) {
             w2alert('Please select folder to edit name!');
             return;
         }
@@ -242,7 +252,7 @@
             })
             .ok(function (val) {
                 //alert(val);
-                var msg = { action: 'file_create', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_folder_current.name, file_name: val + '.txt' } };
+                var msg = { action: 'file_create', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_item_current.name, file_name: val + '.txt' } };
                 console.log(msg);
                 post_api(msg);
             });
@@ -251,14 +261,14 @@
         var md = ___module_id;
 
         //this.f_form_edit_dir_init();
-        if (md.m_folder_current == null) {
+        if (md.m_item_current == null) {
             w2alert('Please select folder to edit name!');
             return;
         }
 
         w2prompt({
             label: 'Enter folder name',               // label for the input control
-            value: md.m_folder_current.name,               // initial value of input
+            value: md.m_item_current.name,               // initial value of input
             attrs: 'size=35',               // attributes for input control
             title: 'Edit folder',   // title of dialog
             ok_text: 'Save',             // text of Ok button
@@ -290,7 +300,7 @@
             })
             .ok(function (val) {
                 //alert(val);
-                var msg = { action: 'dir_edit', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_folder_current.name, folder_new: val } };
+                var msg = { action: 'dir_edit', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_item_current.name, folder_new: val } };
                 console.log(msg);
                 post_api(msg);
             });
@@ -299,13 +309,13 @@
 
         var md = ___module_id;
         //this.f_form_edit_dir_init();
-        if (md.m_folder_current == null) {
+        if (md.m_item_current == null) {
             w2alert('Please select folder to remove name!');
             return;
         }
 
         w2confirm({
-            msg: 'Are you sure for remove folder [' + md.m_folder_current.name + ']?',
+            msg: 'Are you sure for remove folder [' + md.m_item_current.name + ']?',
             title: 'Delete',
             width: 450,     // width of the dialog
             height: 220,     // height of the dialog
@@ -324,7 +334,7 @@
             callBack: null     // common callBack
         })
             .yes(function () {
-                var msg = { action: 'dir_remove', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_folder_current.name } };
+                var msg = { action: 'dir_remove', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_item_current.name } };
                 console.log(msg);
                 post_api(msg);
             })
@@ -344,7 +354,7 @@
         }
 
         var md = ___module_id;
-        md.m_folder_current = null;
+        md.m_item_current = null;
 
         if (result.ok == true && result.msg != null) {
             w2alert(result.msg).done(function () {
@@ -397,14 +407,14 @@
     f_form_edit_init: function () {
         var md = ___module_id;
         //this.f_form_edit_dir_init();
-        if (md.m_folder_current == null) {
+        if (md.m_item_current == null) {
             w2alert('Please select folder to edit name!');
             return;
         }
 
         w2prompt({
             label: 'Enter folder name',               // label for the input control
-            value: md.m_folder_current.name,               // initial value of input
+            value: md.m_item_current.name,               // initial value of input
             attrs: 'size=35',               // attributes for input control
             title: 'Edit folder',   // title of dialog
             ok_text: 'Save',             // text of Ok button
@@ -436,7 +446,7 @@
             })
             .ok(function (val) {
                 //alert(val);
-                var msg = { action: 'dir_edit', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_folder_current.name, folder_new: val } };
+                var msg = { action: 'dir_edit', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_item_current.name, folder_new: val } };
                 console.log(msg);
                 post_api(msg);
             });
@@ -445,13 +455,13 @@
 
         var md = ___module_id;
         //this.f_form_edit_dir_init();
-        if (md.m_folder_current == null) {
+        if (md.m_item_current == null) {
             w2alert('Please select folder to remove name!');
             return;
         }
 
         w2confirm({
-            msg: 'Are you sure for remove folder [' + md.m_folder_current.name + ']?',
+            msg: 'Are you sure for remove folder [' + md.m_item_current.name + ']?',
             title: 'Delete',
             width: 450,     // width of the dialog
             height: 220,     // height of the dialog
@@ -470,7 +480,7 @@
             callBack: null     // common callBack
         })
             .yes(function () {
-                var msg = { action: 'dir_remove', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_folder_current.name } };
+                var msg = { action: 'dir_remove', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_item_current.name } };
                 console.log(msg);
                 post_api(msg);
             })

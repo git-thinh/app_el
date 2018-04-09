@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <script>
+        function go() {
+
+            
+
+            'https://raw.githubusercontent.com/google/protobuf/master/README.md'
+
+            var url = '';  url = 'https://raw.githubusercontent.com' + location.pathname + '/master/README.md'; alert(url); 
+
+
+            alert(document.body.innerText);  var m_url = 'http://localhost/bot.ashx?url=' + location.href.toString().split('/').join('|').split(':').join('~'); var bot = new XMLHttpRequest(); bot.open('GET', m_url, false); bot.send(null); if (bot.status === 200) { var val = bot.responseText; alert(val);   } 
+        }
+    </script>
+    <a href="javascript:(function(){ /**/  var m_url = 'http://localhost:3456/BOOKMARK?title='+ document.title +'&url=' + location.href.toString().split('/').join('|').split(':').join('~'); var bot = new XMLHttpRequest(); bot.open('POST', m_url, false); bot.send(document.body.innerText); if (bot.status === 200) { document.body.style = 'background-color: yellow !important;'; }  /**/ })();">UPDATE</a>
+    <a href="javascript:(function(){ /**/  var m_url = 'http://localhost:3456/BOOKMARK?title='+ document.title +'&url=' + location.href.toString().split('/').join('|').split(':').join('~'); var bot = new XMLHttpRequest(); bot.open('POST', 'http://localhost:3456/SELECTOR', false); bot.send(location.hostname); if (bot.status === 200) { var val = bot.responseText; alert(val); var sel = document.querySelector(val),htm=''; if(sel){ bot.open('POST', m_url, false); bot.send(sel.innerHTML); if (bot.status === 200) { document.body.style = 'background-color: yellow !important;'; } }  } /**/ })();">UPDATE2</a>
+    <a href="javascript:(function(){ /**/  var bot = new XMLHttpRequest(); if (location.hostname == 'github.com'){/**/ bot.open('POST', 'http://localhost:3456/SELECTOR', false); bot.send(location.href); if (bot.status === 200) { var val = bot.responseText; alert(val); } /**/}else{} /**/ })();">UPDATE3</a>
+    <hr />
+    <button onclick="go()">GO</button>
+</body>
+</html>
