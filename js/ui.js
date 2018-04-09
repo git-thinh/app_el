@@ -165,9 +165,9 @@ function module_broadcast(m) {
 
 function start_App() {
     //
-    //post_api({ action: 'module_load', input: { code: 'tabs', selector: '#ui-tabs' } });
-    //post_api({ action: 'module_load', input: { code: 'content_view', selector: '#ui-content' } });
-    //post_api({ action: 'module_load', input: { code: 'tree_dir', selector: '#ui-category' } });
+    post_api({ action: 'module_load', input: { code: 'tabs', selector: '#ui-tabs' } });
+    post_api({ action: 'module_load', input: { code: 'content_view', selector: '#ui-content' } });
+    post_api({ action: 'module_load', input: { code: 'tree_dir', selector: '#ui-category' } });
     post_api({ action: 'module_load', input: { code: 'file_man' } });
 
     //if (localStorage['file_load'] != null) setTimeout(post_api(JSON.parse(localStorage['file_load'])), 1000);
