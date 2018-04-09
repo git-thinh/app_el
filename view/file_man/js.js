@@ -142,11 +142,13 @@
             ],
             toolbar: {
                 items: [
-                    { type: 'html', html: '<button title="Create" type="button" onclick="___module_id.f_form_create_init()"><i class=i-add></i><b>Create</b></button>' },
-                    { type: 'html', html: '<button title="Edit" type="button" onclick="___module_id.f_form_edit_init()"><i class=i-edit></i><b>Edit</b></button>' },
-                    { type: 'html', html: '<button title="Delete" type="button" onclick="___module_id.f_form_delete_init()"><i class=i-remove></i><b>Delete</b></button>' },
+                    { type: 'html', html: '<button title="Create folder" type="button" onclick="___module_id.f_form_create_init()"><i class=i-add></i><b>Create dir</b></button>' },
+                    { type: 'html', html: '<button title="Edit folder" type="button" onclick="___module_id.f_form_edit_init()"><i class=i-edit></i><b>Edit dir</b></button>' },
+                    { type: 'html', html: '<button title="Delete folder" type="button" onclick="___module_id.f_form_delete_init()"><i class=i-remove></i><b>Delete dir</b></button>' },
                     { type: 'break' },
-                    { type: 'html', html: '<button title="Delete" type="button" onclick="___module_id.f_form_file_create_init()"><i class=i-file></i><b>Create file</b></button>' },
+                    { type: 'html', html: '<button title="Create file" type="button" onclick="___module_id.f_form_file_create_init()"><i class=i-file></i><b>Create file</b></button>' },
+                    { type: 'html', html: '<button title="Edit file" type="button" onclick="___module_id.f_form_file_create_init()"><i class=i-write></i><b>Edit file</b></button>' },
+                    { type: 'html', html: '<button title="Delete file" type="button" onclick="___module_id.f_form_file_delete_init()"><i class=i-remove></i><b>Delete file</b></button>' },
                     { type: 'spacer' },
                     { type: 'html', html: '<button title="Close" type="button" onclick="___module_id.f_module_close()"><i class=i-close></i><b>Close</b></button>' },
                 ]
@@ -243,6 +245,91 @@
                 var msg = { action: 'file_create', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_folder_current.name, file_name: val + '.txt' } };
                 console.log(msg);
                 post_api(msg);
+            });
+    },
+    f_form_file_edit_init: function () {
+        var md = ___module_id;
+
+        //this.f_form_edit_dir_init();
+        if (md.m_folder_current == null) {
+            w2alert('Please select folder to edit name!');
+            return;
+        }
+
+        w2prompt({
+            label: 'Enter folder name',               // label for the input control
+            value: md.m_folder_current.name,               // initial value of input
+            attrs: 'size=35',               // attributes for input control
+            title: 'Edit folder',   // title of dialog
+            ok_text: 'Save',             // text of Ok button
+            cancel_text: 'Cancel',         // text of Cancel button
+            width: 400,              // width of the dialog
+            height: 220,              // height of dialog
+            callBack: null              // callBack function, if any
+        })
+            .change(function (event) {
+                //console.log('Input value changed.', event);
+                var el = event.target,
+                    val = el.value;
+
+                if (val.length == 0) {
+                    el.className = 'w2ui-input w2ui-error';
+                    document.querySelector('#w2ui-popup #Ok').setAttribute('disabled', 'disabled');
+                    return;
+                }
+
+                if (val.match(/[^A-Za-z0-9 \-\_]/)) {
+                    el.className = 'w2ui-input w2ui-error';
+                    document.querySelector('#w2ui-popup #Ok').setAttribute('disabled', 'disabled');
+                    if (document.getElementById('w2ui-message0') == null)
+                        w2alert('Characters only: a-z,0-9,-, ,_');
+                } else {
+                    el.className = 'w2ui-input';
+                    document.querySelector('#w2ui-popup #Ok').removeAttribute('disabled');
+                }
+            })
+            .ok(function (val) {
+                //alert(val);
+                var msg = { action: 'dir_edit', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_folder_current.name, folder_new: val } };
+                console.log(msg);
+                post_api(msg);
+            });
+    },
+    f_form_file_delete_init: function () {
+
+        var md = ___module_id;
+        //this.f_form_edit_dir_init();
+        if (md.m_folder_current == null) {
+            w2alert('Please select folder to remove name!');
+            return;
+        }
+
+        w2confirm({
+            msg: 'Are you sure for remove folder [' + md.m_folder_current.name + ']?',
+            title: 'Delete',
+            width: 450,     // width of the dialog
+            height: 220,     // height of the dialog
+            btn_yes: {
+                text: 'Yes',   // text for yes button (or yes_text)
+                class: '',      // class for yes button (or yes_class)
+                style: '',      // style for yes button (or yes_style)
+                callBack: null     // callBack for yes button (or yes_callBack)
+            },
+            btn_no: {
+                text: 'No',    // text for no button (or no_text)
+                class: '',      // class for no button (or no_class)
+                style: '',      // style for no button (or no_style)
+                callBack: null     // callBack for no button (or no_callBack)
+            },
+            callBack: null     // common callBack
+        })
+            .yes(function () {
+                var msg = { action: 'dir_remove', callback: '___module_id.f_form_edit_callback', input: { path: md.m_path, folder: md.m_folder_current.name } };
+                console.log(msg);
+                post_api(msg);
+            })
+            .no(function () {
+                console.log("user clicked NO")
             });
     },
     /* FOLDER: CREATE - EDIT - REMOVE */

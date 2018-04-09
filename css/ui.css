@@ -297,6 +297,10 @@ section {
     content: '\1F5CB';
 }
 
+.i-write:before {
+    content: '\1F58E';
+}
+
 /* W2UI */
 
 /* W2UI - FROM */
