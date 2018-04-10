@@ -1,0 +1,6 @@
+
+www.bogotobogo.com=h2.section-title, div.col-sm-9.col-md-9.col-xs-9
+
+www.w3.org=h1, section
+
+github.com=article.markdown-body.entry-content
