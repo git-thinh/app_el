@@ -1,0 +1,2 @@
+
+vnexpress.net=section h1, section h2, article.content_detail
