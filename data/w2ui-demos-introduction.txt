@@ -1,0 +1,496 @@
+W2UI demos
+
+■ W2UI.combo: Buffered Scroll
+
+As of version 1.3 by default there is no pagination in the grid. Records are shown and hidden as user scrolls. The grid has been tested to allow up to 1,000,000 records in grid.records array. Only the records in the visible area plus a few records on top and bottom will be rendered. Records are dynamically added and removed as user scrolls. The grid below has 25k random records and implements local data source.
+
+■ W2UI.combo: Dependent Fields
+
+The example below demonstrates how to make dependent fields. Note, that the second field is disabled until you select value in the first field and if you remove value from the first field, second field becomes disabled again. Also, the remote call in the second field will include the value of the first.
+
+■ W2UI.combo: Grid & Edit
+
+The demo below features a resizable layout with two panels, a grid and edit that are connected. You can click on the record in the grid and it will be displayed in the form. If you edit the form and click the Save button it will save records into the grid.
+
+■ W2UI.combo: Infinite Scroll
+
+The grid below demonstrates how infinite scroll can be implemented. I have generated a few thousands random records in the database and as user scrolls new records will be loaded. For DB intensive record retrieval, you can use grid.autoLoad set to false and records will not be load unless user clicks the Load More button.
+
+■ W2UI.combo: Layout & Dynamic Tabs
+
+Each panel of the layout has built-in support for toolbar and tabs. The example below demonstrates how to use this functionality.
+
+■ W2UI.combo: Popup & Grid
+
+The demo below features a popup with a resizable layout with two panels. One panel has a grid and the second has a form. The grid and the form are connected to each other.
+
+■ W2UI.combo: Popup & Layout
+
+The demo below features a popup with a resizable layout with two panels. The panels have sidebar with two elements and two grids.
+
+■ W2UI.combo: Sidebar & Grid
+
+The demo below features a resiabled layout with two panels, a sidebar with two elements and two grids. One grid is rendered on load, the second one is initialized in memory and rendered on request.
+
+■ W2UI.combo: Spreadsheet Like JavaScript Grid
+
+In version 1.3 a new feature was introduced that allows to create spreadsheet like grids. Some functionality comes by default and other can be extended with events.
+Editable cells (start typing or click enter)
+Keyboard or mouse selection (user shift and arrow keys)
+Copy/paste to/from other spreadsheets
+Custom Ranges
+Selection Expansion
+
+
+■ W2UI.combo: Tabs with Content
+
+I have found that it is often confusing for people that w2tabs is just the tab strip, without any content or container to render content in. Though, it is easy to create a div and link it to the tabs, I would like to provide a quick example for those that struggle.
+
+■ W2UI.fields: Color Picker
+
+There is a color dialog that is part of w2ui.
+
+■ W2UI.fields: Date, Time & Datetime
+
+For DATE, TIME and DATETIME controls you can use keyboard to increment by a day (or a minute) if you click up/down arrow keys. You can also use ctr + up/down (command + up/down on mac) to increment by a month (or an hour).
+
+■ W2UI.fields: Drop Down Lists
+
+Regular <select> input is nice, but quite limited. For example, it is hard to use this control on a large set of options. To provide a solution, I have implemented drop down list based on a text input filed but with a dynamic list of options that gets filtered as you type.
+
+■ W2UI.fields: File Upload
+
+This controls provides an easy way to upload files as part of the form you submit. It encodes file with base64 encoding, same as email attachments. This method simplifies file uploads, but become inefficient if file size grows over 50mb or so.
+
+■ W2UI.fields: Get/Set Values with JavaScript
+
+This example demonstrates how to get/set selected value using JavaScript.
+
+■ W2UI.fields: Multi-Select Drop Down Lists
+
+Another control I am proud of is multi-select. I cannot image how I used to live without it. It simplified all my UI designs where I need to select multiple items and now I do not have to use two bulky lists of Available and Selected items.
+
+■ W2UI.fields: Numeric Fields
+
+Numeric inputs will only allow you to type numbers. They will completely ignore all other characters. Full keyboard support is implemented. Try using up/down arrow keys, ctr + up/down (command + up/down on mac) to increase numbers. When the number is changed it will be validated and formatted (if needed).
+
+■ W2UI.fields: Remote Source
+
+This example demonstrates how to pull remote data into list and enum fields. Please note, that compare function was added since 1.5, but in previous versions it is ignored. It will still work, but a bit different.
+
+■ W2UI.forms: Auto-Generated Templates
+
+Though, you can provide your own form template, which makes it flexible, you can also auto-generate template for the form. It is quite useful when the form is simple. So, if you do not provide formHTML, formURL and there is no HTML inside container, the form will generate template.
+
+■ W2UI.forms: Events
+
+All important actions trigger events. It is easy to listen to any form event either by providing on"EventName" function or by using on() and off() methods. Open up a console and see the event flow of the form below.
+
+■ W2UI.forms: Field Types
+
+Because you can use your own HTML you can create any custom field types. All you need to do is to bind your fields to the w2form object so you can take advantage of its methods and properties. The w2form object has implementation of most common field types as you can see in the example below:
+
+■ W2UI.forms: Form in a Popup
+
+It is a frequent task to open a form inside a popup. I have seen many examples from the community when it was not done correctly. The demo below demonstrates how to do this right. The form take entire available space of the popup.
+
+■ W2UI.forms: Form with Tabs
+
+The form below is exactly the same form as in previous two examples, but with tabs. Tabs simplify presentation of large forms.
+
+■ W2UI.forms: Form with Tabs and Columns
+
+You can use a basic column layout with the auto template. If you do not provide a page attribute, the field will be rendered to page 0. If you do not provide a column attribute, the field will be rendered to column 0. See field middle_name for an example of omitting page and column.
+You should give fields ascending column values (0, 1, 2, 3, ...). Do not mix the order of fields with column values on the same page (0, 2, 5, 1, 3, ...), especially when you're using groups.
+
+■ W2UI.forms: Form with Toolbar
+
+The example below features a simple form with a toolbar. There are no form buttons, but the actions of the form are mapped to toolbar buttons. First two are placeholder buttons, and second two are mapped to form actions.
+
+■ W2UI.forms: Large Form
+
+If you have a large form with many fields you can render the form in a variety of ways. There is no difference how you position HTML. The w2form object binds to the fields that you specify. There are several helper classes for variable width for labels and fields. In the example below you can see w2ui-span4 and w2ui-span5 classes, where w2ui-span4 = 80px and w2ui-span5 = 100px. There are w2ui-span1, ..., w2ui-span10, where each step is 20px.
+
+■ W2UI.forms: Multi Page Form
+
+This is exactly the same form as in the previous example, but in this case the form is presented in three pages. Click on the page link to switch pages.
+
+■ W2UI.forms: Simple Form
+
+Working with forms is common for a web developer. However, there is no way to create a unique template for all use cases. The w2ui library streamlines most common tasks for you. The example below shows a simple form with two required fields, save and reset buttons.
+
+■ W2UI.grid: Add/Remove Record
+
+There are several ways to add and remove records. You can always change grid.records array and then refresh the grid by calling grid.refresh() method. Or you can also use grid.add() method as it is show in the example below.
+
+■ W2UI.grid: Advanced Search
+
+The grid has two search options. (1) simple search - one search box that searches through predefined searches. (2) An advanced search - a search overlay with predefined search fields. The example below demonstrates an advanced search.
+
+■ W2UI.grid: Cell Formatting
+
+Cell formatting works by defining render function for the column. There is a set of predefined formatting functions (int, float, number, money, date, percent) or you can define your own function.
+
+■ W2UI.grid: Column Groups
+
+The column headers of the grid can be displayed in a single line or they can be grouped. The example below demonstrates how to define column header groups so that several columns appear grouped.
+
+■ W2UI.grid: Column Sort
+
+By default column sorting is disabled, but it is quite easy to enable it. Just set sortable column property to true. As a user you can sort by several columns at the same time if you hold the ctrl key (command key on a mac).
+
+■ W2UI.grid: Fixed/Resizable Grid
+
+If you set grid.fixedBody property to true, the size of the grid will be fixed. If you set the fixedBody property to false, the grid to the height of its data.
+
+■ W2UI.grid: Grid Elements
+
+Any Grid consists of header, toolbar, record headers, line numbers, and footer, as well as select record and expand record columns. You can show/hide then at any time.
+
+■ W2UI.grid: Grid Toolbar
+
+Grid uses w2toolbar as its toolbar. Which means you can add, remove, disable, enable, etc. buttons very easily. There are some default controls that you can also use. Below is the grid that has all possible default controls.
+
+■ W2UI.grid: Info Bubble
+
+You can add an info bubble to the grid, that will show all the values of a record in a w2tag when you click the info bubble icon.
+
+■ W2UI.grid: Inline Editing
+
+All grids support inline editing. To enable inline editing add editable object for the column you want to make editable. This object takes several parameters to control behavior of the editable input control. You can make particular records uneditable, see example below
+
+■ W2UI.grid: Load Data Once
+
+If you define the url property, then each type a new page is opened it will submit a request to the server for the new portion of the data. However, if you use the load() method, it will load data from the URL, but only once. The grid will think it has local data source and will not send any more server side requests.
+
+■ W2UI.grid: Local or Remote Data Source
+
+The data in the grid might come from a local or remote data source. If you define grid.url property, the grid will assume that your data source is remote. Otherwise, the data source is local (all records are stored in grid.records) array. If data source is remote, the grid will:
+Pull records from the server on render
+Pull records from the server on reload
+Pull more records when user scrolls (if needed)
+Submit search to the server (user types in a search field)
+Submit sort to the server (user click on the column)
+Submit delete when user clicks and confirms delete operation
+Submit save when user clicks the save button
+Below is the example of the grid with local data source.
+
+■ W2UI.grid: Lock/Unlock Grid
+
+There are several utility functions of the grid that allow to lock/unlock content, display error message and change status. The example below demonstrates some of this functions.
+
+■ W2UI.grid: Locked Columns
+
+You can have multiple locked columns, that will stay fixed to the left of the grid when scrolling.
+To lock a column, add a frozen: true property.
+
+■ W2UI.grid: Master -> Details
+
+There is a number of different events you can listen to in the grid. The example below demonstrates how to implement a simple master -> detail list. In the example the grids use local data, but there is no restriction on this.
+
+■ W2UI.grid: Render to a New Box
+
+When you create a grid it is not required to provide a container, thus it creates a grid in memory. The example below illustrates how to create a grid in memory and render it when needed and where needed.
+
+■ W2UI.grid: Reorder Grid Columns
+
+
+
+■ W2UI.grid: Reorder Grid Rows
+
+
+
+■ W2UI.grid: Resizable Columns
+
+To make any column resizable, just add resizable: true in it definition. The grid below demonstrates resizable columns.
+
+■ W2UI.grid: Row Formatting
+
+You can pass background and text color for the row in the JSON file. You can also pass any other Grid properties in the JSON file.
+
+■ W2UI.grid: Select/Unselect Records
+
+It is important for any project to be able to work with selection easily. This example demonstrate the use of several methods that allow you to select, unselect and get selected records from the grid.
+
+■ W2UI.grid: Show/Hide Columns
+
+There are a number of useful functions to work with columns. You can add, remove, show, hide, find columns with these methods. The grid below shows an example how to toggle columns.
+
+■ W2UI.grid: Simple Grid
+
+The grid below displays data loaded from a url. The data should come in a JSON format (see list.json files for more details). In this JSON file you can pass any grid property and it will be merged into the grid.
+
+■ W2UI.grid: Simple Search
+
+The grid has two search options. (1) simple search - one search box that searches through predefined searches. (2) An advanced search - a search overlay with predefined search fields). The example below demonstrates a simple search.
+
+■ W2UI.grid: Single or Multiple Selection
+
+By default user can select multiple records if he holds ctrl (command on mac) key and clicks on multiple records. User can also use shift key to select a range of records. If you set show.selectColumn = true, then the user will see an additional column with checkboxes that indicate if the record is selected. 
+
+If you set multiSelect = false, then user will only be able to select one record at a time. The grid below allow you to select only one record.
+
+■ W2UI.grid: Summary Records
+
+The summary is displayed at the bottom of the grid in un-scrollable sections. If a regular record has summary property set to true, it will be automatically moved to the summary section.
+
+■ W2UI.grid: Tree-Like Grid
+
+
+
+■ W2UI.grid: Two Grids
+
+Below is a quick example how to work with multiple grids. The example demonstrates how to catch events from one grid and move a record from one grid to another.
+
+■ W2UI.layout: Event Listeners
+
+As with any w2ui widget, the panel follows common event flow. In example below you can see how to listen to all events dispatched to the layout.
+
+■ W2UI.layout: Load Content
+
+You can set (or get) the content of the panel with the .content() method. You can also load content from external url with .load() method. If the content property of the panel is an object and has .render(box) method, it will be called to render the content when needed. When layout is resized, it will call .resize(width, height) of all panels where content is an object.
+
+■ W2UI.layout: Nested Layouts
+
+If 6 panels are not enough for you, you can create nested layouts by assigning a layout to a panel. There is no limit how deep you can go, but be reasonable :). In the example below the nested layout is yellow.
+
+■ W2UI.layout: Panel Messages
+
+You can slide a message for the panel
+
+
+
+■ W2UI.layout: Panel with Tabs
+
+A layout panel may be created with tabs. It uses w2tabs object, therefore, you can use anything w2tabs support. There is no need to define a name of the tabs, because it will be overwritten with layout.name + '_tabs'. It will also add tabs.owner attribute that is a reference to the layout.
+
+You can dynamically load content into the main panel; this is done so you can observe the overflow behavior of the panel (scrollbars).
+
+
+
+■ W2UI.layout: Panel with Title
+
+A layout panel may be created with a title.
+
+You can dynamically load content into the main panel; this is done so you can observe the overflow behavior of the panel (scrollbars).
+
+
+
+■ W2UI.layout: Panel with Toolbar
+
+A layout panel may be created with a toolbar. It uses w2toolbar object, therefore, you can use anything w2toolbar support. There is no need to define a name of the toolbar, because it will be overwritten with layout.name + '_toolbar'. It will also add toolbar.owner attribute that is a reference to the layout.
+
+You can dynamically load content into the main panel; this is done so you can observe the overflow behavior of the panel (scrollbars).
+
+
+
+■ W2UI.layout: Resizable Panels
+
+Any panel can be resizable by simply setting resizable property to true. You can defining the size of the panels in pixels or percentage. If you define an integer as the size, it will apply it in pixels, if you define as a string in the format 'xx%' it will calculate percentage.
+
+■ W2UI.layout: Show/Hide Panels
+
+A layout may be created with up to 6 panels. The panels can be visible or hidden when they are created, and can be shown or hidden during run time with animation or without.
+
+■ W2UI.layout: Simple Layout
+
+This simple layout below has 3 panels, none of them are resizable. Layouts can be completely transparent, however, in the example below I have define border and background to see its structure. The layout listens window resize event and resizes itself when window is resized. Try to resize the window and see how layout picks up the new size.
+
+■ W2UI.layout: Transitions
+
+It is very easy to add a nice transition when setting or loading content. All transition are implemented in w2utils library, which is called to do the actual transition. The layout below is exactly like the previous one, but with added transition.
+
+■ W2UI.popup: Alert and Confirm inside Popup (new in 1.5)
+
+When popup is open, you can also use w2alert(), w2confirm() or stack messages on top of it.
+
+■ W2UI.popup: Based on Markup
+
+You can load popup completely from a markup. It will read title, body, buttons, as well as width and height of the new popup content. See example below how it works. The div that contains markup should have style="display: none", so it would not be visible on the page, if you include it into the same page.
+Use rel=title, rel=body, rel=buttons to defined popup parts and style="width: XXpx; height: XXpx; overflow: AA;" of the initial div to define size and overflow. outside of the popup will close it.
+
+■ W2UI.popup: Dialogs
+
+There are 2 standard dialogs that you can use out of the box: w2alert() and w2confirm();
+
+■ W2UI.popup: Improved Keyboard Support (new in 1.5)
+
+Since the content behind popup is locked it is logical to keep keyboard focus inside the popup. If user clicks tab key, it will loop through the input controls inside popup and not come outside of it.
+
+■ W2UI.popup: Load Content
+
+There are three ways popup can be open: from JavaScript, from Markup, loaded from a file. The example below shows how content can be loaded from HTML file on the server.
+
+■ W2UI.popup: Locking the Content
+
+Once the user clicked the save button, it is useful to lock content so that use cannot change anything. This functionality is already build-in in w2popup.
+
+■ W2UI.popup: More Popup Options
+
+Below is another popup but with more options. You do not need to specify all the options, but only the ones needed.
+
+■ W2UI.popup: Popup Elements
+
+Each popup consists of 3 elements: title, body, and buttons. Each panel can contain any HTML. You can also have two buttons in the title: max and close.
+
+■ W2UI.popup: Simple Popup
+
+You can open only one popup at a time. The popup can be either modal or not. If popup is modal, then it can only be closed if user clicks the cross button or as a developer you can provide a button that closes the popup. If popup is not modal, then clicking outside of the popup will close it.
+
+■ W2UI.popup: Slide a Message
+
+The w2ui library allows to open single popup (because of my strong UX convictions). However, in some cases you need to show addition info without closing the popup. This is where sliding a message from the top comes in.
+
+■ W2UI.popup: Transitions
+
+Anytime you load new content, regardless the method, you can specify a transition type. If transition is not specified, then the default will be used. All transitions are done with w2utils.
+
+■ W2UI.sidebar: Add/Remove Items
+
+You can add/remove items to the sidebar during the run time. The library will automatically refresh the portion of the sidebar that needs rebuilding. The example below demonstrates this feature.
+
+■ W2UI.sidebar: Enable/Disable Items
+
+You can enable/disable items to the sidebar during the run time. The library will automatically refresh the portion of the sidebar that needs rebuilding. The example below demonstrates this feature.
+
+■ W2UI.sidebar: Events
+
+All important events are supported. In the example below I added an event listener for all events. You can see what events are being sent in JavaScript console.
+
+■ W2UI.sidebar: Expand/Collapse Items
+
+You can expand/collapse items to the sidebar during the run time. The library will automatically refresh the portion of the sidebar that needs rebuilding. The example below demonstrates this feature.
+
+■ W2UI.sidebar: Flat Sidebar (new in 1.5)
+
+Often it is useful to collapse sidebar into a single line. To do that set flatButton to true and on the flat event adjust sidebar container's width.
+
+■ W2UI.sidebar: In/Out of Focus (new in 1.5)
+
+Keyboard navigation is an important feature of w2ui and it plays a role for the sidebar. Sidebar can be in focus and receive all input from the mouse or focus can be somewhere else.
+
+■ W2UI.sidebar: Select/Unselect
+
+You can select/unselect items to the sidebar during the run time. The library will automatically refresh the portion of the sidebar that needs rebuilding. The example below demonstrates this feature.
+
+■ W2UI.sidebar: Show/Hide Items
+
+You can show/hide items to the sidebar during the run time. The library will automatically refresh the portion of the sidebar that needs rebuilding. The example below demonstrates this feature.
+
+■ W2UI.sidebar: Simple Sidebar
+
+The w2sidebar object provides a quick solution for a vertical menu. The example below demonstrates a sample sidebar with multiple items. Some of the items are nested. The very same object can be used to create tree structures.
+
+■ W2UI.sidebar: Top & Bottom HTML
+
+You can add top and/or bottom HTML that will always stay there. You can expand columns and if
+
+■ W2UI.tabs: Add/Remove Tabs
+
+You can add remove tabs quickly or with animation.
+
+■ W2UI.tabs: Closable Tabs
+
+To make any tab closable, all you need to do is to set closable property to true.
+
+■ W2UI.tabs: Enable/Disable Tabs
+
+It is easy to enable and disabled tabs
+
+■ W2UI.tabs: Set a Tab Active
+
+As a developer often you need to be able to switch to a tab. An example below show you how to do that.
+
+■ W2UI.tabs: Show/Hide Tabs
+
+It is easy to show and hide tabs
+
+■ W2UI.tabs: Simple Tabs
+
+Below is an example of how to use tabs.
+
+■ W2UI.tabs: Tabs Overflow (new in 1.5)
+
+If number of tabs is too wide to fit the container, the overflow button will appear. No need to set any property
+
+■ W2UI.tabs: Tooltips (new in 1.5)
+
+Below is an example of how to define tooltips for the tabs.
+
+■ W2UI.toolbar: Add/Remove Buttons
+
+It is easy to add and remove buttons during the run time. The example below demonstrates how to do this.
+
+■ W2UI.toolbar: Color Pickers (new in 1.5)
+
+There are two more button types. They are "color" and "text-color".
+
+■ W2UI.toolbar: Custom Buttons (new in 1.5)
+
+Some toolbar item's properties that normally defined as a string can be defined as a function that returns a string. This approach allows you to create custom toolbar items.
+Following properties can be defined as functions:
+text
+html
+tooltip
+
+
+■ W2UI.toolbar: Enable/Disable Buttons
+
+It is easy to enable and disable buttons during the run time. The example below demonstrates how to do this.
+
+■ W2UI.toolbar: Menu Buttons (new in 1.5)
+
+In addition to the drop down menu button, where user can select a single item, you can also create a check or radio buttons drop down menus
+
+■ W2UI.toolbar: More Button Types
+
+You can also create various drop down menu buttons:
+menu
+menu-check
+menu-radio
+drop
+html
+Below you can see a toolbar with more buttons types. This demo also shows how to add simple event listener to listen to all events.
+
+■ W2UI.toolbar: Show/Hide Buttons
+
+It is easy to show and hide buttons during the run time. The example below demonstrates how to do this.
+
+■ W2UI.toolbar: Simple Toolbar
+
+The example below demonstrates how to create toolbars. The toolbar can hold multiple items and supports sprite icons or iconic fonts. You can have both images and icon fonts in the same toolbar. For the click event info, see the console.
+Simple button types are:
+button
+radio
+check
+break
+spacer
+
+
+■ W2UI.toolbar: Toolbar Overflow (new in 1.5)
+
+If toolbar has too many button that it does not fit the screen the overflow buttons will show up. No need to set any property, the overflow buttons will just appear.
+
+■ W2UI.toolbar: Tooltips (new in 1.5)
+
+There are two more
+
+■ W2UI.utils: Base64 Encoding and Decoding
+
+All server side languages provide base64 encoding and decoding functionality, but not JavaScript. You can use w2utils for all your base64 needs.
+
+■ W2UI.utils: Formatters (new in 1.5)
+
+You can use formatters to format display of a value. Internally formatters are used in grid as option for render function.
+
+■ W2UI.utils: Overlays (new in 1.5)
+
+If you need to attach a short one-line message for an element or an input control - user $().w2tag(), if you need to attach a larger multi-line message - use $().w2overlay(). The example below demonstrates how to use these functions.
+
+■ W2UI.utils: Transitions
+
+If you have 2 DIVs with absolute positioning, you can transition them nicely.
+
+■ W2UI.utils: Validation
+
+A number of validation tools are provided by w2utils. Type anything in the field below to see validation at work. Try integers, floats, money, dates, emails.111function key() { [native code] }function getItem() { [native code] }function setItem() { [native code] }function removeItem() { [native code] }function clear() { [native code] }
