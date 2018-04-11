@@ -78,7 +78,7 @@
                                     isList = true;
                                     htm += '<ul>';
                                     break;
-                                case '●': // li
+                                case '•': // li
                                     si = si.substring(1, si.length).trim();
                                     if (isList) {
                                         htm += '<li>' + this.build_clause_sentence(si, i, en_vi) + '</li>';
