@@ -49,91 +49,102 @@
     },
     message: function (m) {
         console.log('UI.MODULE.broadcast: ', m);
-        if (m == null || m.action == null) return; 
+        if (m == null || m.action == null) return;
         switch (m.action) {
             case 'tree_hide':
-                var btn_tree_show = document.querySelector('#___module_id li.tree_show');
-                if (btn_tree_show != null) {
-                    btn_tree_show.style = '';
+                {
+                    var btn_tree_show = document.querySelector('#___module_id li.tree_show');
+                    if (btn_tree_show != null) {
+                        btn_tree_show.style = '';
+                    }
                 }
                 break;
             case 'file_load':
-                if (m == null || m.action != 'file_load' || m.result == null || m.result.ok == false || m.result.text == null) return;
-                var el = document.getElementById('ui-article');
-                if (el != null) {
-                    var htm = '<article>', s = m.result.text, en_vi = this.is_text_vietnamese(s),
-                        a = _split(s, ['\r', '\n']), si = '', c0, lang = 'e',
-                        isList = false, isCode = false;
+                {
+                    if (m == null || m.action != 'file_load' || m.result == null || m.result.ok == false || m.result.text == null) return;
+                    var el = document.getElementById('ui-article');
+                    if (el != null) {
+                        var htm = '<article class=ext_txt>', ext = m.result.extension, s = m.result.text, a = _split(s, ['\r', '\n']), isCode = false;
 
-                    for (var i = 0; i < a.length; i++) {
-                        si = a[i];
-                        if (i == 0) htm += '<h1>' + this.build_clause_sentence(si, i, en_vi) + '</h1>'; else {
-                            switch (si[0]) {
-                                case '■': // h3
-                                    si = si.substring(1, si.length).trim();
-                                    htm += '<h3>' + this.build_clause_sentence(si, i, en_vi) + '</h3>';
-                                    break;
-                                case '⌐': // ul, ol
-                                    si = si.substring(1, si.length).trim();
-                                    isList = true;
-                                    htm += '<ul>';
-                                    break;
-                                case '•': // li
-                                    si = si.substring(1, si.length).trim();
-                                    if (isList) {
-                                        htm += '<li>' + this.build_clause_sentence(si, i, en_vi) + '</li>';
-                                    } else {
-                                        htm += '<p>' + this.build_clause_sentence(si, i, en_vi) + '</p>';
-                                    }
-                                    break;
-                                case '┘': // end ul,ol
-                                    si = si.substring(1, si.length).trim();
-                                    isList = false;
-                                    htm += '</ul>';
-                                    break;
-                                case '^': // pre
-                                    si = si.substring(1, si.length).trim();
-                                    isCode = true;
-                                    htm += '<pre>';
-                                    break;
-                                case 'ⱽ': // end pre
-                                    si = si.substring(1, si.length).trim();
-                                    isCode = false;
-                                    htm += '</pre>';
-                                    break;
-                                default:
-                                    if (si.trim().length > 0) {
-                                        if (isCode) {
-                                            htm += si + '\r\n';
+                        if (ext == '.html') {                           
+                            el.innerHTML = '<article class=ext_html>' + '<h1>' + m.input.file_name + '</h1>' + s + '</article>';
+                            el.scrollTop = 0;
+                            return;
+                        }
+
+                        var en_vi = this.is_text_vietnamese(s), si = '', c0, lang = 'e',
+                            isList = false;
+
+                        for (var i = 0; i < a.length; i++) {
+                            si = a[i];
+                            if (i == 0) htm += '<h1>' + this.build_clause_sentence(si, i, en_vi) + '</h1>'; else {
+                                switch (si[0]) {
+                                    case '■': // h3
+                                        si = si.substring(1, si.length).trim();
+                                        htm += '<h3>' + this.build_clause_sentence(si, i, en_vi) + '</h3>';
+                                        break;
+                                    case '⌐': // ul, ol
+                                        si = si.substring(1, si.length).trim();
+                                        isList = true;
+                                        htm += '<ul>';
+                                        break;
+                                    case '•': // li
+                                        si = si.substring(1, si.length).trim();
+                                        if (isList) {
+                                            htm += '<li>' + this.build_clause_sentence(si, i, en_vi) + '</li>';
                                         } else {
-                                            si = si.trim();
-                                            c0 = si.substring(0, 2);
-                                            if (c0 == 'I.' || c0 == 'II' || c0 == 'V.' || c0 == 'IV' || c0 == 'VI' ||
-                                                c0 == 'A.' || c0 == 'B.' || c0 == 'C.' || c0 == 'D.' || c0 == 'E.' || c0 == 'F.' || c0 == 'G.' || c0 == 'H.') {
-                                                htm += '<h3>' + si + '</h3>';
+                                            htm += '<p>' + this.build_clause_sentence(si, i, en_vi) + '</p>';
+                                        }
+                                        break;
+                                    case '┘': // end ul,ol
+                                        si = si.substring(1, si.length).trim();
+                                        isList = false;
+                                        htm += '</ul>';
+                                        break;
+                                    case '^': // pre
+                                        si = si.substring(1, si.length).trim();
+                                        isCode = true;
+                                        htm += '<pre>';
+                                        break;
+                                    case 'ⱽ': // end pre
+                                        si = si.substring(1, si.length).trim();
+                                        isCode = false;
+                                        htm += '</pre>';
+                                        break;
+                                    default:
+                                        if (si.trim().length > 0) {
+                                            if (isCode) {
+                                                htm += si + '\r\n';
                                             } else {
-                                                lang = 'e';
-                                                if (si.length > si.replace(/[^\x20-\x7E]+/g, '').length) {
-                                                    lang = 'v';
-                                                    if (si.split('.').length > 1) lang += ' p';
+                                                si = si.trim();
+                                                c0 = si.substring(0, 2);
+                                                if (c0 == 'I.' || c0 == 'II' || c0 == 'V.' || c0 == 'IV' || c0 == 'VI' ||
+                                                    c0 == 'A.' || c0 == 'B.' || c0 == 'C.' || c0 == 'D.' || c0 == 'E.' || c0 == 'F.' || c0 == 'G.' || c0 == 'H.') {
+                                                    htm += '<h3>' + si + '</h3>';
+                                                } else {
+                                                    lang = 'e';
+                                                    if (si.length > si.replace(/[^\x20-\x7E]+/g, '').length) {
+                                                        lang = 'v';
+                                                        if (si.split('.').length > 1) lang += ' p';
+                                                    }
+                                                    if (si[0] == '-')
+                                                        htm += '<p class="' + lang + ' b">' + this.build_clause_sentence(si, i, en_vi) + '</p>';
+                                                    else
+                                                        htm += '<p class="' + lang + '">' + this.build_clause_sentence(si, i, en_vi) + '</p>';
                                                 }
-                                                if (si[0] == '-')
-                                                    htm += '<p class="' + lang + ' b">' + this.build_clause_sentence(si, i, en_vi) + '</p>';
-                                                else
-                                                    htm += '<p class="' + lang + '">' + this.build_clause_sentence(si, i, en_vi) + '</p>';
                                             }
                                         }
-                                    }
-                                    break;
+                                        break;
+                                }
                             }
                         }
+                        htm += '</article>';
+                        el.innerHTML = htm;
+                        el.scrollTop = 0;
                     }
-                    htm += '</article>';
-                    el.innerHTML = htm;
-                    el.scrollTop = 0;
                 }
                 break;
-        } 
+        }
     },
     controller: function (module) {
         var state = module.state,
@@ -145,8 +156,7 @@
         switch (state) {
             case 'load':
                 if (localStorage['tree_display'] == null) localStorage['tree_display'] = 'block';
-                if (localStorage['tree_display'] == 'none')
-                { 
+                if (localStorage['tree_display'] == 'none') {
                     var btn_tree_show = document.querySelector('#' + id + ' li.tree_show');
                     if (btn_tree_show != null) {
                         btn_tree_show.style = '';
@@ -174,7 +184,7 @@
             localStorage['tree_display'] = 'block';
         }
     },
-    on_tab_show_hide_click: function (el) { 
+    on_tab_show_hide_click: function (el) {
         var m = document.getElementById('ui-tabs');
         if (m != null) {
             if (m.style.display == 'none') {
