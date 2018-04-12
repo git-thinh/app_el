@@ -120,7 +120,7 @@
             Array.from(rs.files).forEach(function (it) {
                 title = it.title;
                 if (title == null || title == '') title = it.file;
-                s += '<li class="file" id="' + ___module_id.build_domID(path + it.file) + '" onclick="___module_id.on_file_click(this,\'' + it.file + '\')" for="' + path + '"><em></em><b>' + title + '</b></li>';
+                s += '<li class="file" id="' + ___module_id.build_domID(path + it.file) + '" onclick="___module_id.on_file_click(this,\'' + it.file + '\')" for="' + path + '"><em></em><b>' + title.split('¦')[0] + '</b></li>';
             });
             s += '</ul>';
 

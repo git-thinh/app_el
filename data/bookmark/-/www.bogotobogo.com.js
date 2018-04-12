@@ -1,12 +1,19 @@
 ﻿var key = '';
 Array.from(document.querySelectorAll('meta[name="keywords"]')).forEach(function (e1, i1) { if (e1.content) key = '¦' + e1.content.trim() + '\r\n'; });
 
+var p = location.pathname;
+if (p[p.length - 1] != '/') {
+    var a = location.pathname.split('/');
+    p = p.substring(0, p.length - a[a.length - 1].length);
+} else p += '/';
+var path_root = location.origin + p;
+
+
 var s = '';
 Array.from(document.querySelectorAll('#main div.col-sm-9.col-md-9.col-xs-9 *')).forEach(function (e1, i1) {
     var s1 = e1.innerText;
-    if (s1 == undefined) return;
-    s1 = s1.trim();
-    if (s1.length == 0) return;
+    if (e1.tagName != 'IMG' && s1 == undefined) return; else s1 = s1.trim();
+    if (e1.tagName != 'IMG' && s1.length == 0) return;
     if (s1 == 'Please enable JavaScript to view the comments powered by Disqus.' || s1 == 'bogotobogo.com site search:') return;
     switch (e1.tagName) {
         case 'H1':
@@ -51,12 +58,22 @@ Array.from(document.querySelectorAll('#main div.col-sm-9.col-md-9.col-xs-9 *')).
             s += '\r\n┘';
             break;
         case 'DIV': case 'P':
-            s += '\r\n' + s1;
+            if (e1.className == 'subtitle' || e1.className == 'subtitle_2nd')
+                s += '\r\n■ ' + s1;
+            else
+                s += '\r\n' + s1;
             break;
         case 'SPAN':
             s += ' ' + s1;
             break;
-        default:
+        case 'IMG': 
+            if (e1.hasAttribute('src')) {
+                var src = e1.getAttribute('src');
+                if (src.indexOf('images/') == 0) 
+                    s += '\r\n¦' + path_root + src;
+            }
+            break;
+        default: 
             break;
     }
 });

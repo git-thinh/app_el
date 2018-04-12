@@ -5,30 +5,30 @@
         if (m == null || m.action != 'file_load' || m.result == null || m.result.ok == false || m.result.text == null) return;
         var tab_word = document.getElementById('tab_word');
         if (tab_word != null) {
-            var s = m.result.text;
-            if (s == null || s.length == 0) {
-            } else {
-                s = s.convertToASCII();//.toLowerCase();
-                var a = _.filter(s.split(' '), function (w) { return w.length > 2; });
+            //var s = m.result.text;
+            //if (s == null || s.length == 0) {
+            //} else {
+            //    s = s.convertToASCII();//.toLowerCase();
+            //var a = _.filter(s.split(' '), function (w) { return w.length > 2; });
+            var a = m.result.word;
+            if (a.length > 0) {
+                //var aw = _.groupBy(a);
+                //a = _.map(aw, function (val, key) { return { w: key, k: val.length }; });
+                //a = _.sortBy(a, function (o) { return o.k; })
+                //a.reverse();
 
-                if (a.length > 0) {
-                    var aw = _.groupBy(a);
-                    a = _.map(aw, function (val, key) { return { w: key, k: val.length }; });
-                    a = _.sortBy(a, function (o) { return o.k; })
-                    a.reverse();
-
-                    var s = '<table class="table-master-detail">';
-                    a.forEach(function (it) {
-                        s += '<tr id=' + it.w + '_w><td>&#9734</td><td class=w>' + it.w + '</td>' +
-                            '<td id=' + it.w + '_m>&#9733</td>' +
-                            '<td>' + it.k + '</td>' +
-                            '<td class=wd onclick="___module_id.on_word_detail_click(this,\'' + it.w + '\')">+</td>' +
-                            '</tr><tr class=detail><td colspan=5 id=' + it.w + '_wd></td></tr>';
-                    });
-                    s += '</table';
-                }
-                tab_word.innerHTML = s;
+                var s = '<table class="table-master-detail">';
+                a.forEach(function (it) {
+                    s += '<tr id=' + it.w + '_w><td>&#9734</td><td class=w>' + it.w + '</td>' +
+                        '<td id=' + it.w + '_m>&#9733</td>' +
+                        '<td>' + it.k + '</td>' +
+                        '<td class=wd onclick="___module_id.on_word_detail_click(this,\'' + it.w + '\')">+</td>' +
+                        '</tr><tr class=detail><td colspan=5 id=' + it.w + '_wd></td></tr>';
+                });
+                s += '</table';
             }
+            tab_word.innerHTML = s;
+            //}
         }
     },
     controller: function (module) {
@@ -63,7 +63,7 @@
                 Array.from(document.querySelectorAll('article i, article d')).forEach(function (it) {
                     s = it.innerText;
                     if (s != null) {
-                        s = s.toLowerCase().trim();                        
+                        s = s.toLowerCase().trim();
                         if (s == word) {
                             se = it.parentElement.innerHTML.replace(/(<([^>]+)>)/ig, ' ');
                             se = se.split(word).join('<i class=sel>' + word + '</i>');

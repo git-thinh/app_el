@@ -4,7 +4,8 @@
         if (en_vi == true) return text;
 
         //b: sentence, em: clause, i: word
-        var p = '', split_clause = [':', '=', ',', '(', ')', 'when', 'that', 'from', 'of'],
+        //var p = '', split_clause = [':', '=', ',', '(', ')', 'when', 'that', 'from', 'of'],
+        var p = '', split_clause = [':', '=', ',', '(', ')'],
             ac, ac2, aw, ss = '', sc = '', sw = '', cid = 0, sp;
         text.split('.').forEach(function (si, k) {
             if (si.length > si.replace(/[^\x20-\x7E]+/g, '').length) {
@@ -59,25 +60,33 @@
                     }
                 }
                 break;
-            case 'file_load':
+            case 'file_load.backup':
                 {
                     if (m == null || m.action != 'file_load' || m.result == null || m.result.ok == false || m.result.text == null) return;
                     var el = document.getElementById('ui-article');
                     if (el != null) {
                         var htm = '<article class=ext_txt>', ext = m.result.extension, s = m.result.text, a = _split(s, ['\r', '\n']), isCode = false;
 
-                        if (ext == '.html') {                           
+                        if (ext == '.html') {
                             el.innerHTML = '<article class=ext_html>' + '<h1>' + m.input.file_name + '</h1>' + s + '</article>';
                             el.scrollTop = 0;
                             return;
                         }
 
-                        var en_vi = this.is_text_vietnamese(s), si = '', c0, lang = 'e',
+                        var en_vi = this.is_text_vietnamese(s), si = '', c0, lang = 'e', tag = [],
                             isList = false;
 
                         for (var i = 0; i < a.length; i++) {
                             si = a[i];
-                            if (i == 0) htm += '<h1>' + this.build_clause_sentence(si, i, en_vi) + '</h1>'; else {
+                            if (i == 0) {
+                                var atit = si.split('¦');
+                                htm += '<h1>' + this.build_clause_sentence(atit[0], i, en_vi) + '</h1>';
+                                if (atit.length > 1) {
+                                    tag = atit[1].split(',');
+                                    htm += '<p class=tag><em><i>' + tag.join('</i></em>,<em><i>') + '</i></em></p>';
+                                }
+                            }
+                            else {
                                 switch (si[0]) {
                                     case '■': // h3
                                         si = si.substring(1, si.length).trim();
@@ -95,6 +104,10 @@
                                         } else {
                                             htm += '<p>' + this.build_clause_sentence(si, i, en_vi) + '</p>';
                                         }
+                                        break;
+                                    case '¦': // IMG
+                                        si = si.substring(1, si.length).trim();
+                                        htm += '<p class=img><img src="' + si + '"/></p>';
                                         break;
                                     case '┘': // end ul,ol
                                         si = si.substring(1, si.length).trim();
@@ -140,6 +153,17 @@
                         }
                         htm += '</article>';
                         el.innerHTML = htm;
+                        el.scrollTop = 0;
+                    }
+                }
+                break;
+            case 'file_load':
+                {
+                    if (m == null || m.action != 'file_load' || m.result == null || m.result.ok == false || m.result.text == null) return;
+                    var el = document.getElementById('ui-article');
+                    if (el != null) {
+                        var html = m.result.html, ext = m.result.extension, text = m.result.text;                         
+                        el.innerHTML = html;
                         el.scrollTop = 0;
                     }
                 }

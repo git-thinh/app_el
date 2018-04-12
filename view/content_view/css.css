@@ -71,6 +71,7 @@
 
         #___module_id article h2 {
             padding-bottom: 24px;
+            line-height: 39px;
         }
 
             #___module_id article h2 b,
@@ -95,12 +96,74 @@
 
         #___module_id article ul {
             padding-bottom: 11px;
-            padding: 0px 10px 9px 50px;
-            width: calc(100% - 60px);
         }
 
-            #___module_id article ul li {
-                list-style: circle;
+
+        #___module_id article p.tag {
+            text-align: right;
+        }
+
+            #___module_id article p.tag em {
+            }
+
+                #___module_id article p.tag em i:before {
+                    content: '\1F588';
+                    padding-right: 0px;
+                    color: #ccc;
+                    font-size: 1.6em;
+                }
+
+                #___module_id article p.tag em i {
+                    font-weight: normal;
+                    color: #555;
+                }
+
+        #___module_id article p.img {
+            text-align: center;
+        }
+
+            #___module_id article p.img img {
+                max-width: calc(100% - 40px);
+            }
+
+        #___module_id article ul li {
+            list-style: circle;
+            display: inline-block;
+        }
+
+            #___module_id article ul li p.li:before {
+                content: '\25A0';
+                padding-right: 5px;
+                color: #999;
+                font-size: 0.9em;
+                line-height: 20px;
+                float: left;
+            }
+
+            #___module_id article ul li p.li {
+                margin-bottom: 0px;
+                padding-top: 0;
+            }
+
+            #___module_id article ul li p.li_des {
+                margin-top: 0px;
+                padding-top: 0;
+            }
+
+            #___module_id article ul li p.li,
+            #___module_id article ul li p.li b,
+            #___module_id article ul li p.li em,
+            #___module_id article ul li p.li d,
+            #___module_id article ul li p.li i {
+                font-weight: bold;
+            }
+
+            #___module_id article ul li p.li_des,
+            #___module_id article ul li p.li_des b,
+            #___module_id article ul li p.li_des em,
+            #___module_id article ul li p.li_des d,
+            #___module_id article ul li p.li_des i {
+                font-weight: normal;
             }
 
         #___module_id article pre {
@@ -114,6 +177,8 @@
             background-color: #f5f5f5;
             color: #37474f;
             width: calc(100% - 70px);
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
         }
 
         #___module_id article a {
@@ -184,7 +249,7 @@
         }
 
             #___module_id article em i {
-                margin-left: 5px;
+                margin-left: 0;
             }
 
         #___module_id article d {
@@ -283,5 +348,5 @@
         overflow: auto;
     }
 
-    .ext_html .javascript { 
+    .ext_html .javascript {
     }
