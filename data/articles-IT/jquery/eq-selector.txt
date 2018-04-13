@@ -1,0 +1,133 @@
+:eq() Selector¦Selectors,Basic Filter,jQuery Extensions
+Description: Select the element at index n within the matched set.
+
+⌐
+• jQuery( ":eq(index)" )
+version added: 1.0
+index: Zero-based index of the element to match.
+• jQuery( ":eq(-index)" )
+version added: 1.8
+indexFromEnd: Zero-based index of the element to match, counting backwards from the last element.
+┘
+
+The index-related selectors (:eq(), :lt(), :gt(), :even, :odd) filter the set of elements that have matched the expressions that precede them. They narrow the set down based on the order of the elements within this matched set. For example, if elements are first selected with a class selector (.myclass) and four elements are returned, these elements are given indices 0 through 3 for the purposes of these selectors.
+
+Note that since JavaScript arrays use 0-based indexing, these selectors reflect that fact. This is why $( ".myclass:eq(1)" ) selects the second element in the document with the class myclass, rather than the first. In contrast, :nth-child(n) uses 1-based indexing to conform to the CSS specification.
+
+Prior to jQuery 1.8, the :eq(index) selector did not accept a negative value for index (though the  .eq(index) method did).
+
+■ Additional Notes:
+Because :eq() is a jQuery extension and not part of the CSS specification, queries using :eq() cannot take advantage of the performance boost provided by the native DOM querySelectorAll() method. For better performance in modern browsers, use $("your-pure-css-selector").eq(index) instead.
+
+
+
+■ Examples:
+Find the third td.
+
+
+
+^
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>eq demo</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+ 
+<table border="1">
+  <tr><td>TD #0</td><td>TD #1</td><td>TD #2</td></tr>
+  <tr><td>TD #3</td><td>TD #4</td><td>TD #5</td></tr>
+  <tr><td>TD #6</td><td>TD #7</td><td>TD #8</td></tr>
+</table>
+ 
+<script>
+$( "td:eq( 2 )" ).css( "color", "red" );
+</script>
+ 
+</body>
+</html>
+ⱽ
+
+Apply three different styles to list items to demonstrate that :eq() is designed to select a single element while :nth-child() or :eq() within a looping construct such as .each() can select multiple elements.
+
+
+
+^
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>eq demo</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+ 
+<ul class="nav">
+  <li>List 1, item 1</li>
+  <li>List 1, item 2</li>
+  <li>List 1, item 3</li>
+</ul>
+<ul class="nav">
+  <li>List 2, item 1</li>
+  <li>List 2, item 2</li>
+  <li>List 2, item 3</li>
+</ul>
+ 
+<script>
+// Applies yellow background color to a single <li>
+$( "ul.nav li:eq(1)" ).css( "backgroundColor", "#ff0" );
+ 
+// Applies italics to text of the second <li> within each <ul class="nav">
+$( "ul.nav" ).each(function( index ) {
+  $( this ).find( "li:eq(1)" ).css( "fontStyle", "italic" );
+});
+ 
+// Applies red text color to descendants of <ul class="nav">
+// for each <li> that is the second child of its parent
+$( "ul.nav li:nth-child(2)" ).css( "color", "red" );
+</script>
+ 
+</body>
+</html>
+ⱽ
+
+Add a class to List 2, item 2 by targeting the second to last <li>
+
+
+
+^
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>eq demo</title>
+  <style>
+  .foo {
+    color: blue;
+    background-color: yellow;
+  }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+ 
+<ul class="nav">
+  <li>List 1, item 1</li>
+  <li>List 1, item 2</li>
+  <li>List 1, item 3</li>
+</ul>
+<ul class="nav">
+  <li>List 2, item 1</li>
+  <li>List 2, item 2</li>
+  <li>List 2, item 3</li>
+</ul>
+ 
+<script>
+$( "li:eq(-2)" ).addClass( "foo" )
+</script>
+ 
+</body>
+</html>
+ⱽ
