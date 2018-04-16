@@ -1,8 +1,13 @@
 ﻿<ul class="toolbar">
-    <li title="Setting" onclick="post_api({ action: 'module_load', input: { code: 'file_man' } });"><button>&#9874;</button></li>
+    <li title="Setting" onclick="post_api({ action: 'module_load', input: { code: 'file_man' } });">
+        <i class="fa fa-wrench"></i>
+    </li>
+    <li title="Browser" onclick="post_api({ action: 'module_load', input: { code: 'chrome_fetch' } });">
+        <i class="fa fa-globe"></i>
+    </li>
 
     <li class="float-right" onclick="___module_id.on_tree_hide_click(this)">
-        <button class="bg-none border-none">&#9776;</button>
+        <i class="fa fa-bars"></i>
     </li>
 </ul>
 <div id="tree_category">

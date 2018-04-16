@@ -17,18 +17,24 @@ Array.from(document.querySelectorAll('.entry-content .entry-wrapper ul.signature
         s2 = s2.trim();
         if (s2.length == 0) return;
         if (e2.tagName == 'H4') {
-            var a = s2.split('jQuery(');
-            if (a.length > 1) s += '\r\n• ' + 'jQuery(' + a[1];
-            s += '\r\n' + a[0];
+            var a = s2.split('.');
+            if (a.length > 1) s += '\r\n• .' + a[a.length - 1] + ': ' + s2.substring(0, s2.length - (a[a.length - 1].length + 1));
         } else s += '\r\n' + s2;
     });
 });
 s += '\r\n┘\r\n\r\n';
-Array.from(document.querySelectorAll('.entry-content .entry-wrapper div.longdesc,.entry-content .entry-wrapper h3')).forEach(function (e1, i1) {
+Array.from(document.querySelectorAll('.entry-content .entry-wrapper div.longdesc')[0].childNodes).forEach(function (e1, i1) {
     var s1 = e1.innerText;
     if (s1 == undefined) return; else s1 = s1.trim();
     if (s1.length == 0) return;
-    if (e1.tagName == 'H3') s += '\r\n■ ' + s1 + '\r\n'; else s += s1 + '\r\n';
+    if (e1.tagName == 'P')
+        s += s1 + '\r\n';
+    else
+    { 
+        Array.from(e1.querySelectorAll('code')).forEach(function (e2, i2) {
+            s += '\r\n\r\n^\r\n' + e2.innerText + '\r\nⱽ\r\n\r\n';
+        });
+    }
 });
 s += '\r\n\r\n';
 Array.from(document.querySelectorAll('section.entry-examples header, section.entry-examples p, section.entry-examples td.code')).forEach(function (e1, i1) {

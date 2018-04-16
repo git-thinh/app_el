@@ -2,6 +2,9 @@
 Date.prototype.customFormat = function (formatString) { var YYYY, YY, MMMM, MMM, MM, M, DDDD, DDD, DD, D, hhhh, hhh, hh, h, mm, m, ss, s, ampm, AMPM, dMod, th; var dateObject = this; YY = ((YYYY = dateObject.getFullYear()) + "").slice(-2); MM = (M = dateObject.getMonth() + 1) < 10 ? ('0' + M) : M; MMM = (MMMM = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][M - 1]).substring(0, 3); DD = (D = dateObject.getDate()) < 10 ? ('0' + D) : D; DDD = (DDDD = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][dateObject.getDay()]).substring(0, 3); th = (D >= 10 && D <= 20) ? 'th' : ((dMod = D % 10) == 1) ? 'st' : (dMod == 2) ? 'nd' : (dMod == 3) ? 'rd' : 'th'; formatString = formatString.replace("#YYYY#", YYYY).replace("#YY#", YY).replace("#MMMM#", MMMM).replace("#MMM#", MMM).replace("#MM#", MM).replace("#M#", M).replace("#DDDD#", DDDD).replace("#DDD#", DDD).replace("#DD#", DD).replace("#D#", D).replace("#th#", th); h = (hhh = dateObject.getHours()); if (h == 0) h = 24; if (h > 12) h -= 12; hh = h < 10 ? ('0' + h) : h; hhhh = hhh < 10 ? ('0' + hhh) : hhh; AMPM = (ampm = hhh < 12 ? 'am' : 'pm').toUpperCase(); mm = (m = dateObject.getMinutes()) < 10 ? ('0' + m) : m; ss = (s = dateObject.getSeconds()) < 10 ? ('0' + s) : s; return formatString.replace("#hhhh#", hhhh).replace("#hhh#", hhh).replace("#hh#", hh).replace("#h#", h).replace("#mm#", mm).replace("#m#", m).replace("#ss#", ss).replace("#s#", s).replace("#ampm#", ampm).replace("#AMPM#", AMPM); };
 String.prototype.convertToASCII = function () { return this.replace(/[^a-zA-Z0-9]+/g, ' '); }
 function _split(str, tokens) { var tempChar = tokens[0]; for (var i = 1; i < tokens.length; i++) { str = str.split(tokens[i]).join(tempChar); } str = str.split(tempChar); return str; };
+var load = function (url) { var r = new XMLHttpRequest(); r.open('GET', url, false); r.send(null); if (r.status === 200) { return r.responseText; } return ''; }
+var get = function (url, event_ok, event_error) { var r = new XMLHttpRequest(); r.onreadystatechange = function () { if (this.readyState == 4 && this.status == 200) { if (event_ok != null) event_ok(JSON.parse(r.responseText)); } }; r.open("GET", url, true); r.send(); }
+var api_host = 'http://localhost:3456';
 //window.console.log = function (title, data) { };
 
 var device = 'pc';
@@ -65,6 +68,7 @@ function module_load(m) {
             break;
         case 'view':
             var selector = result.selector, code = result.code, htmID = result.id, html = result.html, _eval = result.eval, className = result.className;
+                        console.log(htmID);
             if (document.getElementById(htmID) == null) {
                 if (selector == null || selector == '') {
                     var div = document.createElement('section');
@@ -168,7 +172,7 @@ function start_App() {
     post_api({ action: 'module_load', input: { code: 'tabs', selector: '#ui-tabs' } });
     post_api({ action: 'module_load', input: { code: 'content_view', selector: '#ui-content' } });
     post_api({ action: 'module_load', input: { code: 'tree_dir', selector: '#ui-category' } });
-    //post_api({ action: 'module_load', input: { code: 'file_man' } });
+    post_api({ action: 'module_load', input: { code: 'chrome_fetch' } });
 
     //if (localStorage['file_load'] != null) setTimeout(post_api(JSON.parse(localStorage['file_load'])), 1000);
 

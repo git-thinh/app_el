@@ -21,7 +21,8 @@ db_cache.getItem('js', function (err, val) {
         var js1 = load('/js/jquery-1.12.4.min.js');
         var js2 = load('/js/w2ui/w2ui.min.js');
         var js3 = load('/js/worker/underscore.min.js');
-        var js = js1 + '\r\n ' + js2 + ' \r\n ' + js3 + ' \r\n start_App(); ';
+        var js4 = load('/js/fontawesome-all.min.js');
+        var js = js1 + '\r\n ' + js2 + ' \r\n ' + js3 + ' \r\n ' + js4 + ' \r\n start_App(); ';
         post_ui(js);
         db_cache.setItem('js', js);
     }

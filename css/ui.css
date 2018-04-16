@@ -366,7 +366,7 @@ section {
 }
 
 .w2ui-toolbar button {
-    display: table;
+    display: flex;
     padding: 3px 9px 1px;
     margin: 0 1px;
     font-size: 14px;
@@ -389,6 +389,7 @@ section {
     background-color: #f9f9f9;
     border-color: #ccc;
     position: relative;
+    min-height: 25px;
 }
 
     .w2ui-toolbar button:hover {
