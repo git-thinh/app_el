@@ -10,16 +10,39 @@ Array.from(document.querySelectorAll('h1.entry-title, .entry-content p.desc')).f
     if (e1.tagName == 'H1') s += s1 + key + '\r\n'; else s += s1 + '\r\n';
 });
 s += '\r\n⌐';
-Array.from(document.querySelectorAll('.entry-content .entry-wrapper ul.signatures li')).forEach(function (e1, i1) {
-    Array.from(e1.querySelectorAll('h4, p')).forEach(function (e2, i2) {
+Array.from(document.querySelectorAll('.entry-content .entry-wrapper ul.signatures li.signature')).forEach(function (e1, i1) {
+    Array.from(e1.querySelectorAll(":scope > *")).forEach(function (e2, i2) {
         var s2 = e2.innerText;
-        if (s2 == undefined) return;
-        s2 = s2.trim();
-        if (s2.length == 0) return;
-        if (e2.tagName == 'H4') {
-            var a = s2.split('.');
-            if (a.length > 1) s += '\r\n• .' + a[a.length - 1] + ': ' + s2.substring(0, s2.length - (a[a.length - 1].length + 1));
-        } else s += '\r\n' + s2;
+        switch (e2.tagName) {
+            case 'H4':
+                var a = s2.split('.');
+                if (a.length > 1) s += '\r\n• .' + a[a.length - 1] + ': ' + s2.substring(0, s2.length - (a[a.length - 1].length + 1));
+                break;
+            case 'UL':
+                e2.querySelectorAll(":scope > *").forEach(function (e3, i3) {
+                    if (e3.querySelectorAll(':scope > UL').length > 0) {
+                        var w4 = '\r\n□ ';
+                        e3.querySelectorAll(":scope > *").forEach(function (e4, i4) {
+                            /* UL, DIV */
+                            switch (e4.tagName) {
+                                case 'UL':
+                                    Array.from(e4.querySelectorAll(':scope > *')).forEach(function (e5, i5) {
+                                        w4 += '\r\n▫ ' + e5.innerText + '\r\n\r\n';
+                                    });
+                                    break;
+                                default:
+                                    w4 += e4.innerText + '\r\n';
+                                    break;
+                            }
+                        });
+                        s += w4 + '\r\n\r\n';
+                    } else {
+                        /* DIV */
+                        s += '\r\n□ ' + e3.innerText + '\r\n\r\n\r\n';
+                    }
+                });
+                break;
+        }
     });
 });
 s += '\r\n┘\r\n\r\n';
@@ -29,8 +52,7 @@ Array.from(document.querySelectorAll('.entry-content .entry-wrapper div.longdesc
     if (s1.length == 0) return;
     if (e1.tagName == 'P')
         s += s1 + '\r\n';
-    else
-    { 
+    else {
         Array.from(e1.querySelectorAll('code')).forEach(function (e2, i2) {
             s += '\r\n\r\n^\r\n' + e2.innerText + '\r\nⱽ\r\n\r\n';
         });

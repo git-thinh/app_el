@@ -81,32 +81,32 @@
                     style: 'background-color: #eee !important;border:none;'
                 },
                 {
-                    type: 'left', size: '30%', resizable: true, minSize: 120,
-                    style: 'background-color: #eee !important;border: none; border-right: 1px solid silver;'
+                    type: 'left', size: '350px', resizable: true, minSize: 120, 
+                    style: 'background-color: #eee !important;'
                 },
                 {
                     type: 'main', minSize: 350, overflow: 'hidden',
-                    style: 'border: none; border-top: 0 solid silver !important;',
+                    style: 'border: none;',
                     content: '',
                     tabs: {
                         active: 'tab_article',
                         tabs: [
                             { id: 'tab_article', text: 'Article' },
                             { id: 'tab_source', text: 'Source' },
-                            { id: 'tab_text', text: 'Text' }, 
+                            { id: 'tab_text', text: 'Text' },
                         ],
                         onClick: function (event) {
                             //w2ui.layout.html('main', 'Active tab: ' + event.target);
                             switch (event.target) {
                                 case 'tab_article':
-                                    w2ui[name_layout].content('main', '<div class="article_html">' + ___module_id.m_item_current.html + '</div>');
+                                    w2ui[name_layout].content('main', '<div class="main_data article_html">' + ___module_id.m_item_current.html + '</div>');
                                     break;
                                 case 'tab_source':
-                                    w2ui[name_layout].content('main', '<div class="article_html"><textarea class=html>' + ___module_id.m_item_current.html + '</textarea></div>');
+                                    w2ui[name_layout].content('main', '<div class="main_data article_html"><textarea class=html>' + ___module_id.m_item_current.html + '</textarea></div>');
                                     break;
                                 case 'tab_text':
-                                    w2ui[name_layout].content('main', '<div class="article_html"><textarea class=text>' + ___module_id.m_item_current.text + '</textarea></div>');
-                                    break; 
+                                    w2ui[name_layout].content('main', '<div class="main_data article_html"><textarea class=text>' + ___module_id.m_item_current.text + '</textarea></div>');
+                                    break;
                             }
                         },
                         onClose: function (event) {
@@ -119,6 +119,7 @@
 
         $().w2toolbar({
             name: name_toolbar,
+            style: 'border:none;',
             items: [
                 { type: 'html', html: '<div class=title>//Online</div>' },
                 //{ type: 'html', html: '<button title="Create folder" type="button" onclick="___module_id.f_form_create_init()"><i class=i-add></i><b>Create dir</b></button>' },
@@ -148,7 +149,7 @@
             } else
                 a_simple.push(vals[0]);
         }
-        for (var i = 0; i < a_simple.length ; i++) ns.push(a_simple[i]);
+        for (var i = 0; i < a_simple.length; i++) ns.push(a_simple[i]);
 
         $().w2sidebar({
             name: name_sidebar,
@@ -210,6 +211,7 @@
         $('#' + this.m_module_id).w2render(name_layout);
         w2ui[name_layout].content('top', w2ui[name_toolbar]);
         w2ui[name_layout].content('left', w2ui[name_sidebar]);
-        w2ui[name_layout].content('main', w2ui[name_grid]);
+        //w2ui[name_layout].content('main', w2ui[name_grid]);
+        w2ui[name_layout].content('main', '<div class="main_data"></div>');
     }
 };

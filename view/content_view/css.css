@@ -129,6 +129,7 @@
         #___module_id article ul li {
             list-style: circle;
             display: inline-block;
+            width: 100%;
         }
 
             #___module_id article ul li p.li:before {

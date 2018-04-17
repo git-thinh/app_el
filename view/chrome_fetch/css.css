@@ -44,12 +44,14 @@
         top: 25px;
     }
 
+    #___module_id .main_data,
     #___module_id .article_html {
         position: relative;
         display: inline-block;
         width: 100%;
         height: 100vh;
-        background-color:#fff;
+        background-color: #fff;
+        border-left:1px solid silver;
     } 
     
     #___module_id textarea.js,
@@ -59,7 +61,7 @@
         display: inline-block;
         /* background-color: red; */
         height: calc(100% - 63px);
-        overflow-x: auto;
+        overflow-x: hidden;
         overflow-y: auto;
         position: absolute;
         left: 0;
@@ -86,10 +88,10 @@
         #___module_id article p,
         #___module_id article span,
         #___module_id article ul {
-            padding-left: 20px;
-            padding-right: 20px;
+            padding-left: 10px;
+            padding-right: 3px;
             display: inline-block;
-            width: calc(100% - 40px);
+            width: 100%;
             /* background-color:  blue; */
             /* margin: 10px 0; */
         }
@@ -154,6 +156,7 @@
         #___module_id article ul li {
             list-style: circle;
             display: inline-block;
+            width:100%;
         }
 
             #___module_id article ul li p.li:before {
@@ -201,7 +204,7 @@
             position: relative;
             background-color: #f5f5f5;
             color: #37474f;
-            width: calc(100% - 70px);
+            width: 100%;
             border-top: 1px solid #ddd;
             border-bottom: 1px solid #ddd;
         }
